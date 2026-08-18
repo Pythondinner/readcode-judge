@@ -132,6 +132,10 @@ def run() -> None:
     print("给一个项目文件夹路径，我帮你做体检、找问题，需要的话交给Claude Code处理。\n")
 
     root = input("项目文件夹路径：").strip()
+    # Windows"复制为路径"会自带一层引号（直引号或弯引号），os.path.isdir
+    # 不会自动脱掉，原样传进去必然找不到目录——这是真实撞见的bug，不是
+    # 假设性的边界情况。
+    root = root.strip("\"'“”‘’")
     if not os.path.isdir(root):
         print(f"找不到目录：{root}")
         return
