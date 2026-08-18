@@ -12,8 +12,8 @@
 """
 import json
 
-import deepseek_client
-import tools
+from . import deepseek_client
+from . import tools
 
 MAX_VERIFY_STEPS = 4  # 核实任务比从零作答更聚焦，不需要跟agent.py一样多的步数
 

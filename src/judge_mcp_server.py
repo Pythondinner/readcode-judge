@@ -27,7 +27,8 @@ import os
 
 from mcp.server.fastmcp import FastMCP
 
-import report
+from observer import report
+from analysis import diagnosis
 
 ROOT = os.environ.get("READCODE_ROOT")
 if not ROOT:
@@ -67,7 +68,7 @@ def diagnose_and_propose_fix_tool(
     （报告里写的"违反的不变量"）、reasoning（报告里写的"判断依据"）、
     description（这个函数的行为契约描述全文）。只产出诊断和建议文字，
     不写文件、不改代码。"""
-    result = report.diagnose_and_propose_fix(
+    result = diagnosis.diagnose_and_propose_fix(
         ROOT, file_path, function_name, matched_invariant, reasoning, description, verbose=False,
     )
     verified_note = {

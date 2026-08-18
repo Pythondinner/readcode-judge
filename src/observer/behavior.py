@@ -6,8 +6,8 @@
 核实回答有没有真实证据支撑），只是把任务从"回答一个开放问题"换成"描述这一个
 具体函数的契约"，跟其余问答场景走的是同一条生产线。
 """
-import agent
-import verifier
+from sensor import agent
+from sensor import verifier
 
 DESCRIBE_TASK_TEMPLATE = (
     "描述{file_path}里的函数/类「{function_name}」（{complexity_note}，"

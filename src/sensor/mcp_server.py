@@ -16,7 +16,7 @@ import os
 
 from mcp.server.fastmcp import FastMCP
 
-import tools
+from . import tools
 
 ROOT = os.environ.get("READCODE_ROOT")
 if not ROOT:

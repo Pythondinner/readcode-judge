@@ -12,9 +12,9 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.stdout.reconfigure(encoding="utf-8")
 
-import agent
-import agent_mcp
-import deepseek_client
+from sensor import agent
+from sensor import agent_mcp
+from sensor import deepseek_client
 
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SRC_DIR)

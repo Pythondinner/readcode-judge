@@ -19,8 +19,8 @@ import os
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
-import deepseek_client
-from agent import MAX_STEPS, SYSTEM_PROMPT, repeat_notice  # 复用step1的常量和逻辑，确保是同一份
+from . import deepseek_client
+from .agent import MAX_STEPS, SYSTEM_PROMPT, repeat_notice  # 复用step1的常量和逻辑，确保是同一份
 
 
 def _extract_text(call_tool_result) -> str:

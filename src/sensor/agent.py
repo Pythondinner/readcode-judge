@@ -7,8 +7,8 @@
 """
 import json
 
-import deepseek_client
-import tools
+from . import deepseek_client
+from . import tools
 
 MAX_STEPS = 20  # 硬上限，避免agent在读文件这件事上无限循环——
                 # 跟goal_loop.py的MAX_ATTEMPTS是同一个"安全阀独立于判断准不准"的思路。

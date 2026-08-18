@@ -11,9 +11,9 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.stdout.reconfigure(encoding="utf-8")
 
-import agent
-import deepseek_client
-import verifier
+from sensor import agent
+from sensor import deepseek_client
+from sensor import verifier
 
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SRC_DIR)
