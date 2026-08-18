@@ -1,0 +1,45 @@
+{
+  "function_info": {
+    "name": "offer_to_write",
+    "type": "Function",
+    "complexity": 32,
+    "rank": "E",
+    "lineno": 102
+  },
+  "behavior": {
+    "function": "offer_to_write",
+    "description": "【offer_to_write 契约】\n\n**输入**：`project_name: str`（项目名）、`snapshot: dict`（当前项目快照，含 `_meta` 等字段）。\n\n**输出**：`None`（无返回值）。\n\n**副作用**（会修改外部状态/文件）：\n1. 调用 `ledger.delete_draft(project_name, filename)` 删除草稿文件（当用户输入 `删除<文件名>` 且确认时）。\n2. 调用 `goal_loop.write_missing_acts_in_series(...)` 批量生成正文（当用户输入 `批量小说`/`批量剧本` 时），会写入多个草稿文件。\n3. 调用 `writer.write_and_save_one(project_name, mode, ...)` 生成并保存正文到 `ledger/…/drafts/{filename}`（当用户输入 `小说`/`剧本` 时）。\n4. 调用 `goal_loop.check_and_report(...)` 做质量检测，但**只打印结果，不修改任何内容**（代码注释明确：\"检测提示，仅供参考，不会自动修改任何内容\"）。\n\n**前置条件**：\n- 项目已收尾（`snapshot['_meta']['project_state'] == 'confirmed'`），因为 `main()` 只在 `state == 'confirmed'` 时调用它。\n- 依赖 `ledger`、`goal_loop`、`writer` 模块及其内部函数（如 `list_drafts`、`latest_draft`、`dependent_drafts`、`delete_draft`、`write_missing_acts_in_series`、`write_and_save_one`、`check_and_report`、`deepseek_client.ApiCallError`）。\n\n**调用后保证**：\n- 若用户选择生成正文，会生成并保存文件，并打印预览（前600字）。\n- 若用户选择删除，会删除指定草稿文件（若确认）。\n- 若用户直接回车，函数立即返回，不做任何操作。\n- 生成/批量生成失败时（捕获 `ApiCallError`）会打印错误提示并 `continue`，不会崩溃，已生成的部分保留。\n\n**【调用方须知】**：最该警惕的是——`offer_to_write` 会**实际写入/删除磁盘上的草稿文件**（通过 `writer.write_and_save_one` 和 `ledger.delete_draft`），而且**删除操作会连带清掉该版本对应的\"运行事实清单\"**（代码原文：\"如果它是当时最新版本，对应的运行事实清单也一并清掉了\"），且当有后续幕次承接自该版本时，删除后它们参考的版本就不存在了（代码原文：\"删除后它们参考的版本就不存在了\"）。调用方若只是想在收尾后预览或测试，必须意识到这个函数会真实改动持久化数据，不是只读的。",
+    "agent_steps": 3,
+    "agent_hit_cap": false,
+    "verified": true,
+    "verify_evidence": "函数定义在src/chat.py第102行，输入为project_name和snapshot，无返回值。副作用包括：调用ledger.delete_draft删除草稿（代码：'ledger.delete_draft(project_name, filename)'），调用goal_loop.write_missing_acts_in_series批量生成（代码：'results = goal_loop.write_missing_acts_in_series(...)'），调用writer.write_and_save_one生成并保存（代码：'filename, content = writer.write_and_save_one(...)'），调用goal_loop.check_and_report仅打印（代码：'report = goal_loop.check_and_report(...)'，注释'检测提示，仅供参考，不会自动修改任何内容'）。前置条件：main()仅在state=='confirmed'时调用（代码：'if state == \"confirmed\": offer_to_write(...)'）。调用后保证：生成时打印预览（代码：'preview = content if len(content) <= 600 else content[:600] + \"…（后面还有）\"'），删除时确认后执行，回车直接返回，失败时捕获ApiCallError并continue。",
+    "verify_reasoning": "候选答案的所有具体描述均与代码原文一致，包括副作用、前置条件和行为保证，且调用方须知中的删除连带清掉运行事实清单和依赖版本问题在代码中有明确注释支持。"
+  },
+  "judgments": [
+    {
+      "verdict": "support",
+      "matched_invariant": "",
+      "reasoning": "行为描述中所有副作用（删除草稿、批量生成、单幕生成、质量检测）均发生在项目已 confirmed 之后，且未提及任何违反状态机、硬性约束、修复拷贝、previous_excerpt、sub_intents 存回、系列顺序、承接条件、版本规则、事实一致性或两步确认的行为；删除草稿连带 state 文件及后续幕次参考丢失属于 ledger.delete_draft 的既有语义，不构成对不变量 8 的违反（该不变量仅要求版本号最大为最新且删除最新版需连带删 state，描述中已明确连带删除）。"
+    },
+    {
+      "verdict": "support",
+      "matched_invariant": "",
+      "reasoning": "行为描述中所有副作用（删除草稿、批量生成、单幕生成、检测打印）均未违反定位描述中列出的任何不变量；删除草稿连带删除 state 文件与不变量8一致，批量生成按顺序跳过已有正文与不变量6一致，检测只打印不修改与不变量2/3/5不冲突。"
+    },
+    {
+      "verdict": "support",
+      "matched_invariant": "",
+      "reasoning": "行为描述中所有操作（生成、删除、批量生成）均发生在项目已确认（confirmed）状态下，且未提及任何违反状态机、硬性约束、内存拷贝、previous_excerpt、sub_intents 存回、系列顺序、承接条件、版本号规则、事实一致性或两步确认等不变量；删除操作虽涉及草稿和 state 文件，但描述明确其行为与 ledger.delete_draft 的既定规则一致，未削弱任何不变量。"
+    },
+    {
+      "verdict": "unclear",
+      "matched_invariant": "",
+      "reasoning": "行为描述未涉及任何不变量相关的具体细节，如状态机合法性、硬性约束、修复拷贝、previous_excerpt、sub_intents 存回、系列顺序、承接条件、版本号规则、事实一致性或两步确认，无法判断是否违反。"
+    },
+    {
+      "verdict": "support",
+      "matched_invariant": "",
+      "reasoning": "行为描述中未提及任何与列出的不变量相冲突的细节；函数按契约执行生成/删除/批量操作，且删除草稿时连带删除对应state文件符合不变量8，批量生成按顺序跳过已有正文符合不变量6。"
+    }
+  ]
+}

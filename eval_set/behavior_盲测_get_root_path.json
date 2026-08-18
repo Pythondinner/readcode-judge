@@ -1,0 +1,9 @@
+{
+  "function": "get_root_path",
+  "description": "get_root_path(import_name: str) -> str 的契约（依据 helpers.py 第 577 行起的函数体）：\n\n**输入**：一个字符串 import_name，代表模块或包的导入名。\n\n**输出**：返回一个字符串，即该模块/包的根路径（所在目录的绝对路径）。\n\n**前置条件**：\n- 若 import_name 对应的模块已在 sys.modules 中且具有非 None 的 __file__，则直接使用该路径（第 582-584 行：`mod = sys.modules.get(import_name)`，`if mod is not None and hasattr(mod, \"__file__\") and mod.__file__ is not None:`）。\n- 否则尝试通过 importlib.util.find_spec 获取 spec；若 find_spec 抛出 ImportError/ValueError 或返回 None，则 loader 置为 None（第 587-594 行）。\n- 若 loader 为 None（例如交互式会话中的未加载主模块），则返回 os.getcwd()（第 599-600 行）。\n- 若 loader 存在但没有 get_filename 方法，则回退到 __import__ 并读取模块的 __file__；若此时 __file__ 仍为 None（命名空间包等），则抛出 RuntimeError（第 606-616 行）。\n\n**副作用**：\n- 可能触发模块导入：在 loader 无 get_filename 时调用 `__import__(import_name)`（第 609 行），这会执行模块的导入，属于外部状态改变（导入副作用）。\n- 不修改任何文件、全局数据或外部状态（除上述导入副作用外）。\n\n**调用后保证**：\n- 返回的字符串是模块/包所在目录的绝对路径（`os.path.dirname(os.path.abspath(...))`，第 584、618 行）。\n- 若无法确定路径且 loader 为 None，则返回当前工作目录（os.getcwd()）。\n- 若模块是命名空间包且无法获取文件路径，则抛出 RuntimeError，不会返回错误路径。\n\n**docstring 说明**：\"Find the root path of a package, or the path that contains a module. If it cannot be found, returns the current working directory.\"（第 578-580 行），并标记为 `:meta private:`。",
+  "agent_steps": 3,
+  "agent_hit_cap": false,
+  "verified": true,
+  "verify_evidence": "函数定义在helpers.py第577行：`def get_root_path(import_name: str) -> str:`。函数体与候选答案描述一致：第582-584行检查`sys.modules`中的模块并返回`os.path.dirname(os.path.abspath(mod.__file__))`；第587-594行尝试`importlib.util.find_spec`，异常时`loader = None`；第599-600行`if loader is None: return os.getcwd()`；第606-616行处理loader无`get_filename`时调用`__import__(import_name)`，若`filepath is None`则抛出RuntimeError；最后返回`os.path.dirname(os.path.abspath(filepath))`。docstring在第578-580行，包含`:meta private:`。",
+  "verify_reasoning": "逐行核对代码后，候选答案对输入、输出、前置条件、副作用和保证的描述均与源码相符，包括具体行号和逻辑分支。"
+}

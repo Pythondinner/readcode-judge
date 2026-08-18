@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "tier": "1_单文件事实题",
+    "question": "Flask的SESSION_COOKIE_HTTPONLY默认值是True还是False？",
+    "standard_answer": "True",
+    "agent_answer": "Flask的SESSION_COOKIE_HTTPONLY默认值是True。依据：在app.py文件的default_config字典中，明确设置了\"SESSION_COOKIE_HTTPONLY\": True。",
+    "steps_taken": 5,
+    "hit_cap": false
+  },
+  {
+    "id": 2,
+    "tier": "1_单文件事实题",
+    "question": "Flask的PERMANENT_SESSION_LIFETIME默认值是多少？",
+    "standard_answer": "timedelta(days=31)，也就是31天",
+    "agent_answer": "Flask的PERMANENT_SESSION_LIFETIME默认值是timedelta(days=31)，即31天。依据：在sansio/app.py中，permanent_session_lifetime属性定义为ConfigAttribute，其文档字符串明确说明默认值为timedelta(days=31)。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 3,
+    "tier": "1_单文件事实题",
+    "question": "Flask的MAX_FORM_PARTS默认值是多少？",
+    "standard_answer": "1000",
+    "agent_answer": "Flask的MAX_FORM_PARTS默认值是1000。这个值定义在Flask的sansio/app.py文件中的default_config字典里，具体代码为：'MAX_FORM_PARTS': 1000。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 4,
+    "tier": "2_跨文件追踪题",
+    "question": "Flask类里真正带具体数值的default_config字典（里面有SECRET_KEY、SESSION_COOKIE_NAME这些配置项），是定义在flask/app.py里，还是flask/sansio/app.py里？",
+    "standard_answer": "定义在flask/app.py里。flask/sansio/app.py里虽然也出现了default_config这个名字，但只是一个不带值的类型注解（default_config: dict[str, t.Any]），没有真正赋值，真正的ImmutableDict字面量在flask/app.py的Flask类定义里",
+    "agent_answer": "default_config 字典定义在 flask/app.py 中，位于 Flask 类内部（约第 120 行），包含 SECRET_KEY、SESSION_COOKIE_NAME 等具体配置项。flask/sansio/app.py 中未定义该字典。",
+    "steps_taken": 6,
+    "hit_cap": false
+  },
+  {
+    "id": 5,
+    "tier": "2_跨文件追踪题",
+    "question": "flask/app.py里的Flask类继承自哪个类？这个父类是在哪个文件定义的？",
+    "standard_answer": "继承自App类，定义在flask/sansio/app.py里",
+    "agent_answer": "Flask类继承自App类，这个父类定义在flask/sansio/app.py文件中（从app.py的导入语句`from .sansio.app import App`可以看出）。",
+    "steps_taken": 3,
+    "hit_cap": false
+  },
+  {
+    "id": 6,
+    "tier": "2_跨文件追踪题",
+    "question": "flask/blueprints.py里的Blueprint类继承自哪个类？这个父类在哪个文件里？",
+    "standard_answer": "继承自SansioBlueprint类，定义在flask/sansio/blueprints.py里",
+    "agent_answer": "Blueprint类继承自SansioBlueprint，这个父类在flask/sansio/blueprints.py文件中。依据是blueprints.py中的导入语句：from .sansio.blueprints import Blueprint as SansioBlueprint，以及类定义class Blueprint(SansioBlueprint)。",
+    "steps_taken": 3,
+    "hit_cap": false
+  },
+  {
+    "id": 7,
+    "tier": "3_设计意图题",
+    "question": "flask/sessions.py里的NullSession类是用来干什么的？",
+    "standard_answer": "根据docstring：当没有设置secret_key、session功能不可用时，用NullSession生成更友好的报错信息——它允许对空session做只读访问，但一旦尝试写入（设置值/删除/清空等）就会报错，提示需要设置secret_key",
+    "agent_answer": "NullSession 类用于在会话不可用（例如未设置 secret_key）时生成更友好的错误提示。它继承自 SecureCookieSession，允许对空会话进行只读访问，但任何修改操作（如 __setitem__、__delitem__、clear、pop 等）都会抛出 RuntimeError，提示用户设置 secret_key。这在 sessions.py 的 NullSession 类定义中有明确说明。",
+    "steps_taken": 3,
+    "hit_cap": false
+  },
+  {
+    "id": 8,
+    "tier": "3_设计意图题",
+    "question": "flask/sessions.py里，SecureCookieSessionInterface和SessionInterface是什么关系？",
+    "standard_answer": "SecureCookieSessionInterface继承自SessionInterface，是Flask默认实际使用的具体实现",
+    "agent_answer": "在 flask/sessions.py 中，SecureCookieSessionInterface 是 SessionInterface 的子类。SessionInterface 是一个抽象基类，定义了会话接口的基本方法（如 open_session、save_session 等），而 SecureCookieSessionInterface 继承并实现了这些方法，使用签名 cookie 存储会话。具体关系见文件中的类定义：class SecureCookieSessionInterface(SessionInterface)。",
+    "steps_taken": 7,
+    "hit_cap": false
+  },
+  {
+    "id": 9,
+    "tier": "2_跨文件追踪题",
+    "question": "json这个子目录（在代码库根目录下）下有哪几个.py文件？",
+    "standard_answer": "__init__.py、provider.py、tag.py",
+    "agent_answer": "json子目录下有3个.py文件：__init__.py、provider.py、tag.py。",
+    "steps_taken": 2,
+    "hit_cap": false
+  },
+  {
+    "id": 10,
+    "tier": "1_单文件事实题",
+    "question": "Flask的APPLICATION_ROOT默认值是多少？",
+    "standard_answer": "\"/\"（斜杠）",
+    "agent_answer": "Flask的APPLICATION_ROOT默认值是\"/\"。依据：在app.py文件的default_config字典中，明确设置了\"APPLICATION_ROOT\": \"/\"。",
+    "steps_taken": 4,
+    "hit_cap": false
+  }
+]

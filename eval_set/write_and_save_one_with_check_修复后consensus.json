@@ -1,0 +1,149 @@
+{
+  "runs": 5,
+  "consensus": [
+    {
+      "file": "goal_loop.py",
+      "function": "write_and_save_one_with_check",
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5,
+      "majority_verdict": "support",
+      "agreement_rate": 1.0
+    }
+  ],
+  "all_runs": [
+    [
+      {
+        "file": "goal_loop.py",
+        "complexity_info": {
+          "name": "write_and_save_one_with_check",
+          "type": "Function",
+          "complexity": 8,
+          "rank": "B",
+          "lineno": 263
+        },
+        "behavior": {
+          "function": "write_and_save_one_with_check",
+          "description": "基于 goal_loop.py 第263-330行的函数体（以及第1-240行的上下文），write_and_save_one_with_check 的契约如下：\n\n**输入**：\n- `project_name: str`、`mode: str`（必填），`on_chapter`、`on_attempt`（可选回调）。\n- 前置条件：`ledger.load_snapshot(project_name)` 必须能返回一个含 `_meta` 和 `rule_based` 的 snapshot（第265行 `snapshot = ledger.load_snapshot(project_name)`，第266行访问 `snapshot[\"_meta\"]`，第267行 `predecessor = snapshot[\"_meta\"].get(\"predecessor\")`）。若 `predecessor` 存在，还需能通过 `ledger.latest_draft_filename` 和 `ledger.load_draft` 取到上一幕正文（第268-271行）。\n\n**输出**：返回一个 dict，含 `filename`、`content`、`status`、`attempts`、`sub_intent_changes` 五个键（第325-328行）。其中 `status` 是 `write_with_check` 返回的 `\"passed\"` 或 `\"cap_reached\"`（第285行 `result[\"status\"]`）。\n\n**副作用（外部状态/文件/全局数据改动）**：\n1. 无条件写草稿：`ledger.save_draft(project_name, mode, result[\"content\"])`（第284行），返回的 `filename` 作为返回值。\n2. 若 `status == \"cap_reached\"`，调用 `ledger.mark_draft_unchecked(project_name, filename)` 在磁盘上标记该草稿未通过检查（第286-296行，注释明确说明这是为了让\"没完全通过\"的事实持久化）。\n3. 若 `result[\"sub_intent_changes\"]` 非空，重新加载 snapshot 并把修复后的 `sub_intents` 存回 `current[\"sub_intents\"]`，再 `ledger.save_snapshot`（第298-302行）。注意这里重新读了一次 snapshot 以避免覆盖其他改动（第299行注释）。\n4. 无条件更新 `generated_from`：把 `snapshot[\"_meta\"][\"generated_from\"][mode]` 设为 `predecessor_draft_filename`，然后 `ledger.save_snapshot`（第304-309行）。\n5. 尝试 `writer.extract_world_state(result[\"content\"])` 并 `ledger.save_world_state`（第311-313行）；若抛 `writer.deepseek_client.ApiCallError` 则静默忽略（第314-315行）。\n\n**调用后保证**：\n- 草稿一定被保存（无论是否通过检查），`filename` 一定有效。\n- 若发生了 sub_intent 修复，修复后的 sub_intents 会持久化到 snapshot（第298-302行），下次生成会用到修复后的大纲。\n- `generated_from` 一定被更新（第304-309行）。\n- 世界状态事实清单尽力保存，失败不影响本次结果（第311-315行）。\n\n**【调用方须知】**：最该警惕的是：即使 `status == \"cap_reached\"`（封顶未通过检查），函数也会无条件把草稿存盘（第284行 `ledger.save_draft` 在判断 `status` 之前执行），并且会额外调用 `ledger.mark_draft_unchecked` 在磁盘上留下\"未通过检查\"的标记——所以调用方不能因为 `status` 是 `cap_reached` 就以为没有草稿被保存，磁盘上确实存在一个内容可能违反 must_avoid/must_include 的草稿文件，且这个\"未通过\"事实是持久化的，后续流程（如读码机）能查询到它。",
+          "agent_steps": 3,
+          "agent_hit_cap": false,
+          "verified": true,
+          "verify_evidence": "函数体第263-330行与候选答案描述一致：输入为project_name/mode/on_chapter/on_attempt；前置条件依赖ledger.load_snapshot返回含_meta和rule_based的snapshot（第265-267行）；输出dict含filename/content/status/attempts/sub_intent_changes（第325-328行）；副作用包括无条件ledger.save_draft（第284行）、cap_reached时ledger.mark_draft_unchecked（第286-296行）、sub_intent_changes非空时重新加载snapshot并保存sub_intents（第298-302行）、无条件更新generated_from并保存snapshot（第304-309行）、尝试extract_world_state并save_world_state且捕获ApiCallError（第311-315行）。调用后保证草稿一定保存、修复的sub_intents持久化、generated_from更新、世界状态尽力保存。",
+          "verify_reasoning": "逐条对照代码原文，候选答案对函数契约的描述（输入、输出、副作用、保证）均与第263-330行实际实现吻合，包括关键细节如save_draft在status判断之前执行、mark_draft_unchecked的持久化标记、重新读取snapshot避免覆盖等。"
+        },
+        "judgment": {
+          "verdict": "support",
+          "matched_invariant": "",
+          "reasoning": "函数行为与定位描述中的不变量一致：草稿无条件保存并标记未通过检查，符合硬性约束检查闭环的持久化要求；sub_intents 修复后存回 snapshot 且重新加载避免覆盖，符合不变量5；generated_from 更新和 world_state 尽力保存均未违反任何列出的不变量。"
+        }
+      }
+    ],
+    [
+      {
+        "file": "goal_loop.py",
+        "complexity_info": {
+          "name": "write_and_save_one_with_check",
+          "type": "Function",
+          "complexity": 8,
+          "rank": "B",
+          "lineno": 263
+        },
+        "behavior": {
+          "function": "write_and_save_one_with_check",
+          "description": "基于 goal_loop.py 第263-330行的函数体（以及第1-240行的上下文），write_and_save_one_with_check 的契约如下：\n\n**输入**：\n- `project_name: str`、`mode: str`（必填），`on_chapter`、`on_attempt`（可选回调）。\n- 前置条件：`ledger.load_snapshot(project_name)` 必须能返回一个含 `_meta` 和 `rule_based` 的 snapshot（第265行 `snapshot = ledger.load_snapshot(project_name)`，第266行访问 `snapshot[\"_meta\"]`，第267行 `predecessor = snapshot[\"_meta\"].get(\"predecessor\")`）。若 `predecessor` 存在，还需能通过 `ledger.latest_draft_filename` 和 `ledger.load_draft` 取到上一幕正文（第268-271行）。\n\n**输出**：返回一个 dict，含 `filename`、`content`、`status`、`attempts`、`sub_intent_changes` 五个键（第325-328行）。其中 `status` 是 `write_with_check` 返回的 `\"passed\"` 或 `\"cap_reached\"`（第285行 `result[\"status\"]`）。\n\n**副作用（外部状态/文件/全局数据改动）**：\n1. 无条件写草稿：`ledger.save_draft(project_name, mode, result[\"content\"])`（第284行），返回的 `filename` 作为返回值。\n2. 若 `status == \"cap_reached\"`，调用 `ledger.mark_draft_unchecked(project_name, filename)` 在磁盘上标记该草稿未通过检查（第286-296行，注释明确说明这是为了让\"没完全通过\"的事实持久化）。\n3. 若 `result[\"sub_intent_changes\"]` 非空，重新加载 snapshot 并把修复后的 `sub_intents` 存回 `current[\"sub_intents\"]`，再 `ledger.save_snapshot`（第298-302行）。注意这里重新读了一次 snapshot 以避免覆盖其他改动（第299行注释）。\n4. 无条件更新 `generated_from`：把 `snapshot[\"_meta\"][\"generated_from\"][mode]` 设为 `predecessor_draft_filename`，然后 `ledger.save_snapshot`（第304-309行）。\n5. 尝试 `writer.extract_world_state(result[\"content\"])` 并 `ledger.save_world_state`（第311-313行）；若抛 `writer.deepseek_client.ApiCallError` 则静默忽略（第314-315行）。\n\n**调用后保证**：\n- 草稿一定被保存（无论是否通过检查），`filename` 一定有效。\n- 若发生了 sub_intent 修复，修复后的 sub_intents 会持久化到 snapshot（第298-302行），下次生成会用到修复后的大纲。\n- `generated_from` 一定被更新（第304-309行）。\n- 世界状态事实清单尽力保存，失败不影响本次结果（第311-315行）。\n\n**【调用方须知】**：最该警惕的是：即使 `status == \"cap_reached\"`（封顶未通过检查），函数也会无条件把草稿存盘（第284行 `ledger.save_draft` 在判断 `status` 之前执行），并且会额外调用 `ledger.mark_draft_unchecked` 在磁盘上留下\"未通过检查\"的标记——所以调用方不能因为 `status` 是 `cap_reached` 就以为没有草稿被保存，磁盘上确实存在一个内容可能违反 must_avoid/must_include 的草稿文件，且这个\"未通过\"事实是持久化的，后续流程（如读码机）能查询到它。",
+          "agent_steps": 3,
+          "agent_hit_cap": false,
+          "verified": true,
+          "verify_evidence": "函数体第263-330行与候选答案描述一致：输入为project_name/mode/on_chapter/on_attempt；前置条件依赖ledger.load_snapshot返回含_meta和rule_based的snapshot（第265-267行）；输出dict含filename/content/status/attempts/sub_intent_changes（第325-328行）；副作用包括无条件ledger.save_draft（第284行）、cap_reached时ledger.mark_draft_unchecked（第286-296行）、sub_intent_changes非空时重新加载snapshot并保存sub_intents（第298-302行）、无条件更新generated_from并保存snapshot（第304-309行）、尝试extract_world_state并save_world_state且捕获ApiCallError（第311-315行）。调用后保证草稿一定保存、修复的sub_intents持久化、generated_from更新、世界状态尽力保存。",
+          "verify_reasoning": "逐条对照代码原文，候选答案对函数契约的描述（输入、输出、副作用、保证）均与第263-330行实际实现吻合，包括关键细节如save_draft在status判断之前执行、mark_draft_unchecked的持久化标记、重新读取snapshot避免覆盖等。"
+        },
+        "judgment": {
+          "verdict": "support",
+          "matched_invariant": "",
+          "reasoning": "函数行为与定位描述中的不变量一致：草稿无条件保存并标记未通过检查，符合硬性约束检查的持久化要求；sub_intents 修复后存回 snapshot，符合不变量5；generated_from 更新和 world_state 尽力保存均未违反任何列出的不变量。"
+        }
+      }
+    ],
+    [
+      {
+        "file": "goal_loop.py",
+        "complexity_info": {
+          "name": "write_and_save_one_with_check",
+          "type": "Function",
+          "complexity": 8,
+          "rank": "B",
+          "lineno": 263
+        },
+        "behavior": {
+          "function": "write_and_save_one_with_check",
+          "description": "基于 goal_loop.py 第263-330行的函数体（以及第1-240行的上下文），write_and_save_one_with_check 的契约如下：\n\n**输入**：\n- `project_name: str`、`mode: str`（必填），`on_chapter`、`on_attempt`（可选回调）。\n- 前置条件：`ledger.load_snapshot(project_name)` 必须能返回一个含 `_meta` 和 `rule_based` 的 snapshot（第265行 `snapshot = ledger.load_snapshot(project_name)`，第266行访问 `snapshot[\"_meta\"]`，第267行 `predecessor = snapshot[\"_meta\"].get(\"predecessor\")`）。若 `predecessor` 存在，还需能通过 `ledger.latest_draft_filename` 和 `ledger.load_draft` 取到上一幕正文（第268-271行）。\n\n**输出**：返回一个 dict，含 `filename`、`content`、`status`、`attempts`、`sub_intent_changes` 五个键（第325-328行）。其中 `status` 是 `write_with_check` 返回的 `\"passed\"` 或 `\"cap_reached\"`（第285行 `result[\"status\"]`）。\n\n**副作用（外部状态/文件/全局数据改动）**：\n1. 无条件写草稿：`ledger.save_draft(project_name, mode, result[\"content\"])`（第284行），返回的 `filename` 作为返回值。\n2. 若 `status == \"cap_reached\"`，调用 `ledger.mark_draft_unchecked(project_name, filename)` 在磁盘上标记该草稿未通过检查（第286-296行，注释明确说明这是为了让\"没完全通过\"的事实持久化）。\n3. 若 `result[\"sub_intent_changes\"]` 非空，重新加载 snapshot 并把修复后的 `sub_intents` 存回 `current[\"sub_intents\"]`，再 `ledger.save_snapshot`（第298-302行）。注意这里重新读了一次 snapshot 以避免覆盖其他改动（第299行注释）。\n4. 无条件更新 `generated_from`：把 `snapshot[\"_meta\"][\"generated_from\"][mode]` 设为 `predecessor_draft_filename`，然后 `ledger.save_snapshot`（第304-309行）。\n5. 尝试 `writer.extract_world_state(result[\"content\"])` 并 `ledger.save_world_state`（第311-313行）；若抛 `writer.deepseek_client.ApiCallError` 则静默忽略（第314-315行）。\n\n**调用后保证**：\n- 草稿一定被保存（无论是否通过检查），`filename` 一定有效。\n- 若发生了 sub_intent 修复，修复后的 sub_intents 会持久化到 snapshot（第298-302行），下次生成会用到修复后的大纲。\n- `generated_from` 一定被更新（第304-309行）。\n- 世界状态事实清单尽力保存，失败不影响本次结果（第311-315行）。\n\n**【调用方须知】**：最该警惕的是：即使 `status == \"cap_reached\"`（封顶未通过检查），函数也会无条件把草稿存盘（第284行 `ledger.save_draft` 在判断 `status` 之前执行），并且会额外调用 `ledger.mark_draft_unchecked` 在磁盘上留下\"未通过检查\"的标记——所以调用方不能因为 `status` 是 `cap_reached` 就以为没有草稿被保存，磁盘上确实存在一个内容可能违反 must_avoid/must_include 的草稿文件，且这个\"未通过\"事实是持久化的，后续流程（如读码机）能查询到它。",
+          "agent_steps": 3,
+          "agent_hit_cap": false,
+          "verified": true,
+          "verify_evidence": "函数体第263-330行与候选答案描述一致：输入为project_name/mode/on_chapter/on_attempt；前置条件依赖ledger.load_snapshot返回含_meta和rule_based的snapshot（第265-267行）；输出dict含filename/content/status/attempts/sub_intent_changes（第325-328行）；副作用包括无条件ledger.save_draft（第284行）、cap_reached时ledger.mark_draft_unchecked（第286-296行）、sub_intent_changes非空时重新加载snapshot并保存sub_intents（第298-302行）、无条件更新generated_from并保存snapshot（第304-309行）、尝试extract_world_state并save_world_state且捕获ApiCallError（第311-315行）。调用后保证草稿一定保存、修复的sub_intents持久化、generated_from更新、世界状态尽力保存。",
+          "verify_reasoning": "逐条对照代码原文，候选答案对函数契约的描述（输入、输出、副作用、保证）均与第263-330行实际实现吻合，包括关键细节如save_draft在status判断之前执行、mark_draft_unchecked的持久化标记、重新读取snapshot避免覆盖等。"
+        },
+        "judgment": {
+          "verdict": "support",
+          "matched_invariant": "",
+          "reasoning": "函数行为与定位描述中的不变量一致：草稿无条件保存并标记未通过检查，符合硬性约束检查的闭环设计；sub_intent 修复后存回 snapshot 且重新加载避免覆盖，符合不变量5；generated_from 更新和 world_state 尽力保存均不违反任何列出的不变量。"
+        }
+      }
+    ],
+    [
+      {
+        "file": "goal_loop.py",
+        "complexity_info": {
+          "name": "write_and_save_one_with_check",
+          "type": "Function",
+          "complexity": 8,
+          "rank": "B",
+          "lineno": 263
+        },
+        "behavior": {
+          "function": "write_and_save_one_with_check",
+          "description": "基于 goal_loop.py 第263-330行的函数体（以及第1-240行的上下文），write_and_save_one_with_check 的契约如下：\n\n**输入**：\n- `project_name: str`、`mode: str`（必填），`on_chapter`、`on_attempt`（可选回调）。\n- 前置条件：`ledger.load_snapshot(project_name)` 必须能返回一个含 `_meta` 和 `rule_based` 的 snapshot（第265行 `snapshot = ledger.load_snapshot(project_name)`，第266行访问 `snapshot[\"_meta\"]`，第267行 `predecessor = snapshot[\"_meta\"].get(\"predecessor\")`）。若 `predecessor` 存在，还需能通过 `ledger.latest_draft_filename` 和 `ledger.load_draft` 取到上一幕正文（第268-271行）。\n\n**输出**：返回一个 dict，含 `filename`、`content`、`status`、`attempts`、`sub_intent_changes` 五个键（第325-328行）。其中 `status` 是 `write_with_check` 返回的 `\"passed\"` 或 `\"cap_reached\"`（第285行 `result[\"status\"]`）。\n\n**副作用（外部状态/文件/全局数据改动）**：\n1. 无条件写草稿：`ledger.save_draft(project_name, mode, result[\"content\"])`（第284行），返回的 `filename` 作为返回值。\n2. 若 `status == \"cap_reached\"`，调用 `ledger.mark_draft_unchecked(project_name, filename)` 在磁盘上标记该草稿未通过检查（第286-296行，注释明确说明这是为了让\"没完全通过\"的事实持久化）。\n3. 若 `result[\"sub_intent_changes\"]` 非空，重新加载 snapshot 并把修复后的 `sub_intents` 存回 `current[\"sub_intents\"]`，再 `ledger.save_snapshot`（第298-302行）。注意这里重新读了一次 snapshot 以避免覆盖其他改动（第299行注释）。\n4. 无条件更新 `generated_from`：把 `snapshot[\"_meta\"][\"generated_from\"][mode]` 设为 `predecessor_draft_filename`，然后 `ledger.save_snapshot`（第304-309行）。\n5. 尝试 `writer.extract_world_state(result[\"content\"])` 并 `ledger.save_world_state`（第311-313行）；若抛 `writer.deepseek_client.ApiCallError` 则静默忽略（第314-315行）。\n\n**调用后保证**：\n- 草稿一定被保存（无论是否通过检查），`filename` 一定有效。\n- 若发生了 sub_intent 修复，修复后的 sub_intents 会持久化到 snapshot（第298-302行），下次生成会用到修复后的大纲。\n- `generated_from` 一定被更新（第304-309行）。\n- 世界状态事实清单尽力保存，失败不影响本次结果（第311-315行）。\n\n**【调用方须知】**：最该警惕的是：即使 `status == \"cap_reached\"`（封顶未通过检查），函数也会无条件把草稿存盘（第284行 `ledger.save_draft` 在判断 `status` 之前执行），并且会额外调用 `ledger.mark_draft_unchecked` 在磁盘上留下\"未通过检查\"的标记——所以调用方不能因为 `status` 是 `cap_reached` 就以为没有草稿被保存，磁盘上确实存在一个内容可能违反 must_avoid/must_include 的草稿文件，且这个\"未通过\"事实是持久化的，后续流程（如读码机）能查询到它。",
+          "agent_steps": 3,
+          "agent_hit_cap": false,
+          "verified": true,
+          "verify_evidence": "函数体第263-330行与候选答案描述一致：输入为project_name/mode/on_chapter/on_attempt；前置条件依赖ledger.load_snapshot返回含_meta和rule_based的snapshot（第265-267行）；输出dict含filename/content/status/attempts/sub_intent_changes（第325-328行）；副作用包括无条件ledger.save_draft（第284行）、cap_reached时ledger.mark_draft_unchecked（第286-296行）、sub_intent_changes非空时重新加载snapshot并保存sub_intents（第298-302行）、无条件更新generated_from并保存snapshot（第304-309行）、尝试extract_world_state并save_world_state且捕获ApiCallError（第311-315行）。调用后保证草稿一定保存、修复的sub_intents持久化、generated_from更新、世界状态尽力保存。",
+          "verify_reasoning": "逐条对照代码原文，候选答案对函数契约的描述（输入、输出、副作用、保证）均与第263-330行实际实现吻合，包括关键细节如save_draft在status判断之前执行、mark_draft_unchecked的持久化标记、重新读取snapshot避免覆盖等。"
+        },
+        "judgment": {
+          "verdict": "support",
+          "matched_invariant": "",
+          "reasoning": "函数行为与定位描述中的不变量一致：草稿无条件保存并标记未通过检查，符合硬性约束检查的持久化要求；sub_intent 修复存回 snapshot 且重新加载避免覆盖，符合不变量5；generated_from 更新和 world_state 尽力保存均未违反任何列出的不变量。"
+        }
+      }
+    ],
+    [
+      {
+        "file": "goal_loop.py",
+        "complexity_info": {
+          "name": "write_and_save_one_with_check",
+          "type": "Function",
+          "complexity": 8,
+          "rank": "B",
+          "lineno": 263
+        },
+        "behavior": {
+          "function": "write_and_save_one_with_check",
+          "description": "基于 goal_loop.py 第263-330行的函数体（以及第1-240行的上下文），write_and_save_one_with_check 的契约如下：\n\n**输入**：\n- `project_name: str`、`mode: str`（必填），`on_chapter`、`on_attempt`（可选回调）。\n- 前置条件：`ledger.load_snapshot(project_name)` 必须能返回一个含 `_meta` 和 `rule_based` 的 snapshot（第265行 `snapshot = ledger.load_snapshot(project_name)`，第266行访问 `snapshot[\"_meta\"]`，第267行 `predecessor = snapshot[\"_meta\"].get(\"predecessor\")`）。若 `predecessor` 存在，还需能通过 `ledger.latest_draft_filename` 和 `ledger.load_draft` 取到上一幕正文（第268-271行）。\n\n**输出**：返回一个 dict，含 `filename`、`content`、`status`、`attempts`、`sub_intent_changes` 五个键（第325-328行）。其中 `status` 是 `write_with_check` 返回的 `\"passed\"` 或 `\"cap_reached\"`（第285行 `result[\"status\"]`）。\n\n**副作用（外部状态/文件/全局数据改动）**：\n1. 无条件写草稿：`ledger.save_draft(project_name, mode, result[\"content\"])`（第284行），返回的 `filename` 作为返回值。\n2. 若 `status == \"cap_reached\"`，调用 `ledger.mark_draft_unchecked(project_name, filename)` 在磁盘上标记该草稿未通过检查（第286-296行，注释明确说明这是为了让\"没完全通过\"的事实持久化）。\n3. 若 `result[\"sub_intent_changes\"]` 非空，重新加载 snapshot 并把修复后的 `sub_intents` 存回 `current[\"sub_intents\"]`，再 `ledger.save_snapshot`（第298-302行）。注意这里重新读了一次 snapshot 以避免覆盖其他改动（第299行注释）。\n4. 无条件更新 `generated_from`：把 `snapshot[\"_meta\"][\"generated_from\"][mode]` 设为 `predecessor_draft_filename`，然后 `ledger.save_snapshot`（第304-309行）。\n5. 尝试 `writer.extract_world_state(result[\"content\"])` 并 `ledger.save_world_state`（第311-313行）；若抛 `writer.deepseek_client.ApiCallError` 则静默忽略（第314-315行）。\n\n**调用后保证**：\n- 草稿一定被保存（无论是否通过检查），`filename` 一定有效。\n- 若发生了 sub_intent 修复，修复后的 sub_intents 会持久化到 snapshot（第298-302行），下次生成会用到修复后的大纲。\n- `generated_from` 一定被更新（第304-309行）。\n- 世界状态事实清单尽力保存，失败不影响本次结果（第311-315行）。\n\n**【调用方须知】**：最该警惕的是：即使 `status == \"cap_reached\"`（封顶未通过检查），函数也会无条件把草稿存盘（第284行 `ledger.save_draft` 在判断 `status` 之前执行），并且会额外调用 `ledger.mark_draft_unchecked` 在磁盘上留下\"未通过检查\"的标记——所以调用方不能因为 `status` 是 `cap_reached` 就以为没有草稿被保存，磁盘上确实存在一个内容可能违反 must_avoid/must_include 的草稿文件，且这个\"未通过\"事实是持久化的，后续流程（如读码机）能查询到它。",
+          "agent_steps": 3,
+          "agent_hit_cap": false,
+          "verified": true,
+          "verify_evidence": "函数体第263-330行与候选答案描述一致：输入为project_name/mode/on_chapter/on_attempt；前置条件依赖ledger.load_snapshot返回含_meta和rule_based的snapshot（第265-267行）；输出dict含filename/content/status/attempts/sub_intent_changes（第325-328行）；副作用包括无条件ledger.save_draft（第284行）、cap_reached时ledger.mark_draft_unchecked（第286-296行）、sub_intent_changes非空时重新加载snapshot并保存sub_intents（第298-302行）、无条件更新generated_from并保存snapshot（第304-309行）、尝试extract_world_state并save_world_state且捕获ApiCallError（第311-315行）。调用后保证草稿一定保存、修复的sub_intents持久化、generated_from更新、世界状态尽力保存。",
+          "verify_reasoning": "逐条对照代码原文，候选答案对函数契约的描述（输入、输出、副作用、保证）均与第263-330行实际实现吻合，包括关键细节如save_draft在status判断之前执行、mark_draft_unchecked的持久化标记、重新读取snapshot避免覆盖等。"
+        },
+        "judgment": {
+          "verdict": "support",
+          "matched_invariant": "",
+          "reasoning": "函数行为与定位描述中的不变量一致：草稿无条件保存并标记未通过检查，符合硬性约束检查的诚实标注；sub_intent 修复存回 snapshot 且重新加载避免覆盖，符合不变量5；generated_from 更新和 world_state 尽力保存均不违反任何列出的不变量。"
+        }
+      }
+    ]
+  ]
+}

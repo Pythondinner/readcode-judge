@@ -1,0 +1,82 @@
+{
+  "target_codebase": "C:\\FPAN\\Python312\\Lib\\site-packages\\flask",
+  "note": "第3步换的目标：Flask的真实源码，24个.py文件、约9200行，分布在flask/、flask/json/、flask/sansio/三层目录，比自动剧本生成机(9个文件、单层目录)大得多，且用户本人不熟悉Flask内部实现——这次标准答案是我（不是用户）实际读了相关源码之后写的，不是凭印象编的。目的是验证MAX_STEPS=8和'不做任何context管理、每题从头读起'这套最朴素的机制，在更大、有子目录层级的代码库上还扛不扛得住。",
+  "tiers": {
+    "1_单文件事实题": "答案在根目录下的单个文件里能直接找到",
+    "2_跨文件追踪题": "需要在不同文件（有的还在子目录里）之间对照才能答对，测的是子目录导航能力",
+    "3_设计意图题": "答案在某个类/函数的docstring或注释里有明确说明，不是靠猜"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "tier": "1_单文件事实题",
+      "question": "Flask的SESSION_COOKIE_HTTPONLY默认值是True还是False？",
+      "answer": "True",
+      "grading": "精确匹配，答案在app.py的default_config字典里"
+    },
+    {
+      "id": 2,
+      "tier": "1_单文件事实题",
+      "question": "Flask的PERMANENT_SESSION_LIFETIME默认值是多少？",
+      "answer": "timedelta(days=31)，也就是31天",
+      "grading": "语义判断：数字31和单位（天）都要对"
+    },
+    {
+      "id": 3,
+      "tier": "1_单文件事实题",
+      "question": "Flask的MAX_FORM_PARTS默认值是多少？",
+      "answer": "1000",
+      "grading": "精确匹配（陷阱：源码里写的是1_000这种带下划线的数字写法，不是1）"
+    },
+    {
+      "id": 4,
+      "tier": "2_跨文件追踪题",
+      "question": "Flask类里真正带具体数值的default_config字典（里面有SECRET_KEY、SESSION_COOKIE_NAME这些配置项），是定义在flask/app.py里，还是flask/sansio/app.py里？",
+      "answer": "定义在flask/app.py里。flask/sansio/app.py里虽然也出现了default_config这个名字，但只是一个不带值的类型注解（default_config: dict[str, t.Any]），没有真正赋值，真正的ImmutableDict字面量在flask/app.py的Flask类定义里",
+      "grading": "语义判断：要明确指出是app.py而不是sansio/app.py，并且要提到sansio那边只是类型注解没有真值"
+    },
+    {
+      "id": 5,
+      "tier": "2_跨文件追踪题",
+      "question": "flask/app.py里的Flask类继承自哪个类？这个父类是在哪个文件定义的？",
+      "answer": "继承自App类，定义在flask/sansio/app.py里",
+      "grading": "语义判断：类名App和文件路径sansio/app.py都要对"
+    },
+    {
+      "id": 6,
+      "tier": "2_跨文件追踪题",
+      "question": "flask/blueprints.py里的Blueprint类继承自哪个类？这个父类在哪个文件里？",
+      "answer": "继承自SansioBlueprint类，定义在flask/sansio/blueprints.py里",
+      "grading": "语义判断：类名和文件路径都要对"
+    },
+    {
+      "id": 7,
+      "tier": "3_设计意图题",
+      "question": "flask/sessions.py里的NullSession类是用来干什么的？",
+      "answer": "根据docstring：当没有设置secret_key、session功能不可用时，用NullSession生成更友好的报错信息——它允许对空session做只读访问，但一旦尝试写入（设置值/删除/清空等）就会报错，提示需要设置secret_key",
+      "grading": "语义判断：要提到'secret_key没设置时的报错场景'和'只读、写入会报错'这两个关键点"
+    },
+    {
+      "id": 8,
+      "tier": "3_设计意图题",
+      "question": "flask/sessions.py里，SecureCookieSessionInterface和SessionInterface是什么关系？",
+      "answer": "SecureCookieSessionInterface继承自SessionInterface，是Flask默认实际使用的具体实现",
+      "grading": "语义判断：要提到继承关系"
+    },
+    {
+      "id": 9,
+      "tier": "2_跨文件追踪题",
+      "question": "json这个子目录（在代码库根目录下）下有哪几个.py文件？",
+      "answer": "__init__.py、provider.py、tag.py",
+      "grading": "语义判断：三个文件名都要提到（不要求顺序）",
+      "note": "原题写成'flask/json/'，误把代码库根目录当成了它的上一级，导致相对路径多套了一层'flask/'，实际根目录本身就是flask文件夹——见技术文档04的根因排查，这里改成'json'（明确点出是根目录下的子目录）"
+    },
+    {
+      "id": 10,
+      "tier": "1_单文件事实题",
+      "question": "Flask的APPLICATION_ROOT默认值是多少？",
+      "answer": "\"/\"（斜杠）",
+      "grading": "精确匹配"
+    }
+  ]
+}

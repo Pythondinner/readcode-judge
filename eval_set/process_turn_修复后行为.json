@@ -1,0 +1,23 @@
+{
+  "function_info": {
+    "name": "process_turn",
+    "type": "Function",
+    "complexity": 15,
+    "rank": "C",
+    "lineno": 166
+  },
+  "behavior": {
+    "function": "process_turn",
+    "description": "process_turn(snapshot: dict, user_input: str) -> dict（src/brain.py 第166-212行）的契约如下，每条均引用代码原文：\n\n**输入**\n- `snapshot: dict`：当前项目快照，必须含 `_meta.project_state`（第169行 `state = snapshot[\"_meta\"][\"project_state\"]`）和 `_meta` 字典（第211行 `snapshot[\"_meta\"][\"project_state\"] = next_state` 会写入）。\n- `user_input: str`：本轮用户输入，会被包进 `<user_request>` 标签（第178行）。\n\n**输出**\n- 返回同一个 `snapshot` 字典对象（原地修改后返回，第212行 `return snapshot`），即调用方传入的 dict 被直接改写并返回。\n\n**副作用（外部状态/全局数据）**\n- 原地修改传入的 `snapshot` 对象：\n  - 合并 patch 到顶层字段（第195-199行 `snapshot[key] = patch[key]`）。\n  - 写入 `raw_user_request`（第201-202行，仅当原本为空时）。\n  - 更新 `_meta.project_state`（第204行）、`_meta.flagged_injection`（第205行）、`_meta.flagged_snippets`（第206行）、`_meta.conflicts_flagged`（第207行）。\n  - 写入 `_last_reply`（第210行）。\n- 调用外部模型 `deepseek_client.call`（第163行 `_call_model` 内），有网络副作用，可能抛 `BrainCallError`（第6行导入）。\n\n**前置条件**\n- `snapshot` 必须包含 `_meta` 字典且 `_meta.project_state` 存在（第169行直接索引，缺失会 KeyError）。\n- `snapshot` 中 `throughline` 若存在，应形如 `{want, obstacle, stakes}`（第187行 `merged_throughline.get(\"want\")`）。\n- 传入的 `snapshot` 会被修改，调用方不应在后续依赖其原始内容。\n\n**调用后保证**\n- 返回的 `snapshot[\"_meta\"][\"project_state\"]` 一定在 `VALID_STATES` 内（第170-172行非法状态重置为 \"empty\"，第193-194行非法 next_state 回退到原 state）。\n- 若 `next_state == \"confirmed\"` 但合并后的 throughline 缺 want 或 obstacle，则强制回退到 \"collecting\"，且该轮 throughline patch 被丢弃（第186-191行）。\n- patch 中出现的顶层字段（rule_based/throughline/candidates/sub_intents/assumptions）整体替换，未出现的保留旧值（第195-199行）。\n- `_last_reply` 一定被设置为模型返回的 `assistant_reply`（第210行）。\n\n【调用方须知】process_turn 会**原地修改你传入的 snapshot 字典并返回同一个对象**（第212行 `return snapshot`），不是返回新副本——如果你在调用后还持有对原 snapshot 的引用，看到的已是修改后的内容；且它每次都会调用外部模型（第163行），可能抛 `BrainCallError`，调用方需捕获该异常，否则会中断流程。",
+    "agent_steps": 2,
+    "agent_hit_cap": false,
+    "verified": true,
+    "verify_evidence": "逐条核对代码：输入/输出签名（第166行 `def process_turn(snapshot: dict, user_input: str) -> dict`）、状态读取（第169行 `state = snapshot[\"_meta\"][\"project_state\"]`）、模型调用（第163行 `_call_model` 内 `deepseek_client.call`）、patch 合并（第195-199行 `snapshot[key] = patch[key]`）、raw_user_request 写入（第201-202行）、_meta 更新（第204-207行）、_last_reply 写入（第210行）、返回同一对象（第212行 `return snapshot`）、confirmed 校验（第186-191行）、非法状态重置（第170-172行）、顶层字段列表（第195行）。所有引用与代码一致。",
+    "verify_reasoning": "候选答案的每一条契约描述都能在代码中找到对应原文，包括副作用、前置条件和保证，且【调用方须知】准确指出了原地修改和异常风险。"
+  },
+  "judgment": {
+    "verdict": "support",
+    "matched_invariant": "",
+    "reasoning": "行为描述显示 process_turn 在 next_state 为 confirmed 时强制校验 want/obstacle 非空，否则回退到 collecting，符合不变量1；且未涉及其他不变量相关细节。"
+  }
+}

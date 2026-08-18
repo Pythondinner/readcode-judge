@@ -1,0 +1,423 @@
+{
+  "runs": 5,
+  "top_n": 5,
+  "consensus_ranking": [
+    {
+      "file": "goal_loop.py",
+      "function": "write_and_save_one_with_check",
+      "reproduced": 5,
+      "total_runs": 5,
+      "reproduce_rate": 1.0,
+      "avg_rank": 1.8
+    },
+    {
+      "file": "chat.py",
+      "function": "offer_to_write",
+      "reproduced": 4,
+      "total_runs": 5,
+      "reproduce_rate": 0.8,
+      "avg_rank": 1.0
+    },
+    {
+      "file": "ledger.py",
+      "function": "_migrate_chain_to_series",
+      "reproduced": 4,
+      "total_runs": 5,
+      "reproduce_rate": 0.8,
+      "avg_rank": 3.75
+    },
+    {
+      "file": "writer.py",
+      "function": "write_and_save_one",
+      "reproduced": 3,
+      "total_runs": 5,
+      "reproduce_rate": 0.6,
+      "avg_rank": 3.3333333333333335
+    },
+    {
+      "file": "server.py",
+      "function": "continue_from",
+      "reproduced": 3,
+      "total_runs": 5,
+      "reproduce_rate": 0.6,
+      "avg_rank": 4.333333333333333
+    },
+    {
+      "file": "deepseek_client.py",
+      "function": "call",
+      "reproduced": 3,
+      "total_runs": 5,
+      "reproduce_rate": 0.6,
+      "avg_rank": 4.666666666666667
+    },
+    {
+      "file": "brain.py",
+      "function": "process_turn",
+      "reproduced": 2,
+      "total_runs": 5,
+      "reproduce_rate": 0.4,
+      "avg_rank": 3.5
+    },
+    {
+      "file": "server.py",
+      "function": "write_draft",
+      "reproduced": 1,
+      "total_runs": 5,
+      "reproduce_rate": 0.2,
+      "avg_rank": 3.0
+    }
+  ],
+  "all_syntheses": [
+    {
+      "patterns": [
+        {
+          "name": "静默覆盖与持久化副作用",
+          "evidence": [
+            "writer.py::write_and_save_one",
+            "goal_loop.py::write_and_save_one_with_check",
+            "brain.py::process_turn"
+          ],
+          "summary": "多个函数在未明确提示的情况下修改或持久化数据：write_and_save_one 静默覆盖 _meta.generated_from 并保存草稿；write_and_save_one_with_check 无条件保存草稿（即使未通过检查）；process_turn 原地修改传入的 snapshot 并覆盖 _meta 下的标记字段。"
+        },
+        {
+          "name": "磁盘迁移与路径变更",
+          "evidence": [
+            "ledger.py::_migrate_chain_to_series",
+            "server.py::continue_from",
+            "chat.py::maybe_link_predecessor"
+          ],
+          "summary": "多个函数会实际移动磁盘上的项目目录（shutil.move/os.rename），改变项目物理路径，且调用方可能未预期此副作用。_migrate_chain_to_series 即使对独立项目也会改变其路径；continue_from 和 maybe_link_predecessor 通过 create_continuation 触发迁移。"
+        },
+        {
+          "name": "静默失败与状态回退",
+          "evidence": [
+            "brain.py::process_turn",
+            "chat.py::maybe_link_predecessor",
+            "server.py::continue_from"
+          ],
+          "summary": "多个函数在特定条件下静默失败或回退状态：process_turn 在 next_state 非法或 confirmed 校验失败时静默改为 collecting；maybe_link_predecessor 在承接源未 confirmed 时打印错误后返回，不创建项目；continue_from 在 predecessor 已有后继且 force 为假时返回 needs_confirmation 而非错误，调用方可能误判为成功。"
+        },
+        {
+          "name": "API 调用的隐式成本与重试",
+          "evidence": [
+            "deepseek_client.py::call",
+            "goal_loop.py::check_and_report",
+            "writer.py::write_long_script"
+          ],
+          "summary": "多个函数会发起外部 LLM API 调用，且调用次数可能超出调用方预期：deepseek_client.call 在 json_mode 下最多重试 2 次（共 3 次请求）；check_and_report 为每条违反的 must_avoid 发起一次诊断调用；write_long_script 内部多次调用 write_script 和 extract_world_state。"
+        },
+        {
+          "name": "版本号与文件命名的不一致风险",
+          "evidence": [
+            "ledger.py::save_draft",
+            "ledger.py::delete_draft"
+          ],
+          "summary": "save_draft 和 delete_draft 都依赖 <mode>_v<N>.md 命名约定，但对非标准文件名处理不一致：save_draft 忽略非纯数字版本号，可能导致版本号与 latest_draft_filename 不一致；delete_draft 对不含 _v 的文件名不触发 state 删除，可能留下孤立 state 文件。"
+        }
+      ],
+      "priority_list": [
+        {
+          "file": "goal_loop.py",
+          "function": "write_and_save_one_with_check",
+          "reason": "无条件保存草稿（即使未通过检查）会导致有缺陷的正文被持久化，且 sub_intents 修复与草稿保存不同步，可能造成数据不一致。"
+        },
+        {
+          "file": "ledger.py",
+          "function": "_migrate_chain_to_series",
+          "reason": "实际移动磁盘目录，即使对独立项目也会改变路径，调用方若未预期会破坏路径缓存或导致文件丢失。"
+        },
+        {
+          "file": "brain.py",
+          "function": "process_turn",
+          "reason": "原地修改传入 snapshot 并静默覆盖 _meta 标记字段，状态回退可能让调用方误判状态转移成功，影响后续流程。"
+        },
+        {
+          "file": "deepseek_client.py",
+          "function": "call",
+          "reason": "json_mode 下最多 3 次 API 请求，调用方只看到一次调用但账单和延迟是多次的；缺 API key 时抛 SystemExit 可能未被捕获导致进程终止。"
+        },
+        {
+          "file": "server.py",
+          "function": "continue_from",
+          "reason": "返回 needs_confirmation 而非错误码，调用方若未检查该字段会误以为创建成功；成功创建会触发整条链的物理迁移。"
+        }
+      ]
+    },
+    {
+      "patterns": [
+        {
+          "name": "静默覆盖或删除数据而不充分提示",
+          "evidence": [
+            "writer.py::write_and_save_one",
+            "ledger.py::delete_draft",
+            "chat.py::offer_to_write"
+          ],
+          "summary": "多个函数在修改或删除数据时，缺少对调用方的明确提示或校验。write_and_save_one 静默覆盖 _meta.generated_from 且不校验项目状态；delete_draft 在删除最新版本时连带删除 state 文件，但仅当文件名含 '_v' 时；offer_to_write 在删除最新版本时也会连带清除运行事实，且该副作用在函数名和 docstring 中未体现。"
+        },
+        {
+          "name": "函数行为与名称或直觉不符，存在隐藏副作用",
+          "evidence": [
+            "chat.py::maybe_link_predecessor",
+            "ledger.py::_migrate_chain_to_series",
+            "server.py::continue_from"
+          ],
+          "summary": "这些函数看似查询或简单操作，实际会修改磁盘结构或创建文件。maybe_link_predecessor 会创建新项目并迁移目录；_migrate_chain_to_series 会移动文件夹；continue_from 成功时触发整条链的物理迁移。调用方若仅凭函数名判断，容易忽略这些副作用。"
+        },
+        {
+          "name": "重试或循环机制可能产生多次外部调用或阻塞",
+          "evidence": [
+            "deepseek_client.py::call",
+            "goal_loop.py::check_and_report",
+            "chat.py::offer_to_write"
+          ],
+          "summary": "多个函数在内部循环或重试，导致外部 API 调用次数或阻塞时间超出调用方预期。deepseek_client.call 在 json_mode 下最多重试 2 次，可能发送 3 次请求；check_and_report 为每条违反项发起一次 LLM 调用；offer_to_write 是无限循环，阻塞直到用户输入空行。"
+        },
+        {
+          "name": "状态或数据持久化条件不明确，可能保存不完整或意外的数据",
+          "evidence": [
+            "goal_loop.py::write_and_save_one_with_check",
+            "writer.py::write_and_save_one",
+            "brain.py::process_turn"
+          ],
+          "summary": "这些函数在保存或更新状态时，存在条件不明确或可能保存意外数据的情况。write_and_save_one_with_check 即使 status 为 cap_reached 也会无条件保存草稿；write_and_save_one 不校验项目状态就生成并保存；process_turn 原地修改 snapshot 并可能静默改写状态。"
+        }
+      ],
+      "priority_list": [
+        {
+          "file": "chat.py",
+          "function": "offer_to_write",
+          "reason": "无限循环导致调用方阻塞，且删除最新版本时连带清除运行事实，副作用隐蔽，风险高。"
+        },
+        {
+          "file": "goal_loop.py",
+          "function": "write_and_save_one_with_check",
+          "reason": "即使未通过检查也会保存草稿，可能导致有缺陷的正文被持久化，影响后续生成。"
+        },
+        {
+          "file": "writer.py",
+          "function": "write_and_save_one",
+          "reason": "不校验项目状态就生成并保存，可能对未确认的幕次产生意外草稿，且静默覆盖 generated_from。"
+        },
+        {
+          "file": "ledger.py",
+          "function": "_migrate_chain_to_series",
+          "reason": "实际移动磁盘文件夹，即使对独立项目调用也会改变路径，副作用大且易被忽略。"
+        },
+        {
+          "file": "server.py",
+          "function": "continue_from",
+          "reason": "成功创建时触发整条链迁移，且 needs_confirmation 分支返回 200 易被误判为成功。"
+        }
+      ]
+    },
+    {
+      "patterns": [
+        {
+          "name": "静默覆盖与持久化副作用",
+          "evidence": [
+            "writer.py::write_and_save_one",
+            "goal_loop.py::write_and_save_one_with_check",
+            "ledger.py::save_draft"
+          ],
+          "summary": "多个函数在生成或保存草稿时，会静默覆盖已有数据或持久化可能不完整的内容，且不向调用方明确提示。例如，write_and_save_one 会无条件覆盖 _meta.generated_from 并保存草稿，即使生成失败也会保存；write_and_save_one_with_check 在 status 为 cap_reached 时仍会保存草稿；save_draft 在存在脏文件名时可能生成与 latest_draft_filename 不一致的版本号。这些行为可能导致调用方误以为数据未被修改或保存的是完整内容。"
+        },
+        {
+          "name": "隐式文件系统迁移与路径变更",
+          "evidence": [
+            "ledger.py::_migrate_chain_to_series",
+            "server.py::continue_from",
+            "chat.py::maybe_link_predecessor"
+          ],
+          "summary": "多个函数在创建续写或承接关系时，会触发磁盘目录结构的物理迁移（shutil.move/os.rename），改变已有项目的存储路径。例如，_migrate_chain_to_series 会将扁平存储的链迁移到系列文件夹；continue_from 和 maybe_link_predecessor 调用 create_continuation 时会触发迁移。调用方若缓存了旧路径，迁移后可能失效，且这些副作用在函数名或接口层面不明显。"
+        },
+        {
+          "name": "静默状态回退或覆盖",
+          "evidence": [
+            "brain.py::process_turn",
+            "writer.py::write_and_save_one"
+          ],
+          "summary": "多个函数会静默修改或覆盖状态字段，且不向调用方明确提示。例如，process_turn 会原地修改 snapshot 并覆盖 _meta.flagged_* 字段，若 next_state 非法或 confirmed 校验失败，会静默回退为 collecting；write_and_save_one 会静默覆盖 _meta.generated_from 的旧值。调用方若不检查返回值或后续状态，可能误以为状态转移成功或数据未被修改。"
+        },
+        {
+          "name": "非预期多次外部API调用",
+          "evidence": [
+            "deepseek_client.py::call",
+            "goal_loop.py::check_and_report"
+          ],
+          "summary": "多个函数在内部会发起多次外部 LLM API 调用，但调用方从接口层面只能感知一次调用。例如，deepseek_client.call 在 json_mode 下会重试最多 3 次；check_and_report 会为每条违反的 must_avoid 条目调用一次 diagnose，导致多次 API 调用。调用方可能低估延迟和费用，尤其在批量或循环场景下。"
+        }
+      ],
+      "priority_list": [
+        {
+          "file": "chat.py",
+          "function": "offer_to_write",
+          "reason": "该函数是无限循环，会阻塞调用方直到用户输入空行，在非交互环境下会导致挂起；且删除最新草稿时会连带清除运行事实清单，副作用隐蔽且影响后续生成。复杂度虽高（D级），但风险严重，应优先处理。"
+        },
+        {
+          "file": "goal_loop.py",
+          "function": "write_and_save_one_with_check",
+          "reason": "该函数在 status 为 cap_reached 时仍会无条件保存草稿，导致有缺陷的正文被持久化，调用方可能误以为未通过就不会落盘。副作用隐蔽且影响数据完整性，优先级高。"
+        },
+        {
+          "file": "writer.py",
+          "function": "write_and_save_one",
+          "reason": "该函数静默覆盖 _meta.generated_from 且不校验项目状态，可能对未确认的幕次生成并持久化草稿，副作用在函数名中不可见，容易导致意外数据变更。"
+        },
+        {
+          "file": "brain.py",
+          "function": "process_turn",
+          "reason": "该函数原地修改传入的 snapshot 并静默覆盖多个 _meta 字段，若状态校验失败会静默回退为 collecting，调用方若不检查返回值会误判状态转移成功。虽然复杂度中等，但副作用隐蔽且影响状态一致性。"
+        },
+        {
+          "file": "ledger.py",
+          "function": "_migrate_chain_to_series",
+          "reason": "该函数会实际移动磁盘文件夹，即使对独立项目调用也会改变其路径，调用方若误用会意外改动文件系统布局。复杂度不高但副作用严重，且函数名未体现迁移行为。"
+        }
+      ]
+    },
+    {
+      "patterns": [
+        {
+          "name": "静默覆盖或删除数据而不充分提示",
+          "evidence": [
+            "chat.py::offer_to_write",
+            "writer.py::write_and_save_one",
+            "ledger.py::delete_draft",
+            "server.py::write_draft"
+          ],
+          "summary": "多个函数在修改或删除数据时，缺少显式的确认或提示，可能静默覆盖已有内容。例如，offer_to_write 在删除最新草稿时连带清除运行事实，write_and_save_one 静默覆盖 generated_from 字段，delete_draft 在特定条件下静默删除 state 文件，write_draft 在未带 force 时返回 needs_confirmation 但调用方可能误以为已生成。"
+        },
+        {
+          "name": "调用方需警惕的隐式副作用",
+          "evidence": [
+            "chat.py::main",
+            "chat.py::maybe_link_predecessor",
+            "ledger.py::_migrate_chain_to_series",
+            "server.py::continue_from"
+          ],
+          "summary": "多个函数具有超出名称暗示的副作用，如修改全局环境、移动磁盘文件、创建新项目等。main 无条件修改 stdout 编码和加载环境变量，maybe_link_predecessor 可能创建新项目并迁移目录，_migrate_chain_to_series 实际移动文件夹，continue_from 成功时触发链迁移。调用方若未仔细阅读契约，容易忽略这些影响。"
+        },
+        {
+          "name": "API 调用可能产生多次请求或高成本",
+          "evidence": [
+            "deepseek_client.py::call",
+            "goal_loop.py::check_and_report",
+            "writer.py::write_long_script"
+          ],
+          "summary": "多个函数涉及外部 LLM API 调用，且可能产生多次请求或高成本。deepseek_client.call 在 json_mode 下内部重试最多 3 次，check_and_report 为每条违反条目调用一次 diagnose（即一次 API），write_long_script 对每个 chunk 调用 write_script 和 extract_world_state，可能多次调用。调用方需注意延迟和费用。"
+        },
+        {
+          "name": "状态或数据持久化不一致",
+          "evidence": [
+            "goal_loop.py::write_and_save_one_with_check",
+            "goal_loop.py::write_with_check",
+            "writer.py::write_and_save_one"
+          ],
+          "summary": "多个函数在持久化时存在不一致：write_and_save_one_with_check 无条件保存草稿，即使未通过检查；write_with_check 返回的 snapshot 中 sub_intents 可能被修改，但 must_avoid/must_include 的加固不持久化；write_and_save_one 重新加载快照后只更新 generated_from，可能覆盖并发改动。调用方需注意这些差异。"
+        }
+      ],
+      "priority_list": [
+        {
+          "file": "chat.py",
+          "function": "offer_to_write",
+          "reason": "无限循环阻塞调用，且删除最新草稿时连带清除运行事实，副作用隐蔽，风险高。"
+        },
+        {
+          "file": "goal_loop.py",
+          "function": "write_and_save_one_with_check",
+          "reason": "无条件保存草稿，即使未通过检查，可能导致有缺陷的草稿被持久化，影响后续生成。"
+        },
+        {
+          "file": "server.py",
+          "function": "write_draft",
+          "reason": "未带 force 时返回 needs_confirmation，调用方可能误以为已生成，实际未写入，需两步确认。"
+        },
+        {
+          "file": "ledger.py",
+          "function": "_migrate_chain_to_series",
+          "reason": "实际移动磁盘文件夹，即使对独立项目调用也会改变路径，副作用大且易被忽略。"
+        },
+        {
+          "file": "deepseek_client.py",
+          "function": "call",
+          "reason": "json_mode 下内部重试最多 3 次，调用方只看到一次调用但产生多次请求和费用，且缺 key 时抛 SystemExit 可能未被捕获。"
+        }
+      ]
+    },
+    {
+      "patterns": [
+        {
+          "name": "静默覆盖或删除数据而不充分提示",
+          "evidence": [
+            "chat.py::offer_to_write",
+            "writer.py::write_and_save_one",
+            "ledger.py::delete_draft"
+          ],
+          "summary": "多个函数在修改或删除数据时缺乏明确的提示或校验。offer_to_write 在删除最新草稿时连带清除运行事实清单，但函数名和docstring未提及；write_and_save_one 静默覆盖 _meta.generated_from 且不校验项目状态；delete_draft 在文件名不含 _v 时不会删除关联的 state 文件，可能导致状态残留。"
+        },
+        {
+          "name": "调用方需警惕的隐式副作用",
+          "evidence": [
+            "chat.py::main",
+            "chat.py::load_env",
+            "server.py::load_env"
+          ],
+          "summary": "多个入口函数或工具函数会修改全局状态（如 stdout 编码、环境变量），且这些副作用在函数名或常规使用中不易察觉。main 无条件 reconfigure stdout 并调用 load_env；两个 load_env 都使用 setdefault 语义，可能静默忽略 .env 中的配置。"
+        },
+        {
+          "name": "API调用可能产生多次请求或高成本",
+          "evidence": [
+            "deepseek_client.py::call",
+            "goal_loop.py::check_and_report"
+          ],
+          "summary": "deepseek_client.call 在 json_mode 下可能重试最多3次，check_and_report 对每条违反的 must_avoid 条目发起一次独立的 LLM 调用，两者都可能导致调用方产生意外的多次 API 请求和费用。"
+        },
+        {
+          "name": "磁盘迁移或文件操作可能改变项目结构",
+          "evidence": [
+            "ledger.py::_migrate_chain_to_series",
+            "server.py::continue_from",
+            "chat.py::maybe_link_predecessor"
+          ],
+          "summary": "多个函数会触发磁盘上的目录迁移或文件创建，可能改变项目路径或结构。_migrate_chain_to_series 会移动文件夹，continue_from 和 maybe_link_predecessor 会调用 create_continuation 进而触发迁移，调用方若未预期可能影响已有路径。"
+        },
+        {
+          "name": "返回状态或结果可能误导调用方",
+          "evidence": [
+            "server.py::continue_from",
+            "server.py::write_draft",
+            "goal_loop.py::write_and_save_one_with_check"
+          ],
+          "summary": "多个函数在特定条件下返回非错误状态但实际未执行预期操作，或返回的结果包含未持久化的临时修改。continue_from 在需要确认时返回200而非错误码；write_draft 在已有草稿且未带 force 时返回 needs_confirmation 而不生成；write_and_save_one_with_check 在 cap_reached 时仍保存草稿，可能让调用方误以为内容已通过检查。"
+        }
+      ],
+      "priority_list": [
+        {
+          "file": "chat.py",
+          "function": "offer_to_write",
+          "reason": "无限循环会阻塞调用方，且删除最新草稿时连带清除运行事实清单，副作用隐蔽且影响后续生成，风险高。"
+        },
+        {
+          "file": "goal_loop.py",
+          "function": "write_and_save_one_with_check",
+          "reason": "即使检查未通过也会保存草稿，可能导致有缺陷的内容被持久化，且 sub_intents 修复与草稿保存不同步，调用方易误解。"
+        },
+        {
+          "file": "server.py",
+          "function": "continue_from",
+          "reason": "返回 needs_confirmation 时状态码为200，调用方可能误以为创建成功；且成功创建会触发磁盘迁移，影响其他项目路径。"
+        },
+        {
+          "file": "writer.py",
+          "function": "write_and_save_one",
+          "reason": "静默覆盖 generated_from 且不校验项目状态，可能生成并持久化不应落盘的草稿，副作用隐蔽。"
+        },
+        {
+          "file": "deepseek_client.py",
+          "function": "call",
+          "reason": "json_mode 下可能重试多次，消耗额外 token 和延迟，且缺 API key 时抛 SystemExit 而非 ApiCallError，调用方可能未捕获导致进程退出。"
+        }
+      ]
+    }
+  ]
+}

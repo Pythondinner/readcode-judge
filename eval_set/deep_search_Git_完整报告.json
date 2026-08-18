@@ -1,0 +1,1354 @@
+{
+  "files": [
+    "agent.py",
+    "app.py",
+    "context.py",
+    "dev_history\\demo_function_calling.py",
+    "dev_history\\run_plan_demo.py",
+    "dev_history\\run_v1.py",
+    "dev_history\\run_v2.py",
+    "events.py",
+    "planner.py",
+    "reporter.py",
+    "retry.py",
+    "run_research.py",
+    "storage.py",
+    "synthesizer.py",
+    "tools\\__init__.py",
+    "tools\\extract.py",
+    "tools\\search.py",
+    "writer.py"
+  ],
+  "unsupported_files": [],
+  "total_loc": 1575,
+  "rank_counts": {
+    "A": 28,
+    "B": 2,
+    "C": 5,
+    "D": 0,
+    "E": 0,
+    "F": 0
+  },
+  "top_functions": [
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "_footnote_map",
+      "type": "Function",
+      "complexity": 15,
+      "rank": "C",
+      "lineno": 90
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "_collect_section_citations",
+      "type": "Function",
+      "complexity": 15,
+      "rank": "C",
+      "lineno": 90
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "synthesize_report",
+      "type": "Function",
+      "complexity": 15,
+      "rank": "C",
+      "lineno": 149
+    },
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "render_section_html",
+      "type": "Function",
+      "complexity": 14,
+      "rank": "C",
+      "lineno": 133
+    },
+    {
+      "file": "agent.py",
+      "tool": "radon",
+      "name": "run_research_loop",
+      "type": "Function",
+      "complexity": 12,
+      "rank": "C",
+      "lineno": 77
+    },
+    {
+      "file": "dev_history\\run_v1.py",
+      "tool": "radon",
+      "name": "run",
+      "type": "Function",
+      "complexity": 6,
+      "rank": "B",
+      "lineno": 27
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "_check_evidence_utilization",
+      "type": "Function",
+      "complexity": 6,
+      "rank": "B",
+      "lineno": 127
+    },
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "render_references_html",
+      "type": "Function",
+      "complexity": 5,
+      "rank": "A",
+      "lineno": 195
+    },
+    {
+      "file": "run_research.py",
+      "tool": "radon",
+      "name": "resolve_sub_queries",
+      "type": "Function",
+      "complexity": 5,
+      "rank": "A",
+      "lineno": 28
+    },
+    {
+      "file": "run_research.py",
+      "tool": "radon",
+      "name": "run_with_subqueries",
+      "type": "Function",
+      "complexity": 5,
+      "rank": "A",
+      "lineno": 50
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "normalize_url",
+      "type": "Function",
+      "complexity": 4,
+      "rank": "A",
+      "lineno": 23
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "build_sources",
+      "type": "Function",
+      "complexity": 4,
+      "rank": "A",
+      "lineno": 40
+    },
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "_sup",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 123
+    },
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "render_editor_note_html",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 182
+    },
+    {
+      "file": "dev_history\\run_v2.py",
+      "tool": "radon",
+      "name": "run",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 24
+    },
+    {
+      "file": "planner.py",
+      "tool": "radon",
+      "name": "plan",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 39
+    },
+    {
+      "file": "reporter.py",
+      "tool": "radon",
+      "name": "consolidate",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 82
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "_build_evidence_for_llm",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 69
+    },
+    {
+      "file": "synthesizer.py",
+      "tool": "radon",
+      "name": "validate_section_citations",
+      "type": "Function",
+      "complexity": 3,
+      "rank": "A",
+      "lineno": 115
+    },
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "_esc",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 129
+    },
+    {
+      "file": "events.py",
+      "tool": "radon",
+      "name": "emit",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 6
+    },
+    {
+      "file": "reporter.py",
+      "tool": "radon",
+      "name": "_call_llm",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 50
+    },
+    {
+      "file": "storage.py",
+      "tool": "radon",
+      "name": "find_past_evidence",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 68
+    },
+    {
+      "file": "tools\\extract.py",
+      "tool": "radon",
+      "name": "_get_client",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 24
+    },
+    {
+      "file": "tools\\search.py",
+      "tool": "radon",
+      "name": "tavily_search",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 11
+    },
+    {
+      "file": "writer.py",
+      "tool": "radon",
+      "name": "_call_llm",
+      "type": "Function",
+      "complexity": 2,
+      "rank": "A",
+      "lineno": 48
+    },
+    {
+      "file": "app.py",
+      "tool": "radon",
+      "name": "_worker",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 276
+    },
+    {
+      "file": "context.py",
+      "tool": "radon",
+      "name": "today_str",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 12
+    },
+    {
+      "file": "retry.py",
+      "tool": "radon",
+      "name": "with_retry",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 9
+    },
+    {
+      "file": "run_research.py",
+      "tool": "radon",
+      "name": "run",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 113
+    },
+    {
+      "file": "storage.py",
+      "tool": "radon",
+      "name": "get_connection",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 16
+    },
+    {
+      "file": "storage.py",
+      "tool": "radon",
+      "name": "init_db",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 23
+    },
+    {
+      "file": "storage.py",
+      "tool": "radon",
+      "name": "insert_evidence",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 44
+    },
+    {
+      "file": "tools\\extract.py",
+      "tool": "radon",
+      "name": "extract_claim",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 32
+    },
+    {
+      "file": "writer.py",
+      "tool": "radon",
+      "name": "write_section",
+      "type": "Function",
+      "complexity": 1,
+      "rank": "A",
+      "lineno": 71
+    }
+  ],
+  "behavior_entries": [
+    {
+      "file": "agent.py",
+      "complexity_info": {
+        "name": "run_research_loop",
+        "type": "Function",
+        "complexity": 12,
+        "rank": "C",
+        "lineno": 77
+      },
+      "behavior": {
+        "function": "run_research_loop",
+        "description": "【run_research_loop 契约】\n\n**输入**（agent.py 第77行签名）：\n- `question: str` —— 本次循环真正要研究的问题（可能是 Planner 拆出的子问题）\n- `memory_topic: str | None = None` —— 长期记忆分组标签，不传则等于 question（第80-81行 docstring）\n- `log_prefix: str = \"\"` —— 多线程并发打印时区分来源的前缀\n\n**输出**（第200-206行返回的 dict）：\n- `session_id`：本次循环生成的 8 位十六进制会话 ID（第84行 `uuid.uuid4().hex[:8]`）\n- `question`：原样返回传入的 question\n- `evidence`：`all_evidence` 列表，每项含 `source_id`、`name`、`status`（\"success\"/\"irrelevant\"）、`extracted_claim`、`url`、`for_query`（第165-171行）\n- `tool_call_count`：实际执行的 search 调用次数\n- `stop_reason`：停止原因，取值有 `sufficient_evidence`/`insufficient_evidence`（模型 finish 时，第133行）、`model_responded_without_tool_call`（第119行）、`forced_stop_max_tool_calls`（第184行）、`unspecified`（第133行默认）\n- `stop_note`：模型 finish 的 note 或强制停止说明\n- `elapsed_seconds`：循环耗时（秒，保留1位小数）\n\n**副作用（外部状态/文件/全局数据）**：\n1. **写数据库**：每次 search 后对每个页面调用 `insert_evidence(...)`（第151-158行），把证据写入存储层（storage.py 的 insert_evidence），写入字段含 session_id、question=memory_topic、for_query、url、name、retrieved_at、status、extracted_claim。这是最核心的持久化副作用。\n2. **读环境变量**：第86行 `os.environ[\"DEEPSEEK_API_KEY\"]`，调用前必须设置该环境变量，否则抛 KeyError。\n3. **打印输出**：多处 `print`（第134、141、148、186行），带 log_prefix 前缀，影响 stdout。\n4. **调用外部 API**：`tavily_search`（第143行）和 `client.chat.completions.create`（第91-96行，DeepSeek API），有网络副作用。\n5. **不修改全局变量**：`all_evidence`、`messages` 等都是函数内局部变量，不污染全局。\n\n**前置条件**：\n- 环境变量 `DEEPSEEK_API_KEY` 必须已设置（第86行）\n- 依赖模块 `context.today_str`、`retry.with_retry`、`storage.insert_evidence`、`tools.extract.extract_claim`、`tools.search.tavily_search` 可正常导入\n- 无其他显式前置条件（memory_topic 可选）\n\n**调用后保证**：\n- 函数总会返回一个 dict（不会抛异常退出，除非 API 重试耗尽——但 `with_retry` 只对 `openai.APIError` 重试2次，其他异常会向上抛）\n- 返回的 dict 一定包含上述 6 个键\n- 循环最多执行 `MAX_TOOL_CALLS=6` 次 search（第181-187行强制停止），不会无限循环\n- 若模型不调用工具，会被当作隐式 finish 处理（第117-121行），不会卡死\n\n【调用方须知】最该警惕的是：**这个函数会无条件向数据库写入证据（insert_evidence），即使某条证据被判定为 \"irrelevant\" 也会写入**（第151-158行对每个页面都调用 insert_evidence，status 为 \"irrelevant\" 的也入库）。调用方如果只想要\"成功证据\"，不能依赖返回值里的 evidence 过滤，必须自己按 status 过滤；而且写入的 question 用的是 `memory_topic`（不是 question），若调用方不传 memory_topic，则按 question 分组，但若传了，所有子问题的证据都会归到同一个 memory_topic 下——这会影响跨 session 查询的分组，调用方需明确自己传的 memory_topic 是否与预期分组一致。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数签名第77行 `def run_research_loop(question: str, memory_topic: str | None = None, log_prefix: str = \"\") -> dict:`；第80-81行 docstring 说明 memory_topic 默认等于 question；第84行 `session_id = uuid.uuid4().hex[:8]`；第86行 `client = OpenAI(api_key=os.environ[\"DEEPSEEK_API_KEY\"], ...)`；第91-96行 `call_model` 用 `@with_retry(max_retries=2, base_delay=1.5, exceptions=(openai.APIError,))`；第117-121行 `if not msg.tool_calls:` 设置 `stop_reason = \"model_responded_without_tool_call\"`；第133行 `stop_reason = args.get(\"reason\", \"unspecified\")`；第143行 `results = tavily_search(query)`；第151-158行 `source_id = insert_evidence(session_id=session_id, question=memory_topic, for_query=query, url=page.get(\"url\"), name=page.get(\"name\"), retrieved_at=retrieved_at, status=status, extracted_claim=extraction.get(\"claim\"))`；第165-171行构造 `entry` 和 `all_evidence`；第181-187行 `if tool_call_count >= MAX_TOOL_CALLS:` 设置 `stop_reason = \"forced_stop_max_tool_calls\"`；第200-206行返回 dict 含 `session_id`, `question`, `evidence`, `tool_call_count`, `stop_reason`, `stop_note`, `elapsed_seconds`。",
+        "verify_reasoning": "候选答案对函数契约的描述与代码逐条吻合：输入参数、输出键、副作用（写库、读环境变量、打印、调API）、前置条件（环境变量）、停止原因枚举、以及“irrelevant 也入库”和 memory_topic 分组的行为均能在代码中找到对应原文。"
+      }
+    },
+    {
+      "file": "app.py",
+      "complexity_info": {
+        "name": "_footnote_map",
+        "type": "Function",
+        "complexity": 15,
+        "rank": "C",
+        "lineno": 90
+      },
+      "behavior": {
+        "function": "_footnote_map",
+        "description": "函数 `_footnote_map(report: dict) -> dict[str, int]`（app.py 第90行）的契约如下：\n\n**输入**：一个字典 `report`，其结构需包含可选的 `sections`（列表，每个元素是含 `type` 字段的字典）和可选的 `caveats`（列表）。各 section 的 `type` 决定从哪个字段提取 `source_id`：`comparison_table` 取 `rows[].values[].source_id`；`timeline` 取 `events[].source_id`；`steps` 取 `steps[].source_id`；`item_list` 取 `items[].source_id`；`narrative` 取 `citations`（列表，元素直接是 sid）。`caveats` 取 `caveats[].source_id`。\n\n**输出**：一个字典，键为所有首次出现的非空 `source_id`，值为从 1 开始的递增整数（脚注编号），顺序按首次出现顺序。\n\n**副作用**：无。函数不修改 `report`，不写文件、不碰全局变量，只创建局部 `order`、`seen` 并返回新字典。\n\n**前置条件**：`report` 必须是字典；`sections`/`caveats` 若存在必须是可迭代的列表；各 section 的 `type` 若不在上述五种类型中则被静默忽略（不报错）；`source_id` 若为 `None` 或空字符串会被跳过（`note` 中 `if sid and sid not in seen`）。\n\n**后置保证**：返回字典中每个 sid 唯一、编号连续从 1 开始；未出现的 sid 不在结果中；调用方可用 `_sup(sid, fmap)` 生成上标。\n\n【调用方须知】该函数会**静默忽略** `type` 不在 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative` 这五种之内的 section——如果 `report` 里混入了其他类型的 section（例如拼写错误或新增类型），它的 `source_id` 会被悄悄丢弃，不会出现在返回的脚注映射里，导致对应引用在渲染时缺失上标，且没有任何报错提示。",
+        "agent_steps": 2,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数 `_footnote_map(report: dict) -> dict[str, int]` 定义于 app.py 第90行，代码与候选答案描述完全一致：输入为字典 `report`，遍历 `report.get(\"sections\", [])` 和 `report.get(\"caveats\", [])`，按 `type` 分支提取 `source_id`（comparison_table 取 `rows[].values[].source_id`，timeline 取 `events[].source_id`，steps 取 `steps[].source_id`，item_list 取 `items[].source_id`，narrative 取 `citations` 列表元素），caveats 取 `caveats[].source_id`。内部 `note(sid)` 用 `if sid and sid not in seen` 跳过空值并去重，`order` 记录首次出现顺序，最后 `return {sid: i + 1 for i, sid in enumerate(order)}` 生成从1开始的连续编号。函数无副作用，仅创建局部变量 `order`、`seen` 和内部函数 `note`，不修改 `report` 或任何外部状态。未知 `type` 的 section 被静默忽略（无 else 分支）。",
+        "verify_reasoning": "逐行核对代码后，候选答案对输入结构、输出格式、副作用、前置条件和后置保证的描述均与源码完全吻合，且【调用方须知】指出的静默忽略未知 type 的行为也准确无误。"
+      }
+    },
+    {
+      "file": "app.py",
+      "complexity_info": {
+        "name": "render_section_html",
+        "type": "Function",
+        "complexity": 14,
+        "rank": "C",
+        "lineno": 133
+      },
+      "behavior": {
+        "function": "render_section_html",
+        "description": "render_section_html(section: dict, fmap: dict[str, int]) -> str 的契约如下（依据 app.py 第133-180行）：\n\n**输入**\n- `section`：一个 dict，必须含 `type` 键（取值决定渲染分支），可选键有 `title`、`columns`、`rows`、`events`、`steps`、`items`、`citations`、`text` 等（第134行 `t = section.get(\"type\")`，第135行 `title = _esc(section.get(\"title\", \"\"))`）。\n- `fmap`：dict[str, int]，把 source_id 映射到脚注编号，供 `_sup` 使用（第137行 `_sup(v.get('source_id'), fmap)`）。\n\n**输出**\n- 返回一个字符串，是包裹在 `<div class='section-card'>` 里的 HTML 片段（第179行 `return f\"<div class='section-card'>...\"`）。\n\n**副作用**\n- 无。函数是纯函数，不修改任何外部状态、文件或全局数据；只读 `section` 和 `fmap`，返回新字符串。\n\n**前置条件**\n- `section` 必须是 dict，且 `type` 值需是 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative` 之一，否则 `body` 保持空字符串（第134-178行各分支，无 else 分支）。\n- `fmap` 需是 dict，且其值（编号）用于 `_sup` 生成 `<sup>` 标签；若 source_id 不在 fmap 中，`_sup` 返回空串（第125-128行）。\n- 各分支依赖的键（如 `rows`、`events`、`steps`、`items`、`citations`）若缺失，用 `.get(..., [])` 兜底为空列表，不会报错。\n\n**调用后保证**\n- 返回的 HTML 中所有文本都经过 `_esc`（html.escape）转义，防止 XSS（第135行、第139-177行各处）。\n- 若 `type` 不在已知集合，返回一个只有标题、body 为空的 section-card（第179行）。\n\n【调用方须知】当 `section` 的 `type` 不是那五种已知类型（比如拼写错误或新增类型）时，函数不会报错，而是静默返回一个 body 为空的 `<div class='section-card'>`——调用方若依赖返回的 HTML 里一定包含内容，会得到空白卡片，务必先校验 `type` 值。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数定义于第133行 `def render_section_html(section: dict, fmap: dict[str, int]) -> str:`，内部 `t = section.get(\"type\")`、`title = _esc(section.get(\"title\", \"\"))`、`body = \"\"`，各分支用 `.get` 兜底，最后 `return f\"<div class='section-card'>...\"`。无任何外部状态修改，`_esc` 使用 `html.escape`。",
+        "verify_reasoning": "候选答案对输入、输出、副作用、前置条件和调用后保证的描述与代码逐条吻合，且【调用方须知】指出的未知 type 静默返回空 body 的行为在代码中确实存在（无 else 分支）。"
+      }
+    },
+    {
+      "file": "dev_history\\run_v1.py",
+      "complexity_info": {
+        "name": "run",
+        "type": "Function",
+        "complexity": 6,
+        "rank": "B",
+        "lineno": 27
+      },
+      "behavior": {
+        "function": "run",
+        "description": "函数 `run()`（第27行）的契约如下：\n\n**输入**：无参数。它不接收任何调用方传入的数据，而是使用模块级常量 `DEMO_QUESTION = \"今日国际原油价格是多少\"`（第25行）作为唯一的研究问题。\n\n**输出**：无返回值（隐式返回 `None`）。它的全部输出都是通过 `print()` 打印到标准输出，包括研究问题、session_id、长期记忆查询结果、搜索结果数量、每条证据的状态和抽取声明，以及最后的证据记录汇总。\n\n**副作用**：\n1. **初始化数据库**：调用 `init_db()`（第29行），确保 SQLite 数据库（memory.db）存在并建好表。\n2. **写入数据库**：对每个搜索结果调用 `insert_evidence(...)`（第48-57行），把每条证据（含 session_id、问题、URL、名称、检索时间、状态、抽取声明）持久化写入数据库。\n3. **修改全局进程状态**：文件顶部执行 `sys.path.insert(0, str(PROJECT_ROOT))`（第17行）和 `sys.stdout.reconfigure(encoding=\"utf-8\")`（第18行），以及 `load_dotenv(PROJECT_ROOT / \".env\")`（第19行）加载环境变量——这些在 import 时即发生，属于模块级副作用。\n4. **调用外部搜索 API**：`bocha_search(DEMO_QUESTION, count=5)`（第39行）发起网络请求。\n\n**前置条件**：\n- 依赖 `storage`、`tools.extract`、`tools.search` 模块可导入，且 `tools.search.bocha_search` 能正常联网调用外部搜索服务。\n- 需要 `.env` 文件存在（`load_dotenv` 会尝试加载，但缺失时不会报错）。\n- 数据库可写（`init_db` 和 `insert_evidence` 需要文件系统写入权限）。\n\n**调用后保证**：\n- 数据库被初始化，且本次 session 的所有搜索结果都被写入 `memory.db`（每条记录带 `status` 字段，`\"success\"` 或 `\"irrelevant\"`，取决于 `extraction.get(\"relevant\")`，第42行）。\n- 标准输出会打印完整的证据记录汇总。\n\n【调用方须知】这个函数虽然名字叫 `run`，但它**不是可复用的库函数**——它写死了全局常量 `DEMO_QUESTION`，不接受任何参数，每次调用都会重新生成一个新的 `session_id`（第30行）并**向数据库插入新记录**，同时还会**发起真实的网络搜索请求**。如果你在测试或生产环境中误调用它，会重复写入数据库并消耗搜索 API 配额；而且它依赖模块顶部的 `sys.path` 修改和 `.env` 加载，脱离这个文件所在目录直接调用可能因路径问题失败。它本质上是这个历史版本脚本的入口，不是设计给外部调用的 API。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数 `run()` 在第27行定义，无参数，使用模块级常量 `DEMO_QUESTION = \"今日国际原油价格是多少\"`（第25行）。函数体调用 `init_db()`（第29行）、`uuid.uuid4().hex[:8]` 生成 session_id（第30行）、`find_past_evidence`（第33行）、`bocha_search(DEMO_QUESTION, count=5)`（第39行）、`extract_claim`（第43行）、`insert_evidence`（第48-57行），并打印输出。无 return 语句，隐式返回 None。模块顶部有 `sys.path.insert`、`sys.stdout.reconfigure`、`load_dotenv`（第17-19行）。",
+        "verify_reasoning": "候选答案对函数输入、输出、副作用、前置条件和保证的描述均与代码原文一致，且【调用方须知】准确指出了函数写死常量、每次生成新 session_id、插入数据库和发起网络请求等关键点。"
+      }
+    },
+    {
+      "file": "synthesizer.py",
+      "complexity_info": {
+        "name": "_collect_section_citations",
+        "type": "Function",
+        "complexity": 15,
+        "rank": "C",
+        "lineno": 90
+      },
+      "behavior": {
+        "function": "_collect_section_citations",
+        "description": "函数 `_collect_section_citations(section: dict) -> set[str]`（synthesizer.py:90-112）的契约如下：\n\n**输入**：一个 dict，表示一个 section（板块）。函数只读取 `section.get(\"type\")` 以及根据 type 分支读取的字段（`rows`/`events`/`steps`/`items`/`citations`）。\n\n**输出**：一个 `set[str]`，包含该板块内所有被引用的 source_id。具体规则（依据代码原文）：\n- `t == \"comparison_table\"`：遍历 `section.get(\"rows\", [])` 中每个 row 的 `row.get(\"values\", [])`，对每个 value 若 `v.get(\"source_id\")` 非空则加入（第93-97行）。\n- `t == \"timeline\"`：遍历 `section.get(\"events\", [])`，每个 `ev.get(\"source_id\")` 非空则加入（第98-101行）。\n- `t == \"steps\"`：遍历 `section.get(\"steps\", [])`，每个 `step.get(\"source_id\")` 非空则加入（第102-105行）。\n- `t == \"item_list\"`：遍历 `section.get(\"items\", [])`，每个 `item.get(\"source_id\")` 非空则加入（第106-109行）。\n- `t == \"narrative\"`：直接 `ids.update(section.get(\"citations\", []))`，把 `citations` 列表整体并入（第110-111行）。\n- 其他 type（或 type 缺失）：返回空集（第112行 `return ids`，此时 ids 为空）。\n\n**副作用**：无。函数只创建局部 `ids` 集合并返回，不修改传入的 `section`、不写文件、不改全局状态（代码中无任何赋值外部变量、无 I/O）。\n\n**前置条件**：\n- `section` 必须是 dict（否则 `section.get` 会抛 AttributeError）。\n- 各分支依赖的字段（`rows`、`events`、`steps`、`items`、`citations`）若缺失，代码用 `.get(..., [])` 兜底为空列表，不会崩溃；但若这些字段存在且不是可迭代对象（如 `rows` 是 None 或非列表），`for` 循环会抛 TypeError。\n- 对 `narrative` 分支，`citations` 若缺失则 `get(\"citations\", [])` 返回空列表，`update` 空列表安全；但若 `citations` 存在且不是可迭代对象（如字符串），`update` 会把字符串拆成字符加入集合，产生非预期结果。\n\n**后置保证**：\n- 返回的集合只包含字符串类型的 source_id（因为各分支只 `add`/`update` 来自 `get(\"source_id\")` 或 `citations` 的元素，且这些值在调用处被当作字符串使用）。\n- 对 `narrative` 分支，`citations` 里的元素会被原样加入，不做任何过滤（即使元素不是字符串、或为空字符串也会被加入）。\n- 对非 narrative 分支，只有 `source_id` 为真值（非 None、非空字符串、非 0 等）的元素才会被加入（因为 `if v.get(\"source_id\")` 判断真值）。\n\n**调用方须知**：最该警惕的是 `narrative` 分支与其它分支的语义不对称——`narrative` 直接 `ids.update(section.get(\"citations\", []))`，它不检查 `citations` 里元素的真值，也不要求元素是字符串；如果 `citations` 里混入了非字符串（如数字）或空字符串，这些值会被原样塞进返回的集合，而调用方（如 `validate_section_citations` 第121行、`_check_evidence_utilization` 第135行）拿这些值去和 `valid_ids`/`success_ids`（都是字符串集合）做 `in` 比较时，数字或空串永远匹配不上，会被误报为“引用了不存在的 source_id”或拉低利用率——所以调用方在构造 narrative 板块时，务必保证 `citations` 里只放非空字符串，且最好先做去重/清洗，否则会产生虚假的校验失败。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "代码原文（synthesizer.py 第90-112行）与候选答案逐条吻合：函数签名 `def _collect_section_citations(section: dict) -> set[str]`；各分支行为一致（comparison_table 遍历 rows→values→source_id，timeline 遍历 events，steps 遍历 steps，item_list 遍历 items，narrative 直接 `ids.update(section.get(\"citations\", []))`，其他返回空集）；无副作用（仅局部 ids）；前置条件（section 必须 dict，字段缺失用 .get 兜底，非可迭代会抛 TypeError，narrative 的 citations 非可迭代会被 update 拆解）；后置保证（narrative 不过滤真值，其他分支用 `if v.get(\"source_id\")` 过滤真值）。调用方须知指出的 narrative 分支不对称性（不检查真值、不要求字符串）与代码一致，且 validate_section_citations 和 _check_evidence_utilization 确实用该集合与字符串集合比较。",
+        "verify_reasoning": "候选答案对函数契约的描述与代码逐行核对完全一致，包括边界情况和副作用分析，没有发现任何不实之处。"
+      }
+    },
+    {
+      "file": "synthesizer.py",
+      "complexity_info": {
+        "name": "synthesize_report",
+        "type": "Function",
+        "complexity": 15,
+        "rank": "C",
+        "lineno": 149
+      },
+      "behavior": {
+        "function": "synthesize_report",
+        "description": "synthesize_report(question: str, evidence_records: list[dict], on_event=None) -> dict 的契约如下（依据 synthesizer.py 第149-212行）：\n\n**输入**：\n- `question`（str）：用户问题，直接透传进最终报告（第200行 `\"question\": question`）。\n- `evidence_records`（list[dict]）：证据记录列表，每项需含 `source_id`（必填，`build_sources` 中 `e[\"source_id\"]` 被直接索引，第42行）、`url`、`name`、`status`、`extracted_claim` 等字段（第44-49行、第73-78行）。\n- `on_event`（可选）：事件回调，透传给 `reporter.consolidate` 和 `writer.write_section`（第158、169、190行），并用于 `emit`（第164、197行）。\n\n**输出**：返回一个 dict，含三个键（第210-212行）：\n- `report`：dict，含 `question`、`headline`（来自 reporter，缺省回退为 question，第201行）、`lede`（缺省空串，第202行）、`sections`（list，每项是 writer 产出的板块 dict 或 None）、`caveats`（list，来自 reporter 的 preliminary_caveats 加上可能的利用率告警，第159、195-196行）、`sources`（去重后的来源列表，第205行）。\n- `unresolved_problems`：list[str]，重试耗尽后仍未解决的引用校验问题（第209行）。\n- `attempts`：int，总尝试轮数（至少为1，第207行）。\n\n**副作用**：\n- 无文件/全局数据写入。唯一外部影响是通过 `on_event` 回调发出进度事件（第164、197行），以及调用 `reporter.consolidate` 和 `writer.write_section`（这两个模块内部可能有自己的副作用，但本函数不直接改外部状态）。\n- 使用 `ThreadPoolExecutor` 并行执行 writer（第166-171行），会创建线程，但线程在函数返回前 join 完成。\n\n**前置条件**：\n- `evidence_records` 中每项必须有 `source_id` 键（第42行 `e[\"source_id\"]` 直接索引，缺失会 KeyError）。\n- `reporter` 和 `writer` 模块必须可导入（第7-8行 import）。\n- `on_event` 若提供，必须是可调用对象（`emit` 会调用它，见 events.py）。\n\n**调用后保证**：\n- 返回的 `report[\"sources\"]` 已按归一化 URL 去重，且每个 source_id 唯一（`build_sources` 保证，第35-52行）。\n- `report[\"sections\"]` 中每个板块的引用（source_id）要么在 `sources` 中存在，要么被记录在 `unresolved_problems` 中（第174-191行校验循环）。\n- 若证据充足但利用率低，`caveats` 会追加一条 `missing_data` 告警（第192-196行）。\n- 函数不抛异常（除非前置条件不满足），总是返回上述 dict 结构。\n\n【调用方须知】最容易被忽略的是：`sections` 列表中的元素可能是 `None`——当 `themes` 为空时（第165行 `sections = [None] * len(themes)`，len=0 则 sections 为空列表），或某个 writer 线程返回 None 时（第171行直接 `future.result()` 赋值，不校验），`report[\"sections\"]` 里会混入 None 值。调用方遍历 sections 时必须做 None 检查，否则对 None 取 `.get()` 会抛 AttributeError。此外，`unresolved_problems` 非空不代表报告不可用，只是某些板块引用了不存在的 source_id，调用方应自行决定是否展示。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "synthesize_report 定义于 synthesizer.py 第149行，函数体第149-212行。输入参数 question、evidence_records、on_event 与候选答案一致（第149行）。输出 dict 含 report、unresolved_problems、attempts 三键（第210-212行），report 含 question、headline、lede、sections、caveats、sources（第200-205行）。副作用：无文件/全局写入，仅通过 emit 回调 on_event（第164、197行）和调用 reporter.consolidate、writer.write_section（第158、169、190行）。前置条件：evidence_records 每项需有 source_id（build_sources 第42行 e[\"source_id\"] 直接索引），reporter/writer 模块导入（第7-8行）。调用后保证：sources 去重（build_sources 第35-52行），sections 引用校验（第174-191行），利用率告警（第192-196行）。候选答案关于 sections 可能含 None 的说法正确：第165行 sections 初始化为 [None]*len(themes)，若 themes 为空则 sections 为空列表；第171行 future.result() 直接赋值，若 writer 返回 None 则 sections 含 None。",
+        "verify_reasoning": "逐条对照代码确认了候选答案的所有具体描述，包括行号、函数行为、副作用和边界情况，均与 synthesizer.py 实际代码一致。"
+      }
+    },
+    {
+      "file": "synthesizer.py",
+      "complexity_info": {
+        "name": "_check_evidence_utilization",
+        "type": "Function",
+        "complexity": 6,
+        "rank": "B",
+        "lineno": 127
+      },
+      "behavior": {
+        "function": "_check_evidence_utilization",
+        "description": "函数 `_check_evidence_utilization(sections, evidence_for_llm) -> dict | None`（synthesizer.py 第127-146行）的契约如下：\n\n**输入**：\n- `sections: list[dict]`：报告各板块的字典列表（每个板块含 `type` 字段，如 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative`，以及对应的引用字段）。\n- `evidence_for_llm: list[dict]`：去重后的证据列表，每个元素含 `source_id` 和 `status` 字段（见 `_build_evidence_for_llm` 第70-84行）。\n\n**输出**：\n- 返回 `None` 或一个字典 `{\"issue\": str, \"severity\": \"missing_data\"}`。\n- 具体逻辑（第129-146行）：\n  - 若 `len(success_ids) < UTILIZATION_MIN_EVIDENCE`（即成功证据数 < 4，常量定义于第24行），直接返回 `None`（第131-132行）。\n  - 否则计算 `utilization = len(cited_ids & success_ids) / len(success_ids)`，若 `< UTILIZATION_THRESHOLD`（0.4，第25行），返回带 `issue` 和 `severity: \"missing_data\"` 的字典（第136-143行）；否则返回 `None`（第145行）。\n\n**副作用**：\n- 无。函数是纯函数，不修改任何外部状态、文件或全局数据；只读取 `sections` 和 `evidence_for_llm`，不改变它们。\n\n**前置条件**：\n- `evidence_for_llm` 中每个元素必须有 `source_id` 和 `status` 字段（第129行直接访问 `e[\"source_id\"]` 和 `e[\"status\"]`，若缺失会抛 KeyError）。\n- `sections` 中每个板块的 `type` 必须是 `_collect_section_citations`（第86-107行）能识别的类型（`comparison_table`/`timeline`/`steps`/`item_list`/`narrative`），否则该板块的引用不会被收集（`_collect_section_citations` 对未知类型返回空集合）。\n\n**调用后保证**：\n- 若返回非 `None`，其 `issue` 字符串会如实描述“共有 N 条可用证据，报告只直接引用了 M 条”，`severity` 恒为 `\"missing_data\"`。\n- 调用方（`synthesize_report` 第193-195行）会将该返回值追加到 `caveats` 列表，但不会触发重试（docstring 第128行明确“软性检查，不触发重试”）。\n\n【调用方须知】最容易被忽略的是：该函数只统计“成功证据”（`status == \"success\"`）的利用率，分母是 `success_ids` 的数量，而不是 `evidence_for_llm` 的总数；因此即使报告引用了大量失败/其他状态的证据，只要成功证据引用率 ≥ 0.4，就不会返回任何 caveat——调用方若想确保所有证据都被合理利用，不能只依赖此函数的返回值，因为它对非 success 证据的利用情况完全无感知。另外，若 `sections` 中某个板块的 `type` 不在 `_collect_section_citations` 识别的五种类型内，该板块的引用会被静默忽略，导致利用率被低估，可能误报“证据利用不足”。",
+        "agent_steps": 5,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数定义在第127-146行，输入为sections和evidence_for_llm，返回dict或None。第129行计算success_ids，第130行判断len(success_ids) < UTILIZATION_MIN_EVIDENCE（常量第24行=4）返回None；第132-134行收集cited_ids，第135行计算utilization，第136行判断< UTILIZATION_THRESHOLD（第25行=0.4）返回含issue和severity的字典，否则返回None。函数无副作用，仅读取参数。前置条件：第129行直接访问e[\"source_id\"]和e[\"status\"]，缺失会KeyError；_collect_section_citations（第86-107行）只识别五种type，未知类型返回空集。调用方在synthesize_report第193-195行追加到caveats，不触发重试。",
+        "verify_reasoning": "逐行核对代码，候选答案对输入输出、副作用、前置条件、调用后保证的描述与代码完全一致，且【调用方须知】指出的分母为success_ids而非总数、未知type静默忽略均属实。"
+      }
+    }
+  ],
+  "behavior_failures": [],
+  "file_reports": [
+    {
+      "file": "agent.py",
+      "raw": {
+        "总行数": 206,
+        "代码行数": 164,
+        "注释行数": 2,
+        "空行数": 26
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "run_research_loop",
+            "type": "Function",
+            "complexity": 12,
+            "rank": "C",
+            "lineno": 77
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "run_research_loop",
+            "description": "【run_research_loop 契约】\n\n**输入**（agent.py 第77行签名）：\n- `question: str` —— 本次循环真正要研究的问题（可能是 Planner 拆出的子问题）\n- `memory_topic: str | None = None` —— 长期记忆分组标签，不传则等于 question（第80-81行 docstring）\n- `log_prefix: str = \"\"` —— 多线程并发打印时区分来源的前缀\n\n**输出**（第200-206行返回的 dict）：\n- `session_id`：本次循环生成的 8 位十六进制会话 ID（第84行 `uuid.uuid4().hex[:8]`）\n- `question`：原样返回传入的 question\n- `evidence`：`all_evidence` 列表，每项含 `source_id`、`name`、`status`（\"success\"/\"irrelevant\"）、`extracted_claim`、`url`、`for_query`（第165-171行）\n- `tool_call_count`：实际执行的 search 调用次数\n- `stop_reason`：停止原因，取值有 `sufficient_evidence`/`insufficient_evidence`（模型 finish 时，第133行）、`model_responded_without_tool_call`（第119行）、`forced_stop_max_tool_calls`（第184行）、`unspecified`（第133行默认）\n- `stop_note`：模型 finish 的 note 或强制停止说明\n- `elapsed_seconds`：循环耗时（秒，保留1位小数）\n\n**副作用（外部状态/文件/全局数据）**：\n1. **写数据库**：每次 search 后对每个页面调用 `insert_evidence(...)`（第151-158行），把证据写入存储层（storage.py 的 insert_evidence），写入字段含 session_id、question=memory_topic、for_query、url、name、retrieved_at、status、extracted_claim。这是最核心的持久化副作用。\n2. **读环境变量**：第86行 `os.environ[\"DEEPSEEK_API_KEY\"]`，调用前必须设置该环境变量，否则抛 KeyError。\n3. **打印输出**：多处 `print`（第134、141、148、186行），带 log_prefix 前缀，影响 stdout。\n4. **调用外部 API**：`tavily_search`（第143行）和 `client.chat.completions.create`（第91-96行，DeepSeek API），有网络副作用。\n5. **不修改全局变量**：`all_evidence`、`messages` 等都是函数内局部变量，不污染全局。\n\n**前置条件**：\n- 环境变量 `DEEPSEEK_API_KEY` 必须已设置（第86行）\n- 依赖模块 `context.today_str`、`retry.with_retry`、`storage.insert_evidence`、`tools.extract.extract_claim`、`tools.search.tavily_search` 可正常导入\n- 无其他显式前置条件（memory_topic 可选）\n\n**调用后保证**：\n- 函数总会返回一个 dict（不会抛异常退出，除非 API 重试耗尽——但 `with_retry` 只对 `openai.APIError` 重试2次，其他异常会向上抛）\n- 返回的 dict 一定包含上述 6 个键\n- 循环最多执行 `MAX_TOOL_CALLS=6` 次 search（第181-187行强制停止），不会无限循环\n- 若模型不调用工具，会被当作隐式 finish 处理（第117-121行），不会卡死\n\n【调用方须知】最该警惕的是：**这个函数会无条件向数据库写入证据（insert_evidence），即使某条证据被判定为 \"irrelevant\" 也会写入**（第151-158行对每个页面都调用 insert_evidence，status 为 \"irrelevant\" 的也入库）。调用方如果只想要\"成功证据\"，不能依赖返回值里的 evidence 过滤，必须自己按 status 过滤；而且写入的 question 用的是 `memory_topic`（不是 question），若调用方不传 memory_topic，则按 question 分组，但若传了，所有子问题的证据都会归到同一个 memory_topic 下——这会影响跨 session 查询的分组，调用方需明确自己传的 memory_topic 是否与预期分组一致。",
+            "agent_steps": 3,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "函数签名第77行 `def run_research_loop(question: str, memory_topic: str | None = None, log_prefix: str = \"\") -> dict:`；第80-81行 docstring 说明 memory_topic 默认等于 question；第84行 `session_id = uuid.uuid4().hex[:8]`；第86行 `client = OpenAI(api_key=os.environ[\"DEEPSEEK_API_KEY\"], ...)`；第91-96行 `call_model` 用 `@with_retry(max_retries=2, base_delay=1.5, exceptions=(openai.APIError,))`；第117-121行 `if not msg.tool_calls:` 设置 `stop_reason = \"model_responded_without_tool_call\"`；第133行 `stop_reason = args.get(\"reason\", \"unspecified\")`；第143行 `results = tavily_search(query)`；第151-158行 `source_id = insert_evidence(session_id=session_id, question=memory_topic, for_query=query, url=page.get(\"url\"), name=page.get(\"name\"), retrieved_at=retrieved_at, status=status, extracted_claim=extraction.get(\"claim\"))`；第165-171行构造 `entry` 和 `all_evidence`；第181-187行 `if tool_call_count >= MAX_TOOL_CALLS:` 设置 `stop_reason = \"forced_stop_max_tool_calls\"`；第200-206行返回 dict 含 `session_id`, `question`, `evidence`, `tool_call_count`, `stop_reason`, `stop_note`, `elapsed_seconds`。",
+            "verify_reasoning": "候选答案对函数契约的描述与代码逐条吻合：输入参数、输出键、副作用（写库、读环境变量、打印、调API）、前置条件（环境变量）、停止原因枚举、以及“irrelevant 也入库”和 memory_topic 分组的行为均能在代码中找到对应原文。"
+          },
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "app.py",
+      "raw": {
+        "总行数": 346,
+        "代码行数": 269,
+        "注释行数": 10,
+        "空行数": 57
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "_footnote_map",
+            "type": "Function",
+            "complexity": 15,
+            "rank": "C",
+            "lineno": 90
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "_footnote_map",
+            "description": "函数 `_footnote_map(report: dict) -> dict[str, int]`（app.py 第90行）的契约如下：\n\n**输入**：一个字典 `report`，其结构需包含可选的 `sections`（列表，每个元素是含 `type` 字段的字典）和可选的 `caveats`（列表）。各 section 的 `type` 决定从哪个字段提取 `source_id`：`comparison_table` 取 `rows[].values[].source_id`；`timeline` 取 `events[].source_id`；`steps` 取 `steps[].source_id`；`item_list` 取 `items[].source_id`；`narrative` 取 `citations`（列表，元素直接是 sid）。`caveats` 取 `caveats[].source_id`。\n\n**输出**：一个字典，键为所有首次出现的非空 `source_id`，值为从 1 开始的递增整数（脚注编号），顺序按首次出现顺序。\n\n**副作用**：无。函数不修改 `report`，不写文件、不碰全局变量，只创建局部 `order`、`seen` 并返回新字典。\n\n**前置条件**：`report` 必须是字典；`sections`/`caveats` 若存在必须是可迭代的列表；各 section 的 `type` 若不在上述五种类型中则被静默忽略（不报错）；`source_id` 若为 `None` 或空字符串会被跳过（`note` 中 `if sid and sid not in seen`）。\n\n**后置保证**：返回字典中每个 sid 唯一、编号连续从 1 开始；未出现的 sid 不在结果中；调用方可用 `_sup(sid, fmap)` 生成上标。\n\n【调用方须知】该函数会**静默忽略** `type` 不在 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative` 这五种之内的 section——如果 `report` 里混入了其他类型的 section（例如拼写错误或新增类型），它的 `source_id` 会被悄悄丢弃，不会出现在返回的脚注映射里，导致对应引用在渲染时缺失上标，且没有任何报错提示。",
+            "agent_steps": 2,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "函数 `_footnote_map(report: dict) -> dict[str, int]` 定义于 app.py 第90行，代码与候选答案描述完全一致：输入为字典 `report`，遍历 `report.get(\"sections\", [])` 和 `report.get(\"caveats\", [])`，按 `type` 分支提取 `source_id`（comparison_table 取 `rows[].values[].source_id`，timeline 取 `events[].source_id`，steps 取 `steps[].source_id`，item_list 取 `items[].source_id`，narrative 取 `citations` 列表元素），caveats 取 `caveats[].source_id`。内部 `note(sid)` 用 `if sid and sid not in seen` 跳过空值并去重，`order` 记录首次出现顺序，最后 `return {sid: i + 1 for i, sid in enumerate(order)}` 生成从1开始的连续编号。函数无副作用，仅创建局部变量 `order`、`seen` 和内部函数 `note`，不修改 `report` 或任何外部状态。未知 `type` 的 section 被静默忽略（无 else 分支）。",
+            "verify_reasoning": "逐行核对代码后，候选答案对输入结构、输出格式、副作用、前置条件和后置保证的描述均与源码完全吻合，且【调用方须知】指出的静默忽略未知 type 的行为也准确无误。"
+          },
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "render_section_html",
+            "type": "Function",
+            "complexity": 14,
+            "rank": "C",
+            "lineno": 133
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "render_section_html",
+            "description": "render_section_html(section: dict, fmap: dict[str, int]) -> str 的契约如下（依据 app.py 第133-180行）：\n\n**输入**\n- `section`：一个 dict，必须含 `type` 键（取值决定渲染分支），可选键有 `title`、`columns`、`rows`、`events`、`steps`、`items`、`citations`、`text` 等（第134行 `t = section.get(\"type\")`，第135行 `title = _esc(section.get(\"title\", \"\"))`）。\n- `fmap`：dict[str, int]，把 source_id 映射到脚注编号，供 `_sup` 使用（第137行 `_sup(v.get('source_id'), fmap)`）。\n\n**输出**\n- 返回一个字符串，是包裹在 `<div class='section-card'>` 里的 HTML 片段（第179行 `return f\"<div class='section-card'>...\"`）。\n\n**副作用**\n- 无。函数是纯函数，不修改任何外部状态、文件或全局数据；只读 `section` 和 `fmap`，返回新字符串。\n\n**前置条件**\n- `section` 必须是 dict，且 `type` 值需是 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative` 之一，否则 `body` 保持空字符串（第134-178行各分支，无 else 分支）。\n- `fmap` 需是 dict，且其值（编号）用于 `_sup` 生成 `<sup>` 标签；若 source_id 不在 fmap 中，`_sup` 返回空串（第125-128行）。\n- 各分支依赖的键（如 `rows`、`events`、`steps`、`items`、`citations`）若缺失，用 `.get(..., [])` 兜底为空列表，不会报错。\n\n**调用后保证**\n- 返回的 HTML 中所有文本都经过 `_esc`（html.escape）转义，防止 XSS（第135行、第139-177行各处）。\n- 若 `type` 不在已知集合，返回一个只有标题、body 为空的 section-card（第179行）。\n\n【调用方须知】当 `section` 的 `type` 不是那五种已知类型（比如拼写错误或新增类型）时，函数不会报错，而是静默返回一个 body 为空的 `<div class='section-card'>`——调用方若依赖返回的 HTML 里一定包含内容，会得到空白卡片，务必先校验 `type` 值。",
+            "agent_steps": 3,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "函数定义于第133行 `def render_section_html(section: dict, fmap: dict[str, int]) -> str:`，内部 `t = section.get(\"type\")`、`title = _esc(section.get(\"title\", \"\"))`、`body = \"\"`，各分支用 `.get` 兜底，最后 `return f\"<div class='section-card'>...\"`。无任何外部状态修改，`_esc` 使用 `html.escape`。",
+            "verify_reasoning": "候选答案对输入、输出、副作用、前置条件和调用后保证的描述与代码逐条吻合，且【调用方须知】指出的未知 type 静默返回空 body 的行为在代码中确实存在（无 else 分支）。"
+          },
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "render_references_html",
+            "type": "Function",
+            "complexity": 5,
+            "rank": "A",
+            "lineno": 195
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "_sup",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 123
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "render_editor_note_html",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 182
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "_esc",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 129
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "_worker",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 276
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "context.py",
+      "raw": {
+        "总行数": 13,
+        "代码行数": 3,
+        "注释行数": 0,
+        "空行数": 4
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "today_str",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 12
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "dev_history\\demo_function_calling.py",
+      "raw": {
+        "总行数": 69,
+        "代码行数": 49,
+        "注释行数": 0,
+        "空行数": 15
+      },
+      "tool": "radon",
+      "entries": []
+    },
+    {
+      "file": "dev_history\\run_plan_demo.py",
+      "raw": {
+        "总行数": 42,
+        "代码行数": 24,
+        "注释行数": 0,
+        "空行数": 12
+      },
+      "tool": "radon",
+      "entries": []
+    },
+    {
+      "file": "dev_history\\run_v1.py",
+      "raw": {
+        "总行数": 83,
+        "代码行数": 60,
+        "注释行数": 1,
+        "空行数": 17
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "run",
+            "type": "Function",
+            "complexity": 6,
+            "rank": "B",
+            "lineno": 27
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "run",
+            "description": "函数 `run()`（第27行）的契约如下：\n\n**输入**：无参数。它不接收任何调用方传入的数据，而是使用模块级常量 `DEMO_QUESTION = \"今日国际原油价格是多少\"`（第25行）作为唯一的研究问题。\n\n**输出**：无返回值（隐式返回 `None`）。它的全部输出都是通过 `print()` 打印到标准输出，包括研究问题、session_id、长期记忆查询结果、搜索结果数量、每条证据的状态和抽取声明，以及最后的证据记录汇总。\n\n**副作用**：\n1. **初始化数据库**：调用 `init_db()`（第29行），确保 SQLite 数据库（memory.db）存在并建好表。\n2. **写入数据库**：对每个搜索结果调用 `insert_evidence(...)`（第48-57行），把每条证据（含 session_id、问题、URL、名称、检索时间、状态、抽取声明）持久化写入数据库。\n3. **修改全局进程状态**：文件顶部执行 `sys.path.insert(0, str(PROJECT_ROOT))`（第17行）和 `sys.stdout.reconfigure(encoding=\"utf-8\")`（第18行），以及 `load_dotenv(PROJECT_ROOT / \".env\")`（第19行）加载环境变量——这些在 import 时即发生，属于模块级副作用。\n4. **调用外部搜索 API**：`bocha_search(DEMO_QUESTION, count=5)`（第39行）发起网络请求。\n\n**前置条件**：\n- 依赖 `storage`、`tools.extract`、`tools.search` 模块可导入，且 `tools.search.bocha_search` 能正常联网调用外部搜索服务。\n- 需要 `.env` 文件存在（`load_dotenv` 会尝试加载，但缺失时不会报错）。\n- 数据库可写（`init_db` 和 `insert_evidence` 需要文件系统写入权限）。\n\n**调用后保证**：\n- 数据库被初始化，且本次 session 的所有搜索结果都被写入 `memory.db`（每条记录带 `status` 字段，`\"success\"` 或 `\"irrelevant\"`，取决于 `extraction.get(\"relevant\")`，第42行）。\n- 标准输出会打印完整的证据记录汇总。\n\n【调用方须知】这个函数虽然名字叫 `run`，但它**不是可复用的库函数**——它写死了全局常量 `DEMO_QUESTION`，不接受任何参数，每次调用都会重新生成一个新的 `session_id`（第30行）并**向数据库插入新记录**，同时还会**发起真实的网络搜索请求**。如果你在测试或生产环境中误调用它，会重复写入数据库并消耗搜索 API 配额；而且它依赖模块顶部的 `sys.path` 修改和 `.env` 加载，脱离这个文件所在目录直接调用可能因路径问题失败。它本质上是这个历史版本脚本的入口，不是设计给外部调用的 API。",
+            "agent_steps": 3,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "函数 `run()` 在第27行定义，无参数，使用模块级常量 `DEMO_QUESTION = \"今日国际原油价格是多少\"`（第25行）。函数体调用 `init_db()`（第29行）、`uuid.uuid4().hex[:8]` 生成 session_id（第30行）、`find_past_evidence`（第33行）、`bocha_search(DEMO_QUESTION, count=5)`（第39行）、`extract_claim`（第43行）、`insert_evidence`（第48-57行），并打印输出。无 return 语句，隐式返回 None。模块顶部有 `sys.path.insert`、`sys.stdout.reconfigure`、`load_dotenv`（第17-19行）。",
+            "verify_reasoning": "候选答案对函数输入、输出、副作用、前置条件和保证的描述均与代码原文一致，且【调用方须知】准确指出了函数写死常量、每次生成新 session_id、插入数据库和发起网络请求等关键点。"
+          },
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "dev_history\\run_v2.py",
+      "raw": {
+        "总行数": 42,
+        "代码行数": 24,
+        "注释行数": 0,
+        "空行数": 13
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "run",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 24
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "events.py",
+      "raw": {
+        "总行数": 9,
+        "代码行数": 4,
+        "注释行数": 0,
+        "空行数": 2
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "emit",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 6
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "planner.py",
+      "raw": {
+        "总行数": 62,
+        "代码行数": 39,
+        "注释行数": 1,
+        "空行数": 17
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "plan",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 39
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "reporter.py",
+      "raw": {
+        "总行数": 92,
+        "代码行数": 67,
+        "注释行数": 0,
+        "空行数": 15
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "consolidate",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 82
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "_call_llm",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 50
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "retry.py",
+      "raw": {
+        "总行数": 26,
+        "代码行数": 18,
+        "注释行数": 0,
+        "空行数": 5
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "with_retry",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 9
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "run_research.py",
+      "raw": {
+        "总行数": 124,
+        "代码行数": 86,
+        "注释行数": 1,
+        "空行数": 25
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "resolve_sub_queries",
+            "type": "Function",
+            "complexity": 5,
+            "rank": "A",
+            "lineno": 28
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "run_with_subqueries",
+            "type": "Function",
+            "complexity": 5,
+            "rank": "A",
+            "lineno": 50
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "run",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 113
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "storage.py",
+      "raw": {
+        "总行数": 78,
+        "代码行数": 58,
+        "注释行数": 0,
+        "空行数": 11
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "find_past_evidence",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 68
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "get_connection",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 16
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "init_db",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 23
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "insert_evidence",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 44
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "synthesizer.py",
+      "raw": {
+        "总行数": 212,
+        "代码行数": 156,
+        "注释行数": 4,
+        "空行数": 30
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "_collect_section_citations",
+            "type": "Function",
+            "complexity": 15,
+            "rank": "C",
+            "lineno": 90
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "_collect_section_citations",
+            "description": "函数 `_collect_section_citations(section: dict) -> set[str]`（synthesizer.py:90-112）的契约如下：\n\n**输入**：一个 dict，表示一个 section（板块）。函数只读取 `section.get(\"type\")` 以及根据 type 分支读取的字段（`rows`/`events`/`steps`/`items`/`citations`）。\n\n**输出**：一个 `set[str]`，包含该板块内所有被引用的 source_id。具体规则（依据代码原文）：\n- `t == \"comparison_table\"`：遍历 `section.get(\"rows\", [])` 中每个 row 的 `row.get(\"values\", [])`，对每个 value 若 `v.get(\"source_id\")` 非空则加入（第93-97行）。\n- `t == \"timeline\"`：遍历 `section.get(\"events\", [])`，每个 `ev.get(\"source_id\")` 非空则加入（第98-101行）。\n- `t == \"steps\"`：遍历 `section.get(\"steps\", [])`，每个 `step.get(\"source_id\")` 非空则加入（第102-105行）。\n- `t == \"item_list\"`：遍历 `section.get(\"items\", [])`，每个 `item.get(\"source_id\")` 非空则加入（第106-109行）。\n- `t == \"narrative\"`：直接 `ids.update(section.get(\"citations\", []))`，把 `citations` 列表整体并入（第110-111行）。\n- 其他 type（或 type 缺失）：返回空集（第112行 `return ids`，此时 ids 为空）。\n\n**副作用**：无。函数只创建局部 `ids` 集合并返回，不修改传入的 `section`、不写文件、不改全局状态（代码中无任何赋值外部变量、无 I/O）。\n\n**前置条件**：\n- `section` 必须是 dict（否则 `section.get` 会抛 AttributeError）。\n- 各分支依赖的字段（`rows`、`events`、`steps`、`items`、`citations`）若缺失，代码用 `.get(..., [])` 兜底为空列表，不会崩溃；但若这些字段存在且不是可迭代对象（如 `rows` 是 None 或非列表），`for` 循环会抛 TypeError。\n- 对 `narrative` 分支，`citations` 若缺失则 `get(\"citations\", [])` 返回空列表，`update` 空列表安全；但若 `citations` 存在且不是可迭代对象（如字符串），`update` 会把字符串拆成字符加入集合，产生非预期结果。\n\n**后置保证**：\n- 返回的集合只包含字符串类型的 source_id（因为各分支只 `add`/`update` 来自 `get(\"source_id\")` 或 `citations` 的元素，且这些值在调用处被当作字符串使用）。\n- 对 `narrative` 分支，`citations` 里的元素会被原样加入，不做任何过滤（即使元素不是字符串、或为空字符串也会被加入）。\n- 对非 narrative 分支，只有 `source_id` 为真值（非 None、非空字符串、非 0 等）的元素才会被加入（因为 `if v.get(\"source_id\")` 判断真值）。\n\n**调用方须知**：最该警惕的是 `narrative` 分支与其它分支的语义不对称——`narrative` 直接 `ids.update(section.get(\"citations\", []))`，它不检查 `citations` 里元素的真值，也不要求元素是字符串；如果 `citations` 里混入了非字符串（如数字）或空字符串，这些值会被原样塞进返回的集合，而调用方（如 `validate_section_citations` 第121行、`_check_evidence_utilization` 第135行）拿这些值去和 `valid_ids`/`success_ids`（都是字符串集合）做 `in` 比较时，数字或空串永远匹配不上，会被误报为“引用了不存在的 source_id”或拉低利用率——所以调用方在构造 narrative 板块时，务必保证 `citations` 里只放非空字符串，且最好先做去重/清洗，否则会产生虚假的校验失败。",
+            "agent_steps": 3,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "代码原文（synthesizer.py 第90-112行）与候选答案逐条吻合：函数签名 `def _collect_section_citations(section: dict) -> set[str]`；各分支行为一致（comparison_table 遍历 rows→values→source_id，timeline 遍历 events，steps 遍历 steps，item_list 遍历 items，narrative 直接 `ids.update(section.get(\"citations\", []))`，其他返回空集）；无副作用（仅局部 ids）；前置条件（section 必须 dict，字段缺失用 .get 兜底，非可迭代会抛 TypeError，narrative 的 citations 非可迭代会被 update 拆解）；后置保证（narrative 不过滤真值，其他分支用 `if v.get(\"source_id\")` 过滤真值）。调用方须知指出的 narrative 分支不对称性（不检查真值、不要求字符串）与代码一致，且 validate_section_citations 和 _check_evidence_utilization 确实用该集合与字符串集合比较。",
+            "verify_reasoning": "候选答案对函数契约的描述与代码逐行核对完全一致，包括边界情况和副作用分析，没有发现任何不实之处。"
+          },
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "synthesize_report",
+            "type": "Function",
+            "complexity": 15,
+            "rank": "C",
+            "lineno": 149
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "synthesize_report",
+            "description": "synthesize_report(question: str, evidence_records: list[dict], on_event=None) -> dict 的契约如下（依据 synthesizer.py 第149-212行）：\n\n**输入**：\n- `question`（str）：用户问题，直接透传进最终报告（第200行 `\"question\": question`）。\n- `evidence_records`（list[dict]）：证据记录列表，每项需含 `source_id`（必填，`build_sources` 中 `e[\"source_id\"]` 被直接索引，第42行）、`url`、`name`、`status`、`extracted_claim` 等字段（第44-49行、第73-78行）。\n- `on_event`（可选）：事件回调，透传给 `reporter.consolidate` 和 `writer.write_section`（第158、169、190行），并用于 `emit`（第164、197行）。\n\n**输出**：返回一个 dict，含三个键（第210-212行）：\n- `report`：dict，含 `question`、`headline`（来自 reporter，缺省回退为 question，第201行）、`lede`（缺省空串，第202行）、`sections`（list，每项是 writer 产出的板块 dict 或 None）、`caveats`（list，来自 reporter 的 preliminary_caveats 加上可能的利用率告警，第159、195-196行）、`sources`（去重后的来源列表，第205行）。\n- `unresolved_problems`：list[str]，重试耗尽后仍未解决的引用校验问题（第209行）。\n- `attempts`：int，总尝试轮数（至少为1，第207行）。\n\n**副作用**：\n- 无文件/全局数据写入。唯一外部影响是通过 `on_event` 回调发出进度事件（第164、197行），以及调用 `reporter.consolidate` 和 `writer.write_section`（这两个模块内部可能有自己的副作用，但本函数不直接改外部状态）。\n- 使用 `ThreadPoolExecutor` 并行执行 writer（第166-171行），会创建线程，但线程在函数返回前 join 完成。\n\n**前置条件**：\n- `evidence_records` 中每项必须有 `source_id` 键（第42行 `e[\"source_id\"]` 直接索引，缺失会 KeyError）。\n- `reporter` 和 `writer` 模块必须可导入（第7-8行 import）。\n- `on_event` 若提供，必须是可调用对象（`emit` 会调用它，见 events.py）。\n\n**调用后保证**：\n- 返回的 `report[\"sources\"]` 已按归一化 URL 去重，且每个 source_id 唯一（`build_sources` 保证，第35-52行）。\n- `report[\"sections\"]` 中每个板块的引用（source_id）要么在 `sources` 中存在，要么被记录在 `unresolved_problems` 中（第174-191行校验循环）。\n- 若证据充足但利用率低，`caveats` 会追加一条 `missing_data` 告警（第192-196行）。\n- 函数不抛异常（除非前置条件不满足），总是返回上述 dict 结构。\n\n【调用方须知】最容易被忽略的是：`sections` 列表中的元素可能是 `None`——当 `themes` 为空时（第165行 `sections = [None] * len(themes)`，len=0 则 sections 为空列表），或某个 writer 线程返回 None 时（第171行直接 `future.result()` 赋值，不校验），`report[\"sections\"]` 里会混入 None 值。调用方遍历 sections 时必须做 None 检查，否则对 None 取 `.get()` 会抛 AttributeError。此外，`unresolved_problems` 非空不代表报告不可用，只是某些板块引用了不存在的 source_id，调用方应自行决定是否展示。",
+            "agent_steps": 3,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "synthesize_report 定义于 synthesizer.py 第149行，函数体第149-212行。输入参数 question、evidence_records、on_event 与候选答案一致（第149行）。输出 dict 含 report、unresolved_problems、attempts 三键（第210-212行），report 含 question、headline、lede、sections、caveats、sources（第200-205行）。副作用：无文件/全局写入，仅通过 emit 回调 on_event（第164、197行）和调用 reporter.consolidate、writer.write_section（第158、169、190行）。前置条件：evidence_records 每项需有 source_id（build_sources 第42行 e[\"source_id\"] 直接索引），reporter/writer 模块导入（第7-8行）。调用后保证：sources 去重（build_sources 第35-52行），sections 引用校验（第174-191行），利用率告警（第192-196行）。候选答案关于 sections 可能含 None 的说法正确：第165行 sections 初始化为 [None]*len(themes)，若 themes 为空则 sections 为空列表；第171行 future.result() 直接赋值，若 writer 返回 None 则 sections 含 None。",
+            "verify_reasoning": "逐条对照代码确认了候选答案的所有具体描述，包括行号、函数行为、副作用和边界情况，均与 synthesizer.py 实际代码一致。"
+          },
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "_check_evidence_utilization",
+            "type": "Function",
+            "complexity": 6,
+            "rank": "B",
+            "lineno": 127
+          },
+          "tool": "radon",
+          "behavior": {
+            "function": "_check_evidence_utilization",
+            "description": "函数 `_check_evidence_utilization(sections, evidence_for_llm) -> dict | None`（synthesizer.py 第127-146行）的契约如下：\n\n**输入**：\n- `sections: list[dict]`：报告各板块的字典列表（每个板块含 `type` 字段，如 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative`，以及对应的引用字段）。\n- `evidence_for_llm: list[dict]`：去重后的证据列表，每个元素含 `source_id` 和 `status` 字段（见 `_build_evidence_for_llm` 第70-84行）。\n\n**输出**：\n- 返回 `None` 或一个字典 `{\"issue\": str, \"severity\": \"missing_data\"}`。\n- 具体逻辑（第129-146行）：\n  - 若 `len(success_ids) < UTILIZATION_MIN_EVIDENCE`（即成功证据数 < 4，常量定义于第24行），直接返回 `None`（第131-132行）。\n  - 否则计算 `utilization = len(cited_ids & success_ids) / len(success_ids)`，若 `< UTILIZATION_THRESHOLD`（0.4，第25行），返回带 `issue` 和 `severity: \"missing_data\"` 的字典（第136-143行）；否则返回 `None`（第145行）。\n\n**副作用**：\n- 无。函数是纯函数，不修改任何外部状态、文件或全局数据；只读取 `sections` 和 `evidence_for_llm`，不改变它们。\n\n**前置条件**：\n- `evidence_for_llm` 中每个元素必须有 `source_id` 和 `status` 字段（第129行直接访问 `e[\"source_id\"]` 和 `e[\"status\"]`，若缺失会抛 KeyError）。\n- `sections` 中每个板块的 `type` 必须是 `_collect_section_citations`（第86-107行）能识别的类型（`comparison_table`/`timeline`/`steps`/`item_list`/`narrative`），否则该板块的引用不会被收集（`_collect_section_citations` 对未知类型返回空集合）。\n\n**调用后保证**：\n- 若返回非 `None`，其 `issue` 字符串会如实描述“共有 N 条可用证据，报告只直接引用了 M 条”，`severity` 恒为 `\"missing_data\"`。\n- 调用方（`synthesize_report` 第193-195行）会将该返回值追加到 `caveats` 列表，但不会触发重试（docstring 第128行明确“软性检查，不触发重试”）。\n\n【调用方须知】最容易被忽略的是：该函数只统计“成功证据”（`status == \"success\"`）的利用率，分母是 `success_ids` 的数量，而不是 `evidence_for_llm` 的总数；因此即使报告引用了大量失败/其他状态的证据，只要成功证据引用率 ≥ 0.4，就不会返回任何 caveat——调用方若想确保所有证据都被合理利用，不能只依赖此函数的返回值，因为它对非 success 证据的利用情况完全无感知。另外，若 `sections` 中某个板块的 `type` 不在 `_collect_section_citations` 识别的五种类型内，该板块的引用会被静默忽略，导致利用率被低估，可能误报“证据利用不足”。",
+            "agent_steps": 5,
+            "agent_hit_cap": false,
+            "verified": true,
+            "verify_evidence": "函数定义在第127-146行，输入为sections和evidence_for_llm，返回dict或None。第129行计算success_ids，第130行判断len(success_ids) < UTILIZATION_MIN_EVIDENCE（常量第24行=4）返回None；第132-134行收集cited_ids，第135行计算utilization，第136行判断< UTILIZATION_THRESHOLD（第25行=0.4）返回含issue和severity的字典，否则返回None。函数无副作用，仅读取参数。前置条件：第129行直接访问e[\"source_id\"]和e[\"status\"]，缺失会KeyError；_collect_section_citations（第86-107行）只识别五种type，未知类型返回空集。调用方在synthesize_report第193-195行追加到caveats，不触发重试。",
+            "verify_reasoning": "逐行核对代码，候选答案对输入输出、副作用、前置条件、调用后保证的描述与代码完全一致，且【调用方须知】指出的分母为success_ids而非总数、未知type静默忽略均属实。"
+          },
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "normalize_url",
+            "type": "Function",
+            "complexity": 4,
+            "rank": "A",
+            "lineno": 23
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "build_sources",
+            "type": "Function",
+            "complexity": 4,
+            "rank": "A",
+            "lineno": 40
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "_build_evidence_for_llm",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 69
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "validate_section_citations",
+            "type": "Function",
+            "complexity": 3,
+            "rank": "A",
+            "lineno": 115
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "tools\\__init__.py",
+      "raw": {
+        "总行数": 0,
+        "代码行数": 0,
+        "注释行数": 0,
+        "空行数": 0
+      },
+      "tool": "radon",
+      "entries": []
+    },
+    {
+      "file": "tools\\extract.py",
+      "raw": {
+        "总行数": 55,
+        "代码行数": 44,
+        "注释行数": 0,
+        "空行数": 10
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "_get_client",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 24
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "extract_claim",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 32
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "tools\\search.py",
+      "raw": {
+        "总行数": 41,
+        "代码行数": 29,
+        "注释行数": 0,
+        "空行数": 6
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "tavily_search",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 11
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    },
+    {
+      "file": "writer.py",
+      "raw": {
+        "总行数": 75,
+        "代码行数": 60,
+        "注释行数": 0,
+        "空行数": 11
+      },
+      "tool": "radon",
+      "entries": [
+        {
+          "complexity_info": {
+            "name": "_call_llm",
+            "type": "Function",
+            "complexity": 2,
+            "rank": "A",
+            "lineno": 48
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        },
+        {
+          "complexity_info": {
+            "name": "write_section",
+            "type": "Function",
+            "complexity": 1,
+            "rank": "A",
+            "lineno": 71
+          },
+          "tool": "radon",
+          "behavior": null,
+          "behavior_error": null
+        }
+      ]
+    }
+  ],
+  "narrative": {
+    "narrative": "这个项目是一个通用研究 Agent（Deep Research Agent），面向需要把开放式研究问题自动转成带引用、可追溯的结构化报告的场景。用户输入一个问题，系统自动拆解、多来源并行检索、整合成报告，并如实标注来源冲突或证据不足，不假装确定。它刻意不绑定单一领域，核心价值是“每句话都能追溯到真实来源”，判断信不信留给读者。\n\n主要模块及职责边界（依据各文件 docstring 与 README）：\n- planner.py：纯推理调用（不带 tools），判断问题是否够清楚；不清楚则反问并给选项，清楚则拆成 1~3 个子问题（硬上限 MAX_SUB_QUERIES=3）。\n- agent.py：Tool Use 循环，LLM 通过 function calling 自主决定 search/finish；硬性步数上限 MAX_TOOL_CALLS=6 是唯一规则型兜底。\n- run_research.py：终端入口，编排 Planner → 并行 Researcher（ThreadPoolExecutor 横向 Multi-Agent）→ 记者/笔杆子；resolve_sub_queries 处理反问循环（MAX_CLARIFY_ROUNDS=3）。\n- synthesizer.py：编排记者+笔杆子、组装报告、跑引用校验 Reflection Loop（只重试有问题的板块）、检查证据利用率。\n- reporter.py：记者，核实证据、合并同一事实的多来源报道、分主题、写 headline/lede/caveats。\n- writer.py：笔杆子，每个主题并行写一个板块，自选 comparison_table/timeline/steps/item_list/narrative。\n- storage.py：SQLite 证据台账，兼作跨 session 长期记忆（按 question 查询）。\n- tools/search.py：真实 Tool Use，调用 Tavily Search API；tools/extract.py：从搜索结果抽取事实（纯 LLM 推理）。\n- app.py：Streamlit 网页壳，复用 run_research.py 同一套逻辑，后台线程+队列驱动实时状态面板。\n- events.py/context.py/retry.py：进度上报、注入今天日期、外部 API 重试。\n\n关键不变量/合法流程（最重要，后续对照检查用）：\n1. 引用可追溯：报告里每个 source_id 必须存在于 sources 列表（validate_section_citations 校验），且 source_id 只能出现在对应字段（values/events/items 的 source_id 或 narrative 的 citations），正文文字绝不能出现“s123”或“据s123报道”（writer.py prompt 明确禁止）。\n2. 来源去重：同一 URL 归一化后只算一个来源、一个 source_id（normalize_url 剥离 www./m. 等前缀），build_sources 生成 remap，记者/笔杆子看到的输入里同一 canonical id 只出现一次，杜绝重复引用注水。\n3. 证据状态合法：只有 status=success 的证据能支撑事实，irrelevant 不能用（reporter prompt 第1条）；extract_claim 返回 relevant 决定 status。\n4. 停止条件合法：agent.py 循环必须调用 search 或 finish 之一；finish 的 reason 只能是 sufficient_evidence/insufficient_evidence；达到 MAX_TOOL_CALLS 强制停止（forced_stop_max_tool_calls），模型没调工具时按隐式 finish 处理，不让循环卡死。\n5. 反问流程合法：Planner 返回 needs_clarification 时不能直接取 sub_queries（会 KeyError），必须循环最多 MAX_CLARIFY_ROUNDS 轮，超限用原始问题兜底（run_research.py 和 app.py 都实现了）。\n6. 引用校验闭环：校验不过的板块必须重写（喂回具体问题），不是只检测不重试；重试用尽后 unresolved_problems 必须如实展示，不能悄悄放行（run_research.py 打印、app.py 显示 error）。\n7. 数据不丢失：网页版完整过程日志被捕获进 trace_buffer，可展开查看；caveats 收进“编辑说明”板块，样式收敛但完整可见。\n8. 长期记忆：storage.py 按 question 分组，跨 session 可查（find_past_evidence），同一次研究内按 session_id 分组。\n\n设计特点/取舍：\n- 规则型 vs 权衡型：能机械判定的（工具调用上限、引用校验、子问题/主题数量上限、重试）写死成代码；没有固定答案的（要不要再搜、主题怎么分、报告怎么组织、来源冲突怎么处理）交给 LLM。\n- 两种 Multi-Agent：横向并行（多个 Researcher 查不同子问题）+ 纵向流水线（记者→笔杆子角色接力，笔杆子内部并行）。\n- 可靠性 = 引用可追溯 + 主动暴露不确定性，不等于内容一定为真；引用渲染成脚注编号但底层校验不受影响（显示层与数据层分离）。\n- 搜索源与上层解耦：tools/search.py 返回固定字典形状（name/url/snippet/summary/date_published），换源只改这一个文件。\n- 所有 LLM 调用显式设 max_tokens，Reporter 截断时用更精简 prompt 重试一次，防止 JSON 被硬切断。",
+    "agent_steps": 16,
+    "agent_hit_cap": false,
+    "verified": null,
+    "verify_evidence": "",
+    "verify_reasoning": "超过核实步数上限，未能完成核实"
+  },
+  "judged_behaviors": [
+    {
+      "file": "agent.py",
+      "complexity_info": {
+        "name": "run_research_loop",
+        "type": "Function",
+        "complexity": 12,
+        "rank": "C",
+        "lineno": 77
+      },
+      "behavior": {
+        "function": "run_research_loop",
+        "description": "【run_research_loop 契约】\n\n**输入**（agent.py 第77行签名）：\n- `question: str` —— 本次循环真正要研究的问题（可能是 Planner 拆出的子问题）\n- `memory_topic: str | None = None` —— 长期记忆分组标签，不传则等于 question（第80-81行 docstring）\n- `log_prefix: str = \"\"` —— 多线程并发打印时区分来源的前缀\n\n**输出**（第200-206行返回的 dict）：\n- `session_id`：本次循环生成的 8 位十六进制会话 ID（第84行 `uuid.uuid4().hex[:8]`）\n- `question`：原样返回传入的 question\n- `evidence`：`all_evidence` 列表，每项含 `source_id`、`name`、`status`（\"success\"/\"irrelevant\"）、`extracted_claim`、`url`、`for_query`（第165-171行）\n- `tool_call_count`：实际执行的 search 调用次数\n- `stop_reason`：停止原因，取值有 `sufficient_evidence`/`insufficient_evidence`（模型 finish 时，第133行）、`model_responded_without_tool_call`（第119行）、`forced_stop_max_tool_calls`（第184行）、`unspecified`（第133行默认）\n- `stop_note`：模型 finish 的 note 或强制停止说明\n- `elapsed_seconds`：循环耗时（秒，保留1位小数）\n\n**副作用（外部状态/文件/全局数据）**：\n1. **写数据库**：每次 search 后对每个页面调用 `insert_evidence(...)`（第151-158行），把证据写入存储层（storage.py 的 insert_evidence），写入字段含 session_id、question=memory_topic、for_query、url、name、retrieved_at、status、extracted_claim。这是最核心的持久化副作用。\n2. **读环境变量**：第86行 `os.environ[\"DEEPSEEK_API_KEY\"]`，调用前必须设置该环境变量，否则抛 KeyError。\n3. **打印输出**：多处 `print`（第134、141、148、186行），带 log_prefix 前缀，影响 stdout。\n4. **调用外部 API**：`tavily_search`（第143行）和 `client.chat.completions.create`（第91-96行，DeepSeek API），有网络副作用。\n5. **不修改全局变量**：`all_evidence`、`messages` 等都是函数内局部变量，不污染全局。\n\n**前置条件**：\n- 环境变量 `DEEPSEEK_API_KEY` 必须已设置（第86行）\n- 依赖模块 `context.today_str`、`retry.with_retry`、`storage.insert_evidence`、`tools.extract.extract_claim`、`tools.search.tavily_search` 可正常导入\n- 无其他显式前置条件（memory_topic 可选）\n\n**调用后保证**：\n- 函数总会返回一个 dict（不会抛异常退出，除非 API 重试耗尽——但 `with_retry` 只对 `openai.APIError` 重试2次，其他异常会向上抛）\n- 返回的 dict 一定包含上述 6 个键\n- 循环最多执行 `MAX_TOOL_CALLS=6` 次 search（第181-187行强制停止），不会无限循环\n- 若模型不调用工具，会被当作隐式 finish 处理（第117-121行），不会卡死\n\n【调用方须知】最该警惕的是：**这个函数会无条件向数据库写入证据（insert_evidence），即使某条证据被判定为 \"irrelevant\" 也会写入**（第151-158行对每个页面都调用 insert_evidence，status 为 \"irrelevant\" 的也入库）。调用方如果只想要\"成功证据\"，不能依赖返回值里的 evidence 过滤，必须自己按 status 过滤；而且写入的 question 用的是 `memory_topic`（不是 question），若调用方不传 memory_topic，则按 question 分组，但若传了，所有子问题的证据都会归到同一个 memory_topic 下——这会影响跨 session 查询的分组，调用方需明确自己传的 memory_topic 是否与预期分组一致。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数签名第77行 `def run_research_loop(question: str, memory_topic: str | None = None, log_prefix: str = \"\") -> dict:`；第80-81行 docstring 说明 memory_topic 默认等于 question；第84行 `session_id = uuid.uuid4().hex[:8]`；第86行 `client = OpenAI(api_key=os.environ[\"DEEPSEEK_API_KEY\"], ...)`；第91-96行 `call_model` 用 `@with_retry(max_retries=2, base_delay=1.5, exceptions=(openai.APIError,))`；第117-121行 `if not msg.tool_calls:` 设置 `stop_reason = \"model_responded_without_tool_call\"`；第133行 `stop_reason = args.get(\"reason\", \"unspecified\")`；第143行 `results = tavily_search(query)`；第151-158行 `source_id = insert_evidence(session_id=session_id, question=memory_topic, for_query=query, url=page.get(\"url\"), name=page.get(\"name\"), retrieved_at=retrieved_at, status=status, extracted_claim=extraction.get(\"claim\"))`；第165-171行构造 `entry` 和 `all_evidence`；第181-187行 `if tool_call_count >= MAX_TOOL_CALLS:` 设置 `stop_reason = \"forced_stop_max_tool_calls\"`；第200-206行返回 dict 含 `session_id`, `question`, `evidence`, `tool_call_count`, `stop_reason`, `stop_note`, `elapsed_seconds`。",
+        "verify_reasoning": "候选答案对函数契约的描述与代码逐条吻合：输入参数、输出键、副作用（写库、读环境变量、打印、调API）、前置条件（环境变量）、停止原因枚举、以及“irrelevant 也入库”和 memory_topic 分组的行为均能在代码中找到对应原文。"
+      },
+      "judgment": {
+        "verdict": "unclear",
+        "matched_invariant": "",
+        "reasoning": "行为描述未提及引用可追溯、来源去重、证据状态合法性、停止条件、反问流程、引用校验闭环、数据不丢失或长期记忆的具体细节，无法对照不变量判断。"
+      }
+    },
+    {
+      "file": "app.py",
+      "complexity_info": {
+        "name": "_footnote_map",
+        "type": "Function",
+        "complexity": 15,
+        "rank": "C",
+        "lineno": 90
+      },
+      "behavior": {
+        "function": "_footnote_map",
+        "description": "函数 `_footnote_map(report: dict) -> dict[str, int]`（app.py 第90行）的契约如下：\n\n**输入**：一个字典 `report`，其结构需包含可选的 `sections`（列表，每个元素是含 `type` 字段的字典）和可选的 `caveats`（列表）。各 section 的 `type` 决定从哪个字段提取 `source_id`：`comparison_table` 取 `rows[].values[].source_id`；`timeline` 取 `events[].source_id`；`steps` 取 `steps[].source_id`；`item_list` 取 `items[].source_id`；`narrative` 取 `citations`（列表，元素直接是 sid）。`caveats` 取 `caveats[].source_id`。\n\n**输出**：一个字典，键为所有首次出现的非空 `source_id`，值为从 1 开始的递增整数（脚注编号），顺序按首次出现顺序。\n\n**副作用**：无。函数不修改 `report`，不写文件、不碰全局变量，只创建局部 `order`、`seen` 并返回新字典。\n\n**前置条件**：`report` 必须是字典；`sections`/`caveats` 若存在必须是可迭代的列表；各 section 的 `type` 若不在上述五种类型中则被静默忽略（不报错）；`source_id` 若为 `None` 或空字符串会被跳过（`note` 中 `if sid and sid not in seen`）。\n\n**后置保证**：返回字典中每个 sid 唯一、编号连续从 1 开始；未出现的 sid 不在结果中；调用方可用 `_sup(sid, fmap)` 生成上标。\n\n【调用方须知】该函数会**静默忽略** `type` 不在 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative` 这五种之内的 section——如果 `report` 里混入了其他类型的 section（例如拼写错误或新增类型），它的 `source_id` 会被悄悄丢弃，不会出现在返回的脚注映射里，导致对应引用在渲染时缺失上标，且没有任何报错提示。",
+        "agent_steps": 2,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数 `_footnote_map(report: dict) -> dict[str, int]` 定义于 app.py 第90行，代码与候选答案描述完全一致：输入为字典 `report`，遍历 `report.get(\"sections\", [])` 和 `report.get(\"caveats\", [])`，按 `type` 分支提取 `source_id`（comparison_table 取 `rows[].values[].source_id`，timeline 取 `events[].source_id`，steps 取 `steps[].source_id`，item_list 取 `items[].source_id`，narrative 取 `citations` 列表元素），caveats 取 `caveats[].source_id`。内部 `note(sid)` 用 `if sid and sid not in seen` 跳过空值并去重，`order` 记录首次出现顺序，最后 `return {sid: i + 1 for i, sid in enumerate(order)}` 生成从1开始的连续编号。函数无副作用，仅创建局部变量 `order`、`seen` 和内部函数 `note`，不修改 `report` 或任何外部状态。未知 `type` 的 section 被静默忽略（无 else 分支）。",
+        "verify_reasoning": "逐行核对代码后，候选答案对输入结构、输出格式、副作用、前置条件和后置保证的描述均与源码完全吻合，且【调用方须知】指出的静默忽略未知 type 的行为也准确无误。"
+      },
+      "judgment": {
+        "verdict": "support",
+        "matched_invariant": "",
+        "reasoning": "行为描述未涉及任何不变量相关细节，仅描述脚注映射的提取与编号逻辑，未违反引用可追溯、来源去重等不变量。"
+      }
+    },
+    {
+      "file": "app.py",
+      "complexity_info": {
+        "name": "render_section_html",
+        "type": "Function",
+        "complexity": 14,
+        "rank": "C",
+        "lineno": 133
+      },
+      "behavior": {
+        "function": "render_section_html",
+        "description": "render_section_html(section: dict, fmap: dict[str, int]) -> str 的契约如下（依据 app.py 第133-180行）：\n\n**输入**\n- `section`：一个 dict，必须含 `type` 键（取值决定渲染分支），可选键有 `title`、`columns`、`rows`、`events`、`steps`、`items`、`citations`、`text` 等（第134行 `t = section.get(\"type\")`，第135行 `title = _esc(section.get(\"title\", \"\"))`）。\n- `fmap`：dict[str, int]，把 source_id 映射到脚注编号，供 `_sup` 使用（第137行 `_sup(v.get('source_id'), fmap)`）。\n\n**输出**\n- 返回一个字符串，是包裹在 `<div class='section-card'>` 里的 HTML 片段（第179行 `return f\"<div class='section-card'>...\"`）。\n\n**副作用**\n- 无。函数是纯函数，不修改任何外部状态、文件或全局数据；只读 `section` 和 `fmap`，返回新字符串。\n\n**前置条件**\n- `section` 必须是 dict，且 `type` 值需是 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative` 之一，否则 `body` 保持空字符串（第134-178行各分支，无 else 分支）。\n- `fmap` 需是 dict，且其值（编号）用于 `_sup` 生成 `<sup>` 标签；若 source_id 不在 fmap 中，`_sup` 返回空串（第125-128行）。\n- 各分支依赖的键（如 `rows`、`events`、`steps`、`items`、`citations`）若缺失，用 `.get(..., [])` 兜底为空列表，不会报错。\n\n**调用后保证**\n- 返回的 HTML 中所有文本都经过 `_esc`（html.escape）转义，防止 XSS（第135行、第139-177行各处）。\n- 若 `type` 不在已知集合，返回一个只有标题、body 为空的 section-card（第179行）。\n\n【调用方须知】当 `section` 的 `type` 不是那五种已知类型（比如拼写错误或新增类型）时，函数不会报错，而是静默返回一个 body 为空的 `<div class='section-card'>`——调用方若依赖返回的 HTML 里一定包含内容，会得到空白卡片，务必先校验 `type` 值。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数定义于第133行 `def render_section_html(section: dict, fmap: dict[str, int]) -> str:`，内部 `t = section.get(\"type\")`、`title = _esc(section.get(\"title\", \"\"))`、`body = \"\"`，各分支用 `.get` 兜底，最后 `return f\"<div class='section-card'>...\"`。无任何外部状态修改，`_esc` 使用 `html.escape`。",
+        "verify_reasoning": "候选答案对输入、输出、副作用、前置条件和调用后保证的描述与代码逐条吻合，且【调用方须知】指出的未知 type 静默返回空 body 的行为在代码中确实存在（无 else 分支）。"
+      },
+      "judgment": {
+        "verdict": "support",
+        "matched_invariant": "",
+        "reasoning": "该函数仅负责将已生成的 section 渲染为 HTML，不涉及引用校验、来源去重、证据状态或停止条件等不变量；其行为（纯函数、转义、未知类型返回空 body）与定位描述中的不变量无冲突。"
+      }
+    },
+    {
+      "file": "dev_history\\run_v1.py",
+      "complexity_info": {
+        "name": "run",
+        "type": "Function",
+        "complexity": 6,
+        "rank": "B",
+        "lineno": 27
+      },
+      "behavior": {
+        "function": "run",
+        "description": "函数 `run()`（第27行）的契约如下：\n\n**输入**：无参数。它不接收任何调用方传入的数据，而是使用模块级常量 `DEMO_QUESTION = \"今日国际原油价格是多少\"`（第25行）作为唯一的研究问题。\n\n**输出**：无返回值（隐式返回 `None`）。它的全部输出都是通过 `print()` 打印到标准输出，包括研究问题、session_id、长期记忆查询结果、搜索结果数量、每条证据的状态和抽取声明，以及最后的证据记录汇总。\n\n**副作用**：\n1. **初始化数据库**：调用 `init_db()`（第29行），确保 SQLite 数据库（memory.db）存在并建好表。\n2. **写入数据库**：对每个搜索结果调用 `insert_evidence(...)`（第48-57行），把每条证据（含 session_id、问题、URL、名称、检索时间、状态、抽取声明）持久化写入数据库。\n3. **修改全局进程状态**：文件顶部执行 `sys.path.insert(0, str(PROJECT_ROOT))`（第17行）和 `sys.stdout.reconfigure(encoding=\"utf-8\")`（第18行），以及 `load_dotenv(PROJECT_ROOT / \".env\")`（第19行）加载环境变量——这些在 import 时即发生，属于模块级副作用。\n4. **调用外部搜索 API**：`bocha_search(DEMO_QUESTION, count=5)`（第39行）发起网络请求。\n\n**前置条件**：\n- 依赖 `storage`、`tools.extract`、`tools.search` 模块可导入，且 `tools.search.bocha_search` 能正常联网调用外部搜索服务。\n- 需要 `.env` 文件存在（`load_dotenv` 会尝试加载，但缺失时不会报错）。\n- 数据库可写（`init_db` 和 `insert_evidence` 需要文件系统写入权限）。\n\n**调用后保证**：\n- 数据库被初始化，且本次 session 的所有搜索结果都被写入 `memory.db`（每条记录带 `status` 字段，`\"success\"` 或 `\"irrelevant\"`，取决于 `extraction.get(\"relevant\")`，第42行）。\n- 标准输出会打印完整的证据记录汇总。\n\n【调用方须知】这个函数虽然名字叫 `run`，但它**不是可复用的库函数**——它写死了全局常量 `DEMO_QUESTION`，不接受任何参数，每次调用都会重新生成一个新的 `session_id`（第30行）并**向数据库插入新记录**，同时还会**发起真实的网络搜索请求**。如果你在测试或生产环境中误调用它，会重复写入数据库并消耗搜索 API 配额；而且它依赖模块顶部的 `sys.path` 修改和 `.env` 加载，脱离这个文件所在目录直接调用可能因路径问题失败。它本质上是这个历史版本脚本的入口，不是设计给外部调用的 API。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数 `run()` 在第27行定义，无参数，使用模块级常量 `DEMO_QUESTION = \"今日国际原油价格是多少\"`（第25行）。函数体调用 `init_db()`（第29行）、`uuid.uuid4().hex[:8]` 生成 session_id（第30行）、`find_past_evidence`（第33行）、`bocha_search(DEMO_QUESTION, count=5)`（第39行）、`extract_claim`（第43行）、`insert_evidence`（第48-57行），并打印输出。无 return 语句，隐式返回 None。模块顶部有 `sys.path.insert`、`sys.stdout.reconfigure`、`load_dotenv`（第17-19行）。",
+        "verify_reasoning": "候选答案对函数输入、输出、副作用、前置条件和保证的描述均与代码原文一致，且【调用方须知】准确指出了函数写死常量、每次生成新 session_id、插入数据库和发起网络请求等关键点。"
+      },
+      "judgment": {
+        "verdict": "unclear",
+        "matched_invariant": "",
+        "reasoning": "行为描述仅涉及数据库初始化和证据写入，未提及报告生成、引用校验、来源去重等不变量相关细节，无法判断是否违反任何列出的不变量。"
+      }
+    },
+    {
+      "file": "synthesizer.py",
+      "complexity_info": {
+        "name": "_collect_section_citations",
+        "type": "Function",
+        "complexity": 15,
+        "rank": "C",
+        "lineno": 90
+      },
+      "behavior": {
+        "function": "_collect_section_citations",
+        "description": "函数 `_collect_section_citations(section: dict) -> set[str]`（synthesizer.py:90-112）的契约如下：\n\n**输入**：一个 dict，表示一个 section（板块）。函数只读取 `section.get(\"type\")` 以及根据 type 分支读取的字段（`rows`/`events`/`steps`/`items`/`citations`）。\n\n**输出**：一个 `set[str]`，包含该板块内所有被引用的 source_id。具体规则（依据代码原文）：\n- `t == \"comparison_table\"`：遍历 `section.get(\"rows\", [])` 中每个 row 的 `row.get(\"values\", [])`，对每个 value 若 `v.get(\"source_id\")` 非空则加入（第93-97行）。\n- `t == \"timeline\"`：遍历 `section.get(\"events\", [])`，每个 `ev.get(\"source_id\")` 非空则加入（第98-101行）。\n- `t == \"steps\"`：遍历 `section.get(\"steps\", [])`，每个 `step.get(\"source_id\")` 非空则加入（第102-105行）。\n- `t == \"item_list\"`：遍历 `section.get(\"items\", [])`，每个 `item.get(\"source_id\")` 非空则加入（第106-109行）。\n- `t == \"narrative\"`：直接 `ids.update(section.get(\"citations\", []))`，把 `citations` 列表整体并入（第110-111行）。\n- 其他 type（或 type 缺失）：返回空集（第112行 `return ids`，此时 ids 为空）。\n\n**副作用**：无。函数只创建局部 `ids` 集合并返回，不修改传入的 `section`、不写文件、不改全局状态（代码中无任何赋值外部变量、无 I/O）。\n\n**前置条件**：\n- `section` 必须是 dict（否则 `section.get` 会抛 AttributeError）。\n- 各分支依赖的字段（`rows`、`events`、`steps`、`items`、`citations`）若缺失，代码用 `.get(..., [])` 兜底为空列表，不会崩溃；但若这些字段存在且不是可迭代对象（如 `rows` 是 None 或非列表），`for` 循环会抛 TypeError。\n- 对 `narrative` 分支，`citations` 若缺失则 `get(\"citations\", [])` 返回空列表，`update` 空列表安全；但若 `citations` 存在且不是可迭代对象（如字符串），`update` 会把字符串拆成字符加入集合，产生非预期结果。\n\n**后置保证**：\n- 返回的集合只包含字符串类型的 source_id（因为各分支只 `add`/`update` 来自 `get(\"source_id\")` 或 `citations` 的元素，且这些值在调用处被当作字符串使用）。\n- 对 `narrative` 分支，`citations` 里的元素会被原样加入，不做任何过滤（即使元素不是字符串、或为空字符串也会被加入）。\n- 对非 narrative 分支，只有 `source_id` 为真值（非 None、非空字符串、非 0 等）的元素才会被加入（因为 `if v.get(\"source_id\")` 判断真值）。\n\n**调用方须知**：最该警惕的是 `narrative` 分支与其它分支的语义不对称——`narrative` 直接 `ids.update(section.get(\"citations\", []))`，它不检查 `citations` 里元素的真值，也不要求元素是字符串；如果 `citations` 里混入了非字符串（如数字）或空字符串，这些值会被原样塞进返回的集合，而调用方（如 `validate_section_citations` 第121行、`_check_evidence_utilization` 第135行）拿这些值去和 `valid_ids`/`success_ids`（都是字符串集合）做 `in` 比较时，数字或空串永远匹配不上，会被误报为“引用了不存在的 source_id”或拉低利用率——所以调用方在构造 narrative 板块时，务必保证 `citations` 里只放非空字符串，且最好先做去重/清洗，否则会产生虚假的校验失败。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "代码原文（synthesizer.py 第90-112行）与候选答案逐条吻合：函数签名 `def _collect_section_citations(section: dict) -> set[str]`；各分支行为一致（comparison_table 遍历 rows→values→source_id，timeline 遍历 events，steps 遍历 steps，item_list 遍历 items，narrative 直接 `ids.update(section.get(\"citations\", []))`，其他返回空集）；无副作用（仅局部 ids）；前置条件（section 必须 dict，字段缺失用 .get 兜底，非可迭代会抛 TypeError，narrative 的 citations 非可迭代会被 update 拆解）；后置保证（narrative 不过滤真值，其他分支用 `if v.get(\"source_id\")` 过滤真值）。调用方须知指出的 narrative 分支不对称性（不检查真值、不要求字符串）与代码一致，且 validate_section_citations 和 _check_evidence_utilization 确实用该集合与字符串集合比较。",
+        "verify_reasoning": "候选答案对函数契约的描述与代码逐行核对完全一致，包括边界情况和副作用分析，没有发现任何不实之处。"
+      },
+      "judgment": {
+        "verdict": "support",
+        "matched_invariant": "",
+        "reasoning": "函数仅按板块类型收集 source_id，不修改数据、不产生副作用，行为与引用可追溯、来源去重等不变量无冲突；未发现违反任何列出的不变量。"
+      }
+    },
+    {
+      "file": "synthesizer.py",
+      "complexity_info": {
+        "name": "synthesize_report",
+        "type": "Function",
+        "complexity": 15,
+        "rank": "C",
+        "lineno": 149
+      },
+      "behavior": {
+        "function": "synthesize_report",
+        "description": "synthesize_report(question: str, evidence_records: list[dict], on_event=None) -> dict 的契约如下（依据 synthesizer.py 第149-212行）：\n\n**输入**：\n- `question`（str）：用户问题，直接透传进最终报告（第200行 `\"question\": question`）。\n- `evidence_records`（list[dict]）：证据记录列表，每项需含 `source_id`（必填，`build_sources` 中 `e[\"source_id\"]` 被直接索引，第42行）、`url`、`name`、`status`、`extracted_claim` 等字段（第44-49行、第73-78行）。\n- `on_event`（可选）：事件回调，透传给 `reporter.consolidate` 和 `writer.write_section`（第158、169、190行），并用于 `emit`（第164、197行）。\n\n**输出**：返回一个 dict，含三个键（第210-212行）：\n- `report`：dict，含 `question`、`headline`（来自 reporter，缺省回退为 question，第201行）、`lede`（缺省空串，第202行）、`sections`（list，每项是 writer 产出的板块 dict 或 None）、`caveats`（list，来自 reporter 的 preliminary_caveats 加上可能的利用率告警，第159、195-196行）、`sources`（去重后的来源列表，第205行）。\n- `unresolved_problems`：list[str]，重试耗尽后仍未解决的引用校验问题（第209行）。\n- `attempts`：int，总尝试轮数（至少为1，第207行）。\n\n**副作用**：\n- 无文件/全局数据写入。唯一外部影响是通过 `on_event` 回调发出进度事件（第164、197行），以及调用 `reporter.consolidate` 和 `writer.write_section`（这两个模块内部可能有自己的副作用，但本函数不直接改外部状态）。\n- 使用 `ThreadPoolExecutor` 并行执行 writer（第166-171行），会创建线程，但线程在函数返回前 join 完成。\n\n**前置条件**：\n- `evidence_records` 中每项必须有 `source_id` 键（第42行 `e[\"source_id\"]` 直接索引，缺失会 KeyError）。\n- `reporter` 和 `writer` 模块必须可导入（第7-8行 import）。\n- `on_event` 若提供，必须是可调用对象（`emit` 会调用它，见 events.py）。\n\n**调用后保证**：\n- 返回的 `report[\"sources\"]` 已按归一化 URL 去重，且每个 source_id 唯一（`build_sources` 保证，第35-52行）。\n- `report[\"sections\"]` 中每个板块的引用（source_id）要么在 `sources` 中存在，要么被记录在 `unresolved_problems` 中（第174-191行校验循环）。\n- 若证据充足但利用率低，`caveats` 会追加一条 `missing_data` 告警（第192-196行）。\n- 函数不抛异常（除非前置条件不满足），总是返回上述 dict 结构。\n\n【调用方须知】最容易被忽略的是：`sections` 列表中的元素可能是 `None`——当 `themes` 为空时（第165行 `sections = [None] * len(themes)`，len=0 则 sections 为空列表），或某个 writer 线程返回 None 时（第171行直接 `future.result()` 赋值，不校验），`report[\"sections\"]` 里会混入 None 值。调用方遍历 sections 时必须做 None 检查，否则对 None 取 `.get()` 会抛 AttributeError。此外，`unresolved_problems` 非空不代表报告不可用，只是某些板块引用了不存在的 source_id，调用方应自行决定是否展示。",
+        "agent_steps": 3,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "synthesize_report 定义于 synthesizer.py 第149行，函数体第149-212行。输入参数 question、evidence_records、on_event 与候选答案一致（第149行）。输出 dict 含 report、unresolved_problems、attempts 三键（第210-212行），report 含 question、headline、lede、sections、caveats、sources（第200-205行）。副作用：无文件/全局写入，仅通过 emit 回调 on_event（第164、197行）和调用 reporter.consolidate、writer.write_section（第158、169、190行）。前置条件：evidence_records 每项需有 source_id（build_sources 第42行 e[\"source_id\"] 直接索引），reporter/writer 模块导入（第7-8行）。调用后保证：sources 去重（build_sources 第35-52行），sections 引用校验（第174-191行），利用率告警（第192-196行）。候选答案关于 sections 可能含 None 的说法正确：第165行 sections 初始化为 [None]*len(themes)，若 themes 为空则 sections 为空列表；第171行 future.result() 直接赋值，若 writer 返回 None 则 sections 含 None。",
+        "verify_reasoning": "逐条对照代码确认了候选答案的所有具体描述，包括行号、函数行为、副作用和边界情况，均与 synthesizer.py 实际代码一致。"
+      },
+      "judgment": {
+        "verdict": "support",
+        "matched_invariant": "",
+        "reasoning": "行为描述显示 synthesize_report 通过 build_sources 去重并校验引用，未解决的引用问题如实记录在 unresolved_problems，未违反任何列出的不变量。"
+      }
+    },
+    {
+      "file": "synthesizer.py",
+      "complexity_info": {
+        "name": "_check_evidence_utilization",
+        "type": "Function",
+        "complexity": 6,
+        "rank": "B",
+        "lineno": 127
+      },
+      "behavior": {
+        "function": "_check_evidence_utilization",
+        "description": "函数 `_check_evidence_utilization(sections, evidence_for_llm) -> dict | None`（synthesizer.py 第127-146行）的契约如下：\n\n**输入**：\n- `sections: list[dict]`：报告各板块的字典列表（每个板块含 `type` 字段，如 `comparison_table`/`timeline`/`steps`/`item_list`/`narrative`，以及对应的引用字段）。\n- `evidence_for_llm: list[dict]`：去重后的证据列表，每个元素含 `source_id` 和 `status` 字段（见 `_build_evidence_for_llm` 第70-84行）。\n\n**输出**：\n- 返回 `None` 或一个字典 `{\"issue\": str, \"severity\": \"missing_data\"}`。\n- 具体逻辑（第129-146行）：\n  - 若 `len(success_ids) < UTILIZATION_MIN_EVIDENCE`（即成功证据数 < 4，常量定义于第24行），直接返回 `None`（第131-132行）。\n  - 否则计算 `utilization = len(cited_ids & success_ids) / len(success_ids)`，若 `< UTILIZATION_THRESHOLD`（0.4，第25行），返回带 `issue` 和 `severity: \"missing_data\"` 的字典（第136-143行）；否则返回 `None`（第145行）。\n\n**副作用**：\n- 无。函数是纯函数，不修改任何外部状态、文件或全局数据；只读取 `sections` 和 `evidence_for_llm`，不改变它们。\n\n**前置条件**：\n- `evidence_for_llm` 中每个元素必须有 `source_id` 和 `status` 字段（第129行直接访问 `e[\"source_id\"]` 和 `e[\"status\"]`，若缺失会抛 KeyError）。\n- `sections` 中每个板块的 `type` 必须是 `_collect_section_citations`（第86-107行）能识别的类型（`comparison_table`/`timeline`/`steps`/`item_list`/`narrative`），否则该板块的引用不会被收集（`_collect_section_citations` 对未知类型返回空集合）。\n\n**调用后保证**：\n- 若返回非 `None`，其 `issue` 字符串会如实描述“共有 N 条可用证据，报告只直接引用了 M 条”，`severity` 恒为 `\"missing_data\"`。\n- 调用方（`synthesize_report` 第193-195行）会将该返回值追加到 `caveats` 列表，但不会触发重试（docstring 第128行明确“软性检查，不触发重试”）。\n\n【调用方须知】最容易被忽略的是：该函数只统计“成功证据”（`status == \"success\"`）的利用率，分母是 `success_ids` 的数量，而不是 `evidence_for_llm` 的总数；因此即使报告引用了大量失败/其他状态的证据，只要成功证据引用率 ≥ 0.4，就不会返回任何 caveat——调用方若想确保所有证据都被合理利用，不能只依赖此函数的返回值，因为它对非 success 证据的利用情况完全无感知。另外，若 `sections` 中某个板块的 `type` 不在 `_collect_section_citations` 识别的五种类型内，该板块的引用会被静默忽略，导致利用率被低估，可能误报“证据利用不足”。",
+        "agent_steps": 5,
+        "agent_hit_cap": false,
+        "verified": true,
+        "verify_evidence": "函数定义在第127-146行，输入为sections和evidence_for_llm，返回dict或None。第129行计算success_ids，第130行判断len(success_ids) < UTILIZATION_MIN_EVIDENCE（常量第24行=4）返回None；第132-134行收集cited_ids，第135行计算utilization，第136行判断< UTILIZATION_THRESHOLD（第25行=0.4）返回含issue和severity的字典，否则返回None。函数无副作用，仅读取参数。前置条件：第129行直接访问e[\"source_id\"]和e[\"status\"]，缺失会KeyError；_collect_section_citations（第86-107行）只识别五种type，未知类型返回空集。调用方在synthesize_report第193-195行追加到caveats，不触发重试。",
+        "verify_reasoning": "逐行核对代码，候选答案对输入输出、副作用、前置条件、调用后保证的描述与代码完全一致，且【调用方须知】指出的分母为success_ids而非总数、未知type静默忽略均属实。"
+      },
+      "judgment": {
+        "verdict": "support",
+        "matched_invariant": "",
+        "reasoning": "该函数仅做软性检查并返回caveat，不修改状态或触发重试，未违反任何列出的不变量；其行为与项目定位中'主动暴露不确定性'一致。"
+      }
+    }
+  ]
+}

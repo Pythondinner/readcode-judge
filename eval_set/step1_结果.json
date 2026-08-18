@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "tier": "1_单文件事实题",
+    "question": "goal_loop.py里MAX_ATTEMPTS的值是多少？",
+    "standard_answer": "3",
+    "agent_answer": "MAX_ATTEMPTS 的值是 3，定义在 goal_loop.py 第 17 行（`MAX_ATTEMPTS = 3`）。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 2,
+    "tier": "1_单文件事实题",
+    "question": "writer.py里CHAPTER_CHUNK_SIZE默认值是多少？",
+    "standard_answer": "5",
+    "agent_answer": "writer.py 中 CHAPTER_CHUNK_SIZE 的默认值是 5（见 writer.py 第 170 行：`CHAPTER_CHUNK_SIZE = 5`）。",
+    "steps_taken": 2,
+    "hit_cap": false
+  },
+  {
+    "id": 3,
+    "tier": "1_单文件事实题",
+    "question": "ledger.list_drafts现在会不会把novel_state.md这种文件算进版本列表里？",
+    "standard_answer": "不会",
+    "agent_answer": "不会。ledger.py 第310-315行的 list_drafts 实现里，过滤条件是 `f.endswith(\".md\") and not f.endswith(\"_state.md\")`，所以 novel_state.md 这种以 _state.md 结尾的文件会被排除，不会算进版本列表。只有 <mode>_v<N>.md 这类真正的正文版本文件才会被返回。",
+    "steps_taken": 3,
+    "hit_cap": false
+  },
+  {
+    "id": 4,
+    "tier": "2_跨文件追踪题",
+    "question": "write_and_save_one_with_check在什么条件下才会把sub_intents写回ledger？",
+    "standard_answer": "只有当goal loop运行结果里sub_intent_changes非空的时候（即真的发生过sub_intent修复时）",
+    "agent_answer": "write_and_save_one_with_check 只有在 result[\"sub_intent_changes\"] 为真（即这次生成过程中确实发生了 sub_intent 修复）时，才会把修复后的 sub_intents 写回 ledger。具体代码在 goal_loop.py 第 300-303 行：\n\n```python\nif result[\"sub_intent_changes\"]:\n    current = ledger.load_snapshot(project_name)  # 重新读一次，避免覆盖这期间的其他改动\n    current[\"sub_intents\"] = result[\"snapshot\"][\"sub_intents\"]\n    ledger.save_snapshot(project_name, current)\n```\n\n即：只有当 write_with_check 返回的 sub_intent_changes 非空（说明重试过程中修改了 sub_intent）时，才重新读取 snapshot、把修复后的 sub_intents 存回去。若没有发生 sub_intent 修复（sub_intent_changes 为空），则不会写回 sub_intents。\n\n注意：must_avoid/must_include 的加固措辞不会存回 ledger（见函数 docstring 第 269-272 行），只有 sub_intents 本身会被写回。",
+    "steps_taken": 3,
+    "hit_cap": false
+  },
+  {
+    "id": 5,
+    "tier": "2_跨文件追踪题",
+    "question": "手动生成一幕时，previous_excerpt具体是从哪里读出来的？",
+    "standard_answer": "从predecessor项目的最新草稿读出来的，predecessor取自当前项目snapshot的_meta.predecessor字段，具体是ledger.load_draft(predecessor, predecessor_draft_filename)",
+    "agent_answer": "previous_excerpt 是从“上一幕（predecessor）的同模式最新草稿文件”里读出来的。具体链路：\n\n1. 在 goal_loop.py 第283-287行（以及 writer.py 第254-258行的 write_and_save_one 里同样逻辑）：\n   - 先从 ledger.load_snapshot(project_name) 拿到 snapshot，取 snapshot[\"_meta\"][\"predecessor\"] 得到上一幕的标识；\n   - 再用 ledger.latest_draft_filename(predecessor, mode) 拿到上一幕在该 mode 下的最新草稿文件名；\n   - 最后用 ledger.load_draft(predecessor, predecessor_draft_filename) 把那个草稿文件的正文读出来，赋给 previous_excerpt。\n\n2. 如果上一幕不存在（predecessor 为空）或没有对应草稿文件，previous_excerpt 就是 None。\n\n3. 读出来后，它被传给 write_with_check / write_long_script / write_script，最终在 writer.py 第140-141行被拼进 user_content 的 <previous_act_content> 标签里，作为“上一幕正文”供模型延续文风/措辞。\n\n依据：goal_loop.py 第283-287行、writer.py 第254-258行、writer.py 第140-141行。",
+    "steps_taken": 6,
+    "hit_cap": false
+  },
+  {
+    "id": 6,
+    "tier": "3_为什么类设计意图题",
+    "question": "为什么must_avoid的加固措辞（提示上次具体违反了什么）不会被持久化存进snapshot？",
+    "standard_answer": "因为那是针对当次重试的临时提示，只对本轮生成有意义；如果永久存下来，'上一次生成时违反了……'这种描述会一直指向早已过时的某次尝试，反而误导未来的生成",
+    "agent_answer": "在 goal_loop.py 的 write_and_save_one_with_check 函数（约第270-280行）的 docstring 里明确写了原因：must_avoid/must_include 在重试过程中被\"加固措辞\"（带上上次具体违反在哪）不存回去——那是只对本轮重试有意义的临时提示，存成永久措辞的话，\"上一次生成时……\"这种描述会一直指向早已过时的某次尝试，反而误导以后的生成。也就是说，加固措辞里包含\"上一次生成时在这里违反了……\"这种指向具体某次尝试的临时描述，如果持久化进 snapshot，下次生成时这段描述引用的\"上一次\"已经不再是当前这次，会误导后续生成，所以只在本轮重试内生效，不写回 ledger。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 7,
+    "tier": "3_为什么类设计意图题",
+    "question": "为什么write_missing_acts_in_series这个函数要从writer.py挪到goal_loop.py？",
+    "standard_answer": "因为goal_loop.py依赖writer.py（要用write_long_script和deepseek_client），如果writer.py反过来又依赖goal_loop.py，就会形成循环import",
+    "agent_answer": "write_missing_acts_in_series 从 writer.py 挪到 goal_loop.py 的原因，在 writer.py 第 284-289 行的注释里写得很清楚：\n\n1. 批量生成（write_missing_acts_in_series）属于“全自动”路径——没有用户逐幕盯着看，所以每一幕的生成要接上“生成 + 检查 + 修复”的 goal loop（即调用 write_and_save_one_with_check），而不再是原来 writer.py 里单次生成的简单循环。\n\n2. 更关键的是循环 import 问题：goal_loop.py 依赖 writer.py 的 write_long_script，如果把批量逻辑留在 writer.py 里直接接入 goal loop，writer.py 就得反过来 import goal_loop.py，形成循环依赖。所以把它移到 goal_loop.py 里，由 goal_loop 依赖 writer，方向是单向的。\n\n单幕手动生成（write_and_save_one）保持不变，仍留在 writer.py 给手动模式直接用——手动模式由用户自己盯着内容、自己决定改不改，不需要自动重试机制。\n\ngoal_loop.py 第 321 行起的 write_missing_acts_in_series 实现也印证了这一点：它跟 writer.py 原同名函数逻辑一致（按顺序执行、已有正文跳过、遇到未收尾幕次停止），唯一区别是每幕生成换成 write_and_save_one_with_check，接自动检查+修复的 goal loop。",
+    "steps_taken": 5,
+    "hit_cap": false
+  },
+  {
+    "id": 8,
+    "tier": "3_为什么类设计意图题",
+    "question": "为什么goal loop重试时，previous_excerpt要保持不变，不换成上一次失败的草稿？",
+    "standard_answer": "previous_excerpt是跨幕文风衔接用的锚点（参考的是上一幕的正文），不是'上一次尝试'的意思，如果换成本幕失败的重试草稿，会丢失真正的跨幕文风参考",
+    "agent_answer": "因为 previous_excerpt 的语义是“上一幕的正文”，是跨幕文风衔接用的锚点，不是“上一次尝试的草稿”。在 goal_loop.py 第137-139行的 docstring 里明确写了：previous_excerpt 在重试时保持不变，一直是调用方传入的“上一幕正文”，不会被替换成本幕失败的重试草稿——它是跨幕文风衔接用的锚点，不是“上一次尝试”的意思，两者是完全不同的东西，重试不该动它。重试时真正被修改的是 snapshot 的内存拷贝（current_snapshot，第151行），以及 must_avoid/must_include 的补充（第205-222行），这些才是修复动作的载体；previous_excerpt 只负责让本幕延续上一幕的文风，跟本幕内部的重试无关，所以保持不变。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 9,
+    "tier": "4_边界否定题",
+    "question": "批量生成系列时，如果某一幕已经有正文了，会被重新生成吗？",
+    "standard_answer": "不会，会被跳过（status标记为skipped_exists）",
+    "agent_answer": "不会。批量生成（write_missing_acts_in_series）在 goal_loop.py 第321-351行中，对每一幕先检查 ledger.latest_draft(name, mode) 是否已有正文（第337-340行），如果已有则标记为 skipped_exists 并跳过，不会重新生成。只有没有正文的幕次才会调用 write_and_save_one_with_check 生成。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 10,
+    "tier": "4_边界否定题",
+    "question": "点击网页版的'检测'按钮之后，系统会自动修改sub_intent或者约束内容吗？",
+    "standard_answer": "不会，检测按钮（check_and_report）只做诊断，只报告问题，不修改任何数据",
+    "agent_answer": "不会。点击网页版'检测'按钮触发的是 server.py 中的 check_draft 接口（第168-186行），其文档字符串明确写着'检测本身不修改任何内容，只诊断、只提示'，且实现中只调用 goal_loop.check_and_report 生成报告并返回，没有任何写入 sub_intent 或约束（must_avoid/must_include）的代码。修改内容只发生在生成流程（goal_loop）中，手动检测不自动修改任何内容。",
+    "steps_taken": 4,
+    "hit_cap": false
+  },
+  {
+    "id": 11,
+    "tier": "4_边界否定题",
+    "question": "手动单幕生成（不是批量）失败一次之后，系统会自动重试吗？",
+    "standard_answer": "不会，自动重试只在批量路径（goal_loop）里才有，手动路径生成一次就完了，要不要重来由用户自己决定",
+    "agent_answer": "不会。手动单幕生成失败后不会自动重试。依据：goal_loop.py 顶部注释明确写着“手动单幕生成不接这套自动重试机制，只查一遍把诊断结果当提示显示给用户，由用户自己决定要不要改”；同文件第 5 行也写了“手动单幕生成不接这套自动重试机制，只查一遍把诊断结果当提示显示给用户”。自动重试（write_with_check 里的循环、诊断修复、封顶）只用于全自动路径（write_and_save_one_with_check / write_missing_acts_in_series）。手动模式用的是 check_and_report，它只查、只诊断，不接 repair_sub_intent、不接重试，改不改由用户决定。",
+    "steps_taken": 7,
+    "hit_cap": false
+  },
+  {
+    "id": 12,
+    "tier": "4_边界否定题",
+    "question": "must_include缺失的修复，有没有像must_avoid那样做structural_conflict/local_slip的区分诊断？",
+    "standard_answer": "没有，must_include缺失目前是简化实现，直接加固措辞，没有做类型区分",
+    "agent_answer": "没有。goal_loop.py 的 _augment_must_include（第112-121行）明确写了：must_include 缺失的修复是简化实现，不做 local_slip/structural_conflict 的区分诊断，直接把措辞加固成更明确的指令，并注释\"是不是需要跟 must_avoid 一样细分诊断，等真实数据出来再看，这里先诚实标注是简化实现\"。而 must_avoid 在 write_with_check 里（第196-208行）会调用 diagnose() 做 structural_conflict/local_slip 区分，并据此决定是否改 sub_intent。所以 must_include 没有像 must_avoid 那样做区分诊断。",
+    "steps_taken": 3,
+    "hit_cap": false
+  }
+]

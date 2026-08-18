@@ -1,0 +1,4 @@
+requests
+mcp
+radon
+lizard

@@ -1,0 +1,18 @@
+{
+  "complexity_info": {
+    "name": "main",
+    "type": "Function",
+    "complexity": 12,
+    "rank": "C",
+    "lineno": 110
+  },
+  "behavior": {
+    "function": "main",
+    "description": "main()（第110行起）的契约如下，依据均为 executor/report.py 原文：\n\n**输入**：无参数。它不接收任何命令行参数或函数参数，数据来源是全局/模块级函数 load_records()、load_memory() 和 Path.cwd()。\n\n**输出**：\n1. 写文件：`report_file = report_file_for()` 然后 `report_file.write_text(...)`（第158-159行），即把报告写入 REPORTS_ROOT 下对应项目的 report.md。\n2. 打印：`print(f\"报告已生成: {report_file}，共 {len(reviews)} 条审查记录...\")`（第160-161行）。\n3. 若没有审查记录，则打印两行提示并 `return`（第126-132行），不写文件。\n\n**副作用（外部状态/文件/全局数据）**：\n1. 写文件：通过 report_file_for() 创建目录（`folder.mkdir(parents=True, exist_ok=True)`，第23行）并写入 report.md，覆盖该文件原有内容。\n2. 修改 sys.path：模块顶部 `sys.path.insert(0, str(LEDGER_DIR))`（第7行）——这是模块导入时的副作用，不是 main() 内部，但 main() 依赖它才能 import _store。\n3. 调用 setup_utf8_io()（第111行），可能修改标准输出/输入的编码设置。\n4. 不修改 ledger 数据本身（只读 load_records/load_memory）。\n\n**前置条件**：\n1. 依赖模块级导入成功：`from _store import load_memory, load_records, sanitize_project_path` 和 `from _text_safety import setup_utf8_io`（第8-9行），这些依赖 sys.path 里能定位到 ledger 目录。\n2. 依赖 ledger 里存在审查记录（load_records 返回的 records 中要有 record_type == \"review_result\" 的记录），否则走空分支。\n3. 依赖当前工作目录 Path.cwd() 能正确指向目标项目（见下方调用方须知）。\n\n**调用后保证**：\n1. 若存在审查记录，保证生成一个 UTF-8 编码的 report.md 文件，内容包含标题、生成时间、统计行、需要关注部分和存档部分（第134-157行）。\n2. 若不存在审查记录，保证不写文件、不抛异常，只打印提示并正常返回。\n3. 保证不修改 ledger 数据（只读）。\n\n【调用方须知】main() 判断“当前项目是哪个”完全依赖 Path.cwd()（第126行注释明确说明：check.py 调用时会显式把子进程 cwd 设成目标项目路径，但直接单独运行本脚本时 cwd 是运行者当时所在的任意目录，判断错了不会报错，只会安静地查到一个空的/错的项目）——所以直接运行 executor/report.py 时，必须先 cd 到目标项目目录再执行，否则它会静默地生成一个空报告或错误项目的报告，且不会给出任何报错。",
+    "agent_steps": 2,
+    "agent_hit_cap": false,
+    "verified": true,
+    "verify_evidence": "main() 无参数（第110行 def main():）；调用 setup_utf8_io()（第111行）、load_records()（第112行）、collect_reviews()（第113行）、load_memory()（第114行）；空 reviews 时打印两行提示并 return（第126-132行）；写文件 report_file_for() 和 write_text（第158-159行）；打印报告生成信息（第160-161行）；report_file_for() 中 folder.mkdir(parents=True, exist_ok=True)（第23行）；模块顶部 sys.path.insert(0, str(LEDGER_DIR))（第7行）；注释明确说明 cwd 依赖（第126-132行）。",
+    "verify_reasoning": "候选答案对 main() 的输入、输出、副作用、前置条件和保证的描述均与代码原文逐条吻合，特别是对 cwd 依赖和静默错误的警示有代码注释直接支持。"
+  }
+}

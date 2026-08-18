@@ -1,0 +1,96 @@
+{
+  "target_codebase": "C:\\Users\\52396\\Desktop\\自动剧本生成机",
+  "note": "这份考卷的标准答案是出题人（项目作者本人）凭对自动剧本生成机代码库的真实理解写的，不是靠agent先跑一遍反推出来的——因为代码事实（某个值是多少、某个函数在哪、为什么这么设计）不依赖agent存不存在，这一点跟评测创作类内容不同，可以在agent写出来之前就先定好标准答案。",
+  "tiers": {
+    "1_单文件事实题": "答案就在一个文件里，不需要跨文件。测的是agent有没有真的翻对文件，是最基础的一档。",
+    "2_跨文件追踪题": "得同时理解至少两个文件才能答对。测的是agent能不能顺着代码把一条数据/调用关系追下来。",
+    "3_为什么类设计意图题": "答案不在代码字面上，得理解代码背后的设计考虑。最难判分，需要语义判断而不是精确匹配，判分逻辑可以直接照搬checker_include.py的思路——检查回答里有没有提到关键论点，不要求逐字一致。",
+    "4_边界否定题": "正确答案是'没有这个功能/不会这样'。专门测一个常见的agent通病：倾向于过度自信地声称某个功能存在，不太会主动说'没有'。"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "tier": "1_单文件事实题",
+      "question": "goal_loop.py里MAX_ATTEMPTS的值是多少？",
+      "answer": "3",
+      "grading": "精确匹配，答案里包含数字3即可"
+    },
+    {
+      "id": 2,
+      "tier": "1_单文件事实题",
+      "question": "writer.py里CHAPTER_CHUNK_SIZE默认值是多少？",
+      "answer": "5",
+      "grading": "精确匹配"
+    },
+    {
+      "id": 3,
+      "tier": "1_单文件事实题",
+      "question": "ledger.list_drafts现在会不会把novel_state.md这种文件算进版本列表里？",
+      "answer": "不会",
+      "grading": "精确匹配（是/否）"
+    },
+    {
+      "id": 4,
+      "tier": "2_跨文件追踪题",
+      "question": "write_and_save_one_with_check在什么条件下才会把sub_intents写回ledger？",
+      "answer": "只有当goal loop运行结果里sub_intent_changes非空的时候（即真的发生过sub_intent修复时）",
+      "grading": "语义判断：回答里要提到条件是'发生过sub_intent修复/sub_intent_changes非空'，不要求原文措辞一致"
+    },
+    {
+      "id": 5,
+      "tier": "2_跨文件追踪题",
+      "question": "手动生成一幕时，previous_excerpt具体是从哪里读出来的？",
+      "answer": "从predecessor项目的最新草稿读出来的，predecessor取自当前项目snapshot的_meta.predecessor字段，具体是ledger.load_draft(predecessor, predecessor_draft_filename)",
+      "grading": "语义判断：要提到'从predecessor（上一幕/承接自的项目）的最新草稿读'"
+    },
+    {
+      "id": 6,
+      "tier": "3_为什么类设计意图题",
+      "question": "为什么must_avoid的加固措辞（提示上次具体违反了什么）不会被持久化存进snapshot？",
+      "answer": "因为那是针对当次重试的临时提示，只对本轮生成有意义；如果永久存下来，'上一次生成时违反了……'这种描述会一直指向早已过时的某次尝试，反而误导未来的生成",
+      "grading": "语义判断：要提到'临时/只对本轮重试有意义'和'会误导未来生成/描述会过时'这两个关键点"
+    },
+    {
+      "id": 7,
+      "tier": "3_为什么类设计意图题",
+      "question": "为什么write_missing_acts_in_series这个函数要从writer.py挪到goal_loop.py？",
+      "answer": "因为goal_loop.py依赖writer.py（要用write_long_script和deepseek_client），如果writer.py反过来又依赖goal_loop.py，就会形成循环import",
+      "grading": "语义判断：要提到'循环import'或等价说法（比如'两个模块互相依赖'）"
+    },
+    {
+      "id": 8,
+      "tier": "3_为什么类设计意图题",
+      "question": "为什么goal loop重试时，previous_excerpt要保持不变，不换成上一次失败的草稿？",
+      "answer": "previous_excerpt是跨幕文风衔接用的锚点（参考的是上一幕的正文），不是'上一次尝试'的意思，如果换成本幕失败的重试草稿，会丢失真正的跨幕文风参考",
+      "grading": "语义判断：要提到'previous_excerpt是跨幕文风参考，不是重试历史'这个区分"
+    },
+    {
+      "id": 9,
+      "tier": "4_边界否定题",
+      "question": "批量生成系列时，如果某一幕已经有正文了，会被重新生成吗？",
+      "answer": "不会，会被跳过（status标记为skipped_exists）",
+      "grading": "精确匹配（是/否），且要提到会跳过"
+    },
+    {
+      "id": 10,
+      "tier": "4_边界否定题",
+      "question": "点击网页版的'检测'按钮之后，系统会自动修改sub_intent或者约束内容吗？",
+      "answer": "不会，检测按钮（check_and_report）只做诊断，只报告问题，不修改任何数据",
+      "grading": "精确匹配（是/否）"
+    },
+    {
+      "id": 11,
+      "tier": "4_边界否定题",
+      "question": "手动单幕生成（不是批量）失败一次之后，系统会自动重试吗？",
+      "answer": "不会，自动重试只在批量路径（goal_loop）里才有，手动路径生成一次就完了，要不要重来由用户自己决定",
+      "grading": "精确匹配（是/否）"
+    },
+    {
+      "id": 12,
+      "tier": "4_边界否定题",
+      "question": "must_include缺失的修复，有没有像must_avoid那样做structural_conflict/local_slip的区分诊断？",
+      "answer": "没有，must_include缺失目前是简化实现，直接加固措辞，没有做类型区分",
+      "grading": "精确匹配（是/否），且要提到'简化实现'或等价说法"
+    }
+  ]
+}

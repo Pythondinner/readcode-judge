@@ -1,0 +1,233 @@
+{
+  "runs": 5,
+  "consensus": [
+    {
+      "file": "goal_loop.py",
+      "function": "write_and_save_one_with_check",
+      "majority_verdict": "undermine",
+      "agreement_rate": 0.6,
+      "counts": {
+        "support": 2,
+        "undermine": 3,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "ledger.py",
+      "function": "save_draft",
+      "majority_verdict": "support",
+      "agreement_rate": 0.6,
+      "counts": {
+        "support": 3,
+        "undermine": 0,
+        "unclear": 2
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "chat.py",
+      "function": "main",
+      "majority_verdict": "support",
+      "agreement_rate": 0.8,
+      "counts": {
+        "support": 4,
+        "undermine": 0,
+        "unclear": 1
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "writer.py",
+      "function": "write_long_script",
+      "majority_verdict": "support",
+      "agreement_rate": 0.8,
+      "counts": {
+        "support": 4,
+        "undermine": 0,
+        "unclear": 1
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "writer.py",
+      "function": "write_and_save_one",
+      "majority_verdict": "unclear",
+      "agreement_rate": 0.8,
+      "counts": {
+        "support": 1,
+        "undermine": 0,
+        "unclear": 4
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "chat.py",
+      "function": "offer_to_write",
+      "majority_verdict": "unclear",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 0,
+        "undermine": 0,
+        "unclear": 5
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "goal_loop.py",
+      "function": "write_with_check",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "brain.py",
+      "function": "process_turn",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "deepseek_client.py",
+      "function": "call",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "chat.py",
+      "function": "maybe_link_predecessor",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "goal_loop.py",
+      "function": "check_and_report",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "ledger.py",
+      "function": "_migrate_chain_to_series",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "server.py",
+      "function": "continue_from",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "server.py",
+      "function": "write_draft",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "ledger.py",
+      "function": "list_projects",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "ledger.py",
+      "function": "delete_draft",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "server.py",
+      "function": "load_env",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "writer.py",
+      "function": "write_script",
+      "majority_verdict": "support",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 5,
+        "undermine": 0,
+        "unclear": 0
+      },
+      "total_runs": 5
+    },
+    {
+      "file": "chat.py",
+      "function": "load_env",
+      "majority_verdict": "unclear",
+      "agreement_rate": 1.0,
+      "counts": {
+        "support": 0,
+        "undermine": 0,
+        "unclear": 5
+      },
+      "total_runs": 5
+    }
+  ]
+}

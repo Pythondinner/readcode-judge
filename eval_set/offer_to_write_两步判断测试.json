@@ -1,0 +1,61 @@
+{
+  "step1_applicability": {
+    "invariants": [
+      {
+        "invariant": "状态机合法性：只有 want 和 obstacle 都非空才能转入 confirmed；confirmed 后 brain 不再改动设定。",
+        "applicable": false,
+        "reasoning": "该函数是 chat.py 的交互循环，不涉及状态机转移或 brain 逻辑，只调用 ledger/writer/goal_loop 做文件操作，因此这条不变量不适用于此场景。"
+      },
+      {
+        "invariant": "硬性约束必须被遵守：must_avoid 绝不能出现、must_include 必须出现。",
+        "applicable": false,
+        "reasoning": "该函数不执行生成或检查逻辑，只负责用户交互和调用底层函数，不直接处理 must_avoid/must_include 的语义判断，因此不适用。"
+      },
+      {
+        "invariant": "修复发生在 snapshot 的内存拷贝上，不污染调用方原始 snapshot；是否存回 ledger 由调用方决定。",
+        "applicable": false,
+        "reasoning": "该函数不执行修复操作，只读取 snapshot 并调用 writer/goal_loop 生成，不涉及内存拷贝或修复逻辑，因此不适用。"
+      },
+      {
+        "invariant": "previous_excerpt 在重试时保持不变，是跨幕文风锚点，不是'上一次尝试'。",
+        "applicable": false,
+        "reasoning": "该函数不涉及重试或 previous_excerpt 的使用，只做交互和文件操作，因此不适用。"
+      },
+      {
+        "invariant": "修复后的 sub_intents 必须存回 snapshot，否则下次生成仍用旧冲突大纲；但加固措辞的 must_avoid/must_include 不存回。",
+        "applicable": false,
+        "reasoning": "该函数不执行修复或 sub_intents 更新，只调用生成函数，因此不适用。"
+      },
+      {
+        "invariant": "系列续写必须按顺序、已有正文的跳过、遇到未收尾幕次就停。",
+        "applicable": true,
+        "reasoning": "该函数在用户输入'批量小说'/'批量剧本'时调用 goal_loop.write_missing_acts_in_series，该函数内部实现系列续写逻辑，因此这条不变量直接适用于此场景。"
+      },
+      {
+        "invariant": "承接只能从 confirmed 项目发起。",
+        "applicable": false,
+        "reasoning": "该函数不涉及承接（continuation）操作，只处理当前项目的草稿生成和删除，因此不适用。"
+      },
+      {
+        "invariant": "草稿版本号最大=最新，是唯一规则；删除最新版草稿必须连带删对应 state 文件。",
+        "applicable": true,
+        "reasoning": "该函数在用户输入'删除<文件名>'时调用 ledger.delete_draft，该函数内部处理版本删除和连带清理 state 文件，因此这条不变量直接适用于此场景。"
+      },
+      {
+        "invariant": "跨幕事实一致性：world_state 是硬性约束，优先级高于文风参考，已发生的不可逆事件不能被忽略。",
+        "applicable": false,
+        "reasoning": "该函数不直接处理 world_state 或事实一致性，只调用生成函数，因此不适用。"
+      },
+      {
+        "invariant": "生成/删除/续写等破坏性操作在已有数据时需两步确认。",
+        "applicable": false,
+        "reasoning": "该函数是交互循环，用户输入即确认，没有额外的两步确认机制，且不涉及续写操作，因此不适用。"
+      }
+    ]
+  },
+  "step2_narrow_judgment": {
+    "verdict": "support",
+    "matched_invariant": "",
+    "reasoning": "行为描述中删除草稿时调用 ledger.delete_draft，且若删除最新版本会连带清运行事实，符合不变量；批量生成通过 write_missing_acts_in_series 按顺序跳过已有正文，符合不变量。"
+  }
+}
