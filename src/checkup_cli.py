@@ -1,7 +1,8 @@
 """把"加完功能后，跑一次体检、跟上次比一下"这个动作，从手写脚本变成一条
 随手能敲的命令——不是新机制，是把observer层已经验证过的部件
 （generate_project_report、judge_project_against_narrative_consensus、
-compare_judgment_consensus）串起来，加一层ledger.snapshots的存取逻辑。
+compare_judgment_consensus）串起来，加一层ledger.store的存取逻辑
+（scope="latest"）。
 
 刻意不做的事：不watch文件系统、不常驻后台、不自己决定什么时候该跑——
 必须由人主动执行这个命令，这条边界是今晚已经定下来的（工程日志20），
@@ -26,12 +27,11 @@ if os.path.exists(_ENV_PATH):
 
 from observer import report
 from observer import consensus as consensus_module
-from ledger import snapshots
+from ledger import store
 
 
 def run(target_root: str, use_consensus: bool) -> None:
-    snapshot_dir = snapshots.snapshot_dir(target_root)
-    previous = snapshots.load_previous(snapshot_dir)
+    previous = store.load_artifact(target_root, "latest")
 
     print(f"=== 对 {target_root} 做一次体检 ===")
     project_report = report.generate_project_report(target_root, with_narrative=True, verbose=True)
@@ -55,9 +55,9 @@ def run(target_root: str, use_consensus: bool) -> None:
         print("没有找到上一次的快照——这是第一次对这个项目做体检，本次结果会被存为基线，"
               "下次再跑就能看到变化了。")
     else:
-        old_complexity = snapshots.complexity_map(previous["project_report"])
-        new_complexity = snapshots.complexity_map(project_report)
-        complexity_changes = snapshots.diff_complexity(old_complexity, new_complexity)
+        old_complexity = store.complexity_map(previous["project_report"])
+        new_complexity = store.complexity_map(project_report)
+        complexity_changes = store.diff_complexity(old_complexity, new_complexity)
         if complexity_changes:
             print(f"\n复杂度有变化的函数（{len(complexity_changes)}个）：")
             for key, old_c, new_c, direction in complexity_changes:
@@ -65,9 +65,9 @@ def run(target_root: str, use_consensus: bool) -> None:
         else:
             print("\n复杂度没有变化。")
 
-        old_verdict = snapshots.verdict_map(previous["project_report"])
-        new_verdict = snapshots.verdict_map(project_report)
-        verdict_changes = snapshots.diff_verdict(old_verdict, new_verdict)
+        old_verdict = store.verdict_map(previous["project_report"])
+        new_verdict = store.verdict_map(project_report)
+        verdict_changes = store.diff_verdict(old_verdict, new_verdict)
         if verdict_changes:
             print(f"\n单次判断结果有变化的函数（{len(verdict_changes)}个，"
                   "注意单次判断有噪音，变化不一定是真的，想确认就加--consensus）：")
@@ -85,13 +85,13 @@ def run(target_root: str, use_consensus: bool) -> None:
             print("\n（上一次快照没有consensus数据，这次的consensus结果会被存下来，"
                   "下次能做consensus级别的对比）")
 
-    snapshots.save_snapshot(snapshot_dir, {
+    store.save_artifact(target_root, "latest", {
         "target_root": target_root,
         "timestamp": datetime.now().isoformat(),
         "project_report": project_report,
         "consensus": consensus,
     })
-    print(f"\n本次快照已保存到 {snapshot_dir}")
+    print(f"\n本次快照已保存（scope=latest）")
 
 
 if __name__ == "__main__":
