@@ -81,34 +81,57 @@ def cross_batch_integration(batch_narratives: dict, verbose: bool = True) -> dic
     return deepseek_client.call(CROSS_BATCH_SYSTEM_PROMPT, material, temperature=0.3, json_mode=True)
 
 
-def run_batch_analysis(root: str, verbose: bool = True) -> dict:
+def run_batch_analysis(root: str, verbose: bool = True, batch_workers: int = 3, inner_max_workers: int = 3) -> dict:
     """大项目分批分析的完整入口：分批→每批独立跑narrative+judgment→存进
     ledger→跨批关联整合。返回{"batches": {批次名: project_report}, "integration": ...}。
 
     每批用默认的探索/核实步数预算（不像core那次整体分析要手动调大）——
     这正是分批要解决的问题：每批范围小，默认预算应该就够，不需要像
-    core那次一样把预算翻倍还只能覆盖一部分。"""
+    core那次一样把预算翻倍还只能覆盖一部分。
+
+    批次之间互相独立，用线程池并发跑（用户真实反馈：顺序跑8个批次的
+    core模块接近一小时）——每个批次内部（文件分析、判断）也有自己的一层
+    并发（observer.report/observer.judgment），两层叠加，batch_workers和
+    inner_max_workers都保守取3，避免同时打出去的请求数太夸张撞到API限速。
+
+    ledger.store.save_artifact必须只从主线程调用，不能在worker线程里调——
+    它是整份读store.json、改一个scope、整份写回，多线程同时写会互相覆盖
+    丢失（这是ledger泛化时就point出来过的已知风险，这里是它第一次真的
+    会被触发的场景，不能再当成"以后再说"）。做法：worker线程只负责算出
+    结果，存的动作留到主线程里、每个future完成时再做，不会有两个线程
+    同时调用save_artifact。"""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     batches, direct_files = find_batches(root)
     if not batches:
         raise ValueError(f"{root} 下没有找到任何支持的源码文件，无法分批")
 
-    results = {}
-    for name, path in batches.items():
-        if verbose:
-            print(f"\n=== 分析批次「{name}」（{path}）===")
+    if verbose:
+        print(f"共{len(batches)}个批次，批次并发数{batch_workers}（每批内部再并发{inner_max_workers}）")
+
+    def _analyze_one_batch(name, path):
         if name == "_root":
             pr = report_module.generate_project_report(
-                root, file_paths=direct_files, with_narrative=True, verbose=verbose,
+                root, file_paths=direct_files, with_narrative=True, verbose=False, max_workers=inner_max_workers,
             )
         else:
-            pr = report_module.generate_project_report(path, with_narrative=True, verbose=verbose)
-        results[name] = pr
-        store.save_artifact(root, f"batch:{name}", pr)
-        if verbose:
-            unclear = sum(1 for j in pr.get("judged_behaviors", []) if j["judgment"].get("verdict") == "unclear")
-            total = len(pr.get("judged_behaviors", []))
-            print(f"  批次「{name}」：{total}个函数判断，{unclear}个无法判断"
-                  f"（{unclear/total:.0%}）" if total else f"  批次「{name}」：没有函数触发判断")
+            pr = report_module.generate_project_report(
+                path, with_narrative=True, verbose=False, max_workers=inner_max_workers,
+            )
+        return name, pr
+
+    results = {}
+    with ThreadPoolExecutor(max_workers=batch_workers) as executor:
+        futures = {executor.submit(_analyze_one_batch, name, path): name for name, path in batches.items()}
+        for future in as_completed(futures):
+            name, pr = future.result()
+            results[name] = pr
+            store.save_artifact(root, f"batch:{name}", pr)  # 只在主线程里存，见上面docstring
+            if verbose:
+                unclear = sum(1 for j in pr.get("judged_behaviors", []) if j["judgment"].get("verdict") == "unclear")
+                total = len(pr.get("judged_behaviors", []))
+                msg = f"{total}个函数判断，{unclear}个无法判断（{unclear/total:.0%}）" if total else "没有函数触发判断"
+                print(f"批次「{name}」完成：{msg}")
 
     batch_narratives = {
         name: pr["narrative"]["narrative"] for name, pr in results.items() if "narrative" in pr

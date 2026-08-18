@@ -13,6 +13,7 @@ lizard_complexity.py/lizard——两者验证过在Python上给出100%完全一�
 这是observer这条线的编排入口——本身不做判断，是把complexity/behavior/
 narrative/judgment这几个各自独立验证过的部件串成一份报告。"""
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 from . import complexity
 from . import lizard_complexity
@@ -20,6 +21,13 @@ from . import behavior
 from . import narrative
 from . import judgment
 from sensor import deepseek_client
+
+DEFAULT_MAX_WORKERS = 3  # 并发数——每个调用都是等网络的I/O，不是等CPU，线程池够用，
+                          # 不需要重写成异步。数字选得保守，是因为不知道DeepSeek API
+                          # 实际的并发限速是多少，批分析场景下这层并发还会跟批次级
+                          # 并发叠加（真实测过core那次，8批次×文件级并发，叠起来的
+                          # 并发请求数不小），宁可先保守，撞到限流再往上调，不要一
+                          # 上来就设得很激进。
 
 RANK_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5}
 DESCRIBE_THRESHOLD = "B"  # 只对这个等级以上（含）的函数做行为描述，不区分来源工具
@@ -124,6 +132,7 @@ def find_source_files(root: str) -> list:
 
 def generate_project_report(
     root: str, file_paths: list = None, verbose: bool = True, with_narrative: bool = False,
+    max_workers: int = DEFAULT_MAX_WORKERS,
 ) -> dict:
     """把很多个文件各自的体检报告（generate_report）汇总成一份项目级视图：
     整体规模、全项目按复杂度从高到低排序的函数榜单（跨文件、跨语言放在一起
@@ -134,6 +143,11 @@ def generate_project_report(
     generate_report——项目级汇总不是新的分析逻辑，只是把单文件报告的结果
     收集起来重新排序、分类，本身不重新读一遍代码。
 
+    文件之间的分析互相独立（各自的复杂度计算+行为描述），用线程池并发跑——
+    每次调用都是在等网络请求，不是在等CPU，用户真实反馈"批分析顺序跑一个
+    core模块要一个半小时"，这是直接原因。并发时关掉每个文件内部的verbose
+    输出（多线程交替打印会乱），只在这一层打印进度。
+
     with_narrative=True时额外跑三段式设计的第一、三步（工程日志16/17）：
     生成项目叙述、拿每条行为描述对照叙述判断支不支撑，结果分别存进返回值的
     "narrative"、"judged_behaviors"两个键。默认False——describe_project本身
@@ -143,11 +157,14 @@ def generate_project_report(
     if file_paths is None:
         file_paths = find_source_files(root)
 
-    file_reports = []
-    for rel_path in file_paths:
-        if verbose:
-            print(f"正在分析 {rel_path} ...")
-        file_reports.append(generate_report(root, rel_path, verbose=verbose))
+    if verbose:
+        print(f"正在分析{len(file_paths)}个文件（并发数{max_workers}）...")
+
+    def _analyze_one_file(rel_path):
+        return generate_report(root, rel_path, verbose=False)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        file_reports = list(executor.map(_analyze_one_file, file_paths))
 
     total_loc = 0
     rank_counts = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0}
@@ -193,7 +210,7 @@ def generate_project_report(
         if verbose:
             print("正在对照项目叙述判断每个函数的行为...")
         result["judged_behaviors"] = judgment.judge_project_against_narrative(
-            result, narrative_result["narrative"], verbose=verbose,
+            result, narrative_result["narrative"], verbose=verbose, max_workers=max_workers,
         )
 
     return result

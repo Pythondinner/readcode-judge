@@ -2,7 +2,13 @@
 narrative.py产出的项目叙述，判断支不支撑项目正确运行。三段式设计
 （工程日志16）的第三步：项目叙述提供标准，行为描述提供事实，这一步
 做对照检查。"""
+from concurrent.futures import ThreadPoolExecutor
+
 from sensor import deepseek_client
+
+DEFAULT_MAX_WORKERS = 3  # 跟observer/report.py的DEFAULT_MAX_WORKERS同一个理由：
+                          # I/O等待场景，线程池够用，数字选得保守是因为不知道
+                          # API实际并发限速，且这层并发可能跟外层（批次级）叠加。
 
 SUPPORT_JUDGMENT_SYSTEM_PROMPT = """你会收到两份材料：一份是某个项目的定位描述（包含
 这个项目正确运行时该保持的关键不变量），一份是这个项目里某个具体函数的行为契约描述
@@ -48,23 +54,25 @@ def judge_behavior_against_narrative(narrative: str, function_info: dict, behavi
     )
 
 
-def judge_project_against_narrative(project_report: dict, narrative: str, verbose: bool = True) -> list:
+def judge_project_against_narrative(
+    project_report: dict, narrative: str, verbose: bool = True, max_workers: int = DEFAULT_MAX_WORKERS,
+) -> list:
     """对project_report里每一条已经生成、已经核实过的行为描述，逐个对照项目
     叙述判断支不支撑项目正确运行。返回列表，每项是
-    {"file", "complexity_info", "behavior", "judgment"}。"""
-    results = []
-    for entry in project_report["behavior_entries"]:
+    {"file", "complexity_info", "behavior", "judgment"}。
+
+    每条判断互相独立，用线程池并发跑——都是在等网络请求，不是等CPU。"""
+    entries = project_report["behavior_entries"]
+    if verbose:
+        print(f"  正在对{len(entries)}个函数的行为做对照判断（并发数{max_workers}）...")
+
+    def _judge_one(entry):
         f = entry["complexity_info"]
-        if verbose:
-            print(f"  正在对照项目叙述判断 {entry['file']} :: {f['name']}...")
-        judgment = judge_behavior_against_narrative(
-            narrative, f, entry["behavior"]["description"], verbose=False,
-        )
-        results.append({
-            "file": entry["file"], "complexity_info": f,
-            "behavior": entry["behavior"], "judgment": judgment,
-        })
-    return results
+        j = judge_behavior_against_narrative(narrative, f, entry["behavior"]["description"], verbose=False)
+        return {"file": entry["file"], "complexity_info": f, "behavior": entry["behavior"], "judgment": j}
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        return list(executor.map(_judge_one, entries))
 
 
 def format_judgment_summary(judged: list) -> str:

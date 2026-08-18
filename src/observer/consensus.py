@@ -3,6 +3,7 @@
 改动前后对比（compare_judgment_consensus）——这一层测的是judge层自己的
 可靠性（随机噪音有多大），不是代码本身对不对。"""
 from sensor import deepseek_client
+from . import judgment
 from .judgment import judge_project_against_narrative
 
 SYNTHESIS_SYSTEM_PROMPT = """你会收到一份代码库体检报告的素材：每个函数的复杂度分级，以及
@@ -216,6 +217,7 @@ def format_consensus(consensus: dict) -> str:
 
 def judge_project_against_narrative_consensus(
     project_report: dict, narrative: str, runs: int = 5, verbose: bool = True,
+    max_workers: int = judgment.DEFAULT_MAX_WORKERS,
 ) -> dict:
     """对project_report里每一条行为描述，独立跑多次judge_behavior_against_narrative，
     统计verdict（support/undermine/unclear）的一致率——工程日志18意外撞见
@@ -233,7 +235,7 @@ def judge_project_against_narrative_consensus(
     for i in range(runs):
         if verbose:
             print(f"第{i + 1}/{runs}次独立判断...")
-        judged = judge_project_against_narrative(project_report, narrative, verbose=False)
+        judged = judge_project_against_narrative(project_report, narrative, verbose=False, max_workers=max_workers)
         all_runs.append(judged)
         for j in judged:
             key = (j["file"], j["complexity_info"]["name"])
