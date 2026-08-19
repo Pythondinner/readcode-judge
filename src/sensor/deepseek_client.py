@@ -9,6 +9,20 @@ import time
 
 import requests
 
+# 三个入口（dialogue.py/checkup_cli.py/judge_mcp_server.py）都需要DEEPSEEK_API_KEY，
+# 之前各自复制一份.env加载逻辑（judge_mcp_server.py甚至一直没有，靠外部调用方环境
+# 干净地带着这个key——真实撞过一次：MCP client从没source过.env的干净shell启动，
+# 子进程直接SystemExit）。放在这里一次性加载，所有间接import这个模块的入口自动
+# 生效，不用各自维护一份。
+_ENV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".env")
+if os.path.exists(_ENV_PATH):
+    with open(_ENV_PATH, encoding="utf-8") as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _k, _v = _line.split("=", 1)
+                os.environ.setdefault(_k.strip(), _v.strip())
+
 DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
 DEEPSEEK_MODEL = "deepseek-chat"
 

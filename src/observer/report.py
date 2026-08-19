@@ -13,6 +13,7 @@ lizard_complexity.py/lizard——两者验证过在Python上给出100%完全一�
 这是observer这条线的编排入口——本身不做判断，是把complexity/behavior/
 narrative/judgment这几个各自独立验证过的部件串成一份报告。"""
 import os
+import re
 from concurrent.futures import ThreadPoolExecutor
 
 from . import complexity
@@ -33,6 +34,13 @@ RANK_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5}
 DESCRIBE_THRESHOLD = "B"  # 只对这个等级以上（含）的函数做行为描述，不区分来源工具
 
 PROJECT_SKIP_DIRS = {"__pycache__", ".git", "node_modules", ".idea", ".pytest_cache", "venv", ".venv"}
+
+
+def _narrative_mentions(name: str, narrative_text: str) -> bool:
+    """函数名作为完整标识符（不是子串）出现在叙述文本里才算被点名——用
+    \\b词边界，避免"get"这种短名字误命中别的长标识符里的子串；下划线
+    算\\w，"cancel_order"不会误命中"cancel_order_v2"里的前半段。"""
+    return re.search(rf"\b{re.escape(name)}\b", narrative_text) is not None
 
 
 def _measure_file(full_path: str, file_path: str):
@@ -207,6 +215,38 @@ def generate_project_report(
             print("正在生成项目叙述...")
         narrative_result = narrative.describe_project(root, verbose=verbose)
         result["narrative"] = narrative_result
+
+        # 复杂度门槛测得出"分支多不多"，测不出"是不是少调用了一次该调的
+        # 函数"——这类bug往往发生在复杂度很低的函数里，真实撞见过：
+        # cancel_order漏调release_stock，复杂度只有2，永远到不了B级，
+        # 判断层这一整环节从没碰过它，即使叙述本身已经正确点名了这个函数
+        # （工程日志40）。叙述生成是agentic读代码，本来就会在文本里点名
+        # 具体函数——用它已经产出的信息，把叙述里提到、但复杂度没达标
+        # 被跳过的函数，补一次行为描述、纳入判断范围，不用无差别拉低
+        # 全局阈值让每个项目的成本都涨。
+        narrative_text = narrative_result["narrative"]
+        rescued = 0
+        for r in file_reports:
+            if r["tool"] is None:
+                continue
+            for entry in r["entries"]:
+                if entry["behavior"] is not None or entry.get("behavior_error") is not None:
+                    continue  # 已经描述过，或者描述失败过，不重复处理
+                f = entry["complexity_info"]
+                if not _narrative_mentions(f["name"], narrative_text):
+                    continue
+                if verbose:
+                    print(f"  叙述点名但复杂度不够（{f['rank']}级）的{f['name']}，补一次行为描述...")
+                try:
+                    entry["behavior"] = behavior.describe_function(root, r["file"], f, verbose=False)
+                    behavior_entries.append({"file": r["file"], "complexity_info": f, "behavior": entry["behavior"]})
+                    rescued += 1
+                except deepseek_client.ApiCallError as e:
+                    entry["behavior_error"] = str(e)
+                    behavior_failures.append({"file": r["file"], "complexity_info": f, "error": str(e)})
+        if verbose and rescued:
+            print(f"  补充了{rescued}个叙述点名但复杂度不够的函数的行为描述")
+
         if verbose:
             print("正在对照项目叙述判断每个函数的行为...")
         result["judged_behaviors"] = judgment.judge_project_against_narrative(
@@ -255,7 +295,7 @@ def format_project_report(project_report: dict, top_n: int = 15) -> str:
         lines.append(f"  [{f['rank']}] {f['file']} :: {f['name']}（第{f['lineno']}行）复杂度={f['complexity']}")
     lines.append("")
 
-    lines.append(f"## 行为描述明细（{DESCRIBE_THRESHOLD}级以上，共{len(p['behavior_entries'])}个）")
+    lines.append(f"## 行为描述明细（{DESCRIBE_THRESHOLD}级以上+叙述点名的低复杂度函数，共{len(p['behavior_entries'])}个）")
     lines.append("")
     for entry in p["behavior_entries"]:
         f = entry["complexity_info"]
