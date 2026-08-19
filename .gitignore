@@ -4,3 +4,5 @@ __pycache__/
 .pytest_cache/
 .pytest_tmp/
 .idea/
+ledger_store/
+.claude/
